@@ -8,9 +8,7 @@
 		<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
 		<!-- Blink locomotion / teleportation component -->
 		<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
-		<script src="https://cdn.aframe.io/controllers/aframe-hand-controls.min.js"></script>
-		<!-- Super Hands (grab controls) -->
-		<script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
+
 	</head>
 	<body>
 				<a-scene physics="debug: true">
@@ -21,7 +19,7 @@
 						<a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
 						  <a-entity id="right-hand"
 									oculus-touch-controls="hand: right"
-									hand-tracking-controls="hand: right"
+									hand-tracking-grab-controls="hand: right"
 									blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1 0; landingMaxAngle: 45"
 									super-hands
 									sphere-collider="objects: .grabbable"
