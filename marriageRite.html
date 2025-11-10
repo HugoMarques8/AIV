@@ -14,13 +14,13 @@
 	<body>
 				<a-scene physics="debug: true">
 					<!-- camera rig (player) -->
-					<a-entity id="player" position="0 2.4 0" dynamic-body="mass: 1;">
+					<a-entity id="player" position="0 1.8 0" dynamic-body="mass: 1;">
 						<!-- Geometria invisível para colisão -->
 						<a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
 						<a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
 						  <a-entity id="right-hand"
 									oculus-touch-controls="hand: right"
-									hand-controls="hand: right"
+									hand-tracking-controls="hand: right"
 									blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1 0; landingMaxAngle: 45"
 									super-hands
 									sphere-collider="objects: .grabbable"
@@ -32,7 +32,7 @@
 						<!-- Marble pillar -->
 						<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity>
 						<!-- Tortoise brooch em cima do pilar -->
-						<a-entity class="grabbable" gltf-model="models_marriage_room/tortoise_brooch_in_bronze_from_the_viking_age..glb" position="6.8 -2 4.8" scale="0.3 0.3 0.3" dynamic-body></a-entity>
+						<a-entity class="grabbable" gltf-model="models_marriage_room/tortoise_brooch_in_bronze_from_the_viking_age._compressed.glb" position="6.8 -2 4.8" scale="0.3 0.3 0.3" dynamic-body></a-entity>
 						<!-- Vitrines -->
 						<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1" rotation="0 90 0"></a-entity>
 						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
