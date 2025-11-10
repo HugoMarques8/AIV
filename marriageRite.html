@@ -1,15 +1,16 @@
 <!doctype html>
 <html>
 	<head>
-	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
-	<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
-	<!-- Blink locomotion / teleportation component -->
-	<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/aframe-hand-controls/dist/aframe-hand-controls.min.js"></script>
-	<!-- Super Hands (grab controls) -->
-	<script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+		<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+		<script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+		<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+		<!-- Blink locomotion / teleportation component -->
+		<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+		<script src="https://cdn.aframe.io/controllers/aframe-hand-controls.min.js"></script>
+		<!-- Super Hands (grab controls) -->
+		<script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
 	</head>
 	<body>
 				<a-scene physics="debug: true">
@@ -29,8 +30,8 @@
 					</a-entity>
 					  <!-- Ambiente 3D: modelo GLB -->
 					  <a-entity id="vr_gallery" gltf-model="models_marriage_room/vr_gallery.glb" position="0 0 0" scale="2 2 2"></a-entity>
-						<!-- Marble pillar -->
-						<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity>
+						<!-- Marble pillar 
+						<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
 						<!-- Tortoise brooch em cima do pilar -->
 						<a-entity class="grabbable" gltf-model="models_marriage_room/tortoise_brooch_in_bronze_from_the_viking_age._compressed.glb" position="6.8 -2 4.8" scale="0.3 0.3 0.3" dynamic-body></a-entity>
 						<!-- Vitrines -->
