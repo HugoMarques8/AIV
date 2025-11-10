@@ -14,12 +14,13 @@
 	<body>
 				<a-scene physics="debug: true">
 					<!-- camera rig (player) -->
-					<a-entity id="player" position="0 1.4 0" dynamic-body="mass: 1;">
+					<a-entity id="player" position="0 2.4 0" dynamic-body="mass: 1;">
 						<!-- Geometria invisível para colisão -->
 						<a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
 						<a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
 						  <a-entity id="right-hand"
 									oculus-touch-controls="hand: right"
+									hand-controls="hand: right"
 									blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1 0; landingMaxAngle: 45"
 									super-hands
 									sphere-collider="objects: .grabbable"
@@ -37,9 +38,9 @@
 						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
 						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="5 0 -7" scale="2 2 2" rotation="0 -90 0"></a-entity>
 
-                    <!-- Roupas dentro das vitrines -->
+                    <!-- Roupas dentro das vitrines 
 					<a-entity gltf-model="models_marriage_room/viking_outfit.glb" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
-					<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity>
+					<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity> -->
 					<!-- Link para voltar ao index.html -->
 					<a-entity position="0 1.6 -3">
 						<a-link href="index.html" title="Voltar ao Início" image="https://cdn.aframe.io/link-traversal/images/infobox.png"></a-link>
