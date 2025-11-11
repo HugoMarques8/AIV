@@ -1,51 +1,54 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
-		<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
-		<script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
-		<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
-		<!-- Blink locomotion / teleportation component -->
-		<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
-		<script src="js/hover.js"></script>
-	</head>
-	<body>
-				<a-scene physics="debug: true">
-					environment
-      				obb-collider="showColliders: false"
-					<!-- camera rig (player) -->
-					<a-entity id="player" position="0 1 0" dynamic-body="mass: 1;">
-						<a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
-						<a-entity id="right-hand"
-							  oculus-touch-controls="hand: right"
-							  hand-tracking-grab-controls="hand: right"
-							  blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1.3 0; landingMaxAngle: 45"
-							  super-hands
-							  laser-controls="hand: right"
-							  raycaster="objects: .clickable">
-						  </a-entity>
-					</a-entity>
-					  <!-- Ambiente 3D: modelo GLB -->
-					  <a-entity id="vr_gallery" gltf-model="models_marriage_room/vr_gallery.glb" position="0 0 0" scale="2 2 2"></a-entity>
-						<!-- Marble pillar 
-						<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
-						<!-- Tortoise brooch em cima do pilar -->
-						<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange" position="2 1.5 2" grabbable hover>
-							<a-box spatial-modal="color: white" width="0.3" height="0.3" depth="0.3" position="0 0 0"></a-box>
-						</a-entity>
-						<!-- Vitrines -->
-						<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1" rotation="0 90 0"></a-entity>
-						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
-						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="5 0 -7" scale="2 2 2" rotation="0 -90 0"></a-entity>
+<head>
+	<meta charset="utf-8">
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+	<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+	<script
+		src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+	<!-- Blink locomotion / teleportation component -->
+	<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+	<script src="js/center-grab.js"></script>
+</head>
+<body>
+	<a-scene>
+		environment
+		obb-collider="showColliders: false"
+		<!-- camera rig (player) -->
+		<a-entity id="player" position="0 1 0" dynamic-body="mass: 1;">
+			<a-entity id="camera" camera position="0 1 0" wasd-controls></a-entity>
+			<a-entity id="right-hand" oculus-touch-controls="hand: right" hand-tracking-grab-controls="hand: right"
+				blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1 0; landingMaxAngle: 45"
+				super-hands laser-controls="hand: right" raycaster="objects: .clickable">
+			</a-entity>
+		</a-entity>
+		<!-- Ambiente 3D: modelo GLB -->
+		<a-entity id="vr_gallery" gltf-model="models_marriage_room/vr_gallery.glb" position="0 0 0"
+			scale="2 2 2"></a-entity>
+		<!-- Marble pillar 
+								<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
+		<!-- Tortoise brooch em cima do pilar -->
+		<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange"
+			position="2 1.5 2" grabbable hover center-grab>
+			<a-box spatial-modal="color: white" width="0.3" height="0.3" depth="0.3" position="0 0 0"></a-box>
+		</a-entity>
+		<!-- Vitrines -->
+		<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1"
+			rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2"
+			rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="5 0 -7" scale="2 2 2"
+			rotation="0 -90 0"></a-entity>
 
-                    <!-- Roupas dentro das vitrines 
-					<a-entity gltf-model="models_marriage_room/viking_outfit.glb" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
-					<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity> -->
-					<!-- Link para voltar ao index.html -->
-					<a-entity position="0 1.6 -3">
-						<a-link href="index.html" title="Voltar ao Início" image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable"></a-link>
-					</a-entity>
-				</a-scene>
-	</body>
+		<!-- Roupas dentro das vitrines 
+							<a-entity gltf-model="models_marriage_room/viking_outfit.glb" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
+							<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity> -->
+		<!-- Link para voltar ao index.html -->
+		<a-entity position="0 1.6 -3">
+			<a-link href="index.html" title="Voltar ao Início"
+				image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable"></a-link>
+		</a-entity>
+	</a-scene>
+</body>
 </html>
