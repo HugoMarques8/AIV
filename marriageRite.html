@@ -15,9 +15,9 @@
 					environment
       				obb-collider="showColliders: false"
 					<!-- camera rig (player) -->
-					<a-entity id="player" position="0 1.3 0" dynamic-body="mass: 1;">
+					<a-entity id="player" position="0 1 0" dynamic-body="mass: 1;">
 						<!-- Geometria invisível para colisão -->
-						<a-sphere radius="0.5" position="0 1.3 0" visible="false"></a-sphere>
+						<a-sphere radius="0.5" position="0 1 0" visible="false"></a-sphere>
 						<a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
 						<a-entity id="right-hand"
 							  oculus-touch-controls="hand: right"
@@ -34,7 +34,7 @@
 						<!-- Marble pillar 
 						<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
 						<!-- Tortoise brooch em cima do pilar -->
-						<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange" position="2 1.5 2" grabbable dynamic-body hover></a-entity>
+						<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange" position="2 1.5 2" grabbable="usePhysics: false" dynamic-body hover></a-entity>
 						<!-- Vitrines -->
 						<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1" rotation="0 90 0"></a-entity>
 						<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
