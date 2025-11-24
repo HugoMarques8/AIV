@@ -1,28 +1,78 @@
 <!doctype html>
 <html>
   <head>
+  <meta charset="utf-8">
   <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
   <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
   <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
-  <!-- Blink locomotion / teleportation component -->
-  <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
-  
+  <script src="js/handedness-setup.js"></script>
+  <style>
+    #handedness-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    #handedness-overlay h2 {
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    #handedness-overlay button {
+      margin: 10px;
+      padding: 20px 40px;
+      font-size: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      transition: background 0.3s;
+    }
+    #handedness-overlay button:hover {
+      background: #45a049;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
   </head>
   <body>
+    <div id="handedness-overlay">
+      <h2>Escolha a sua mão dominante / Choose your dominant hand</h2>
+      <button onclick="setHandedness('right')">Destro / Right-handed</button>
+      <button onclick="setHandedness('left')">Esquerdino / Left-handed</button>
+    </div>
+    <script>
+      function setHandedness(hand) {
+        localStorage.setItem('dominantHand', hand);
+        document.getElementById('handedness-overlay').classList.add('hidden');
+      }
+      // Pre-definição: destro (joystick esquerdo para andar, mão direita para agarrar)
+      if (!localStorage.getItem('dominantHand')) {
+        localStorage.setItem('dominantHand', 'right');
+      }
+      // Esconder overlay se já foi escolhido
+      if (localStorage.getItem('dominantHand')) {
+        document.getElementById('handedness-overlay').classList.add('hidden');
+      }
+    </script>
       <a-scene>
         <!-- Sala branca -->
         <a-box position="0 0 0" width="40" height="20" depth="40" color="#fff" material="side: double;" static-body></a-box>
-        <!-- Rig de movimento, blink teleportation e grab controls -->
-        <a-entity id="player" position="0 0.5 10" dynamic-body="mass: 1;">
-          <a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
-          <a-entity id="camera" camera position="0 0 0" wasd-controls></a-entity>
-          <a-entity id="right-hand"
-                    oculus-touch-controls="hand: right"
-                    blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #room; landingNormal: 0 1 0; landingMaxAngle: 45"
-                    laser-controls="hand: right">
-          </a-entity>
-        </a-entity>
+        <!-- camera rig (player) -->
+	      <a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.30" vr-hands>
+		      <a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
+	      </a-entity>
         <!-- Portal para marriageRite.html -->
         <a-entity position="0 1.6 -4">
           <a-link href="marriageRite.html" title="Ir para Marriage Rite" image="https://cdn.aframe.io/link-traversal/images/infobox.png"></a-link>
