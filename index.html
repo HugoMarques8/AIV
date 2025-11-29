@@ -57,11 +57,7 @@
         localStorage.setItem('dominantHand', hand);
         document.getElementById('handedness-overlay').classList.add('hidden');
       }
-      // Pre-definição: destro (joystick esquerdo para andar, mão direita para agarrar)
-      if (!localStorage.getItem('dominantHand')) {
-        localStorage.setItem('dominantHand', 'right');
-      }
-      // Esconder overlay se já foi escolhido
+      // Esconder overlay somente se já foi escolhido anteriormente
       if (localStorage.getItem('dominantHand')) {
         document.getElementById('handedness-overlay').classList.add('hidden');
       }
@@ -75,11 +71,11 @@
 	      </a-entity>
         <!-- Portal para marriageRite.html -->
         <a-entity position="0 1.6 -4">
-          <a-link href="marriageRite.html" title="Ir para Marriage Rite" image="https://cdn.aframe.io/link-traversal/images/infobox.png"></a-link>
+          <a-link href="marriageRite.html" title="Ir para Marriage Rite" image="pngtree-gray-network-placeholder-png-image_3416659.jpg"></a-link>
         </a-entity>
         <!-- Portal para adulthoodRite.html -->
         <a-entity position="-5 1.6 -4">
-          <a-link href="adulthoodRite.html" title="Ir para Adulthood Rite" image="https://cdn.aframe.io/link-traversal/images/infobox.png"></a-link>
+          <a-link href="adulthoodRite.html" title="Ir para Adulthood Rite" image="pngtree-gray-network-placeholder-png-image_3416659.jpg"></a-link>
         </a-entity>
       </a-scene>
   </body>

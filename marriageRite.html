@@ -14,37 +14,62 @@
 </head>
 <body>
 	<a-scene>
+		<!-- Assets: todos os modelos, imagens e recursos -->
+		<a-assets>
+			<!-- Modelos 3D -->
+			<a-asset-item id="gallery-model" src="models_marriage_room/vr_gallery.glb"></a-asset-item>
+			<a-asset-item id="showcase1-model" src="models_marriage_room/museum_showcase_-_die_vitrine.glb"></a-asset-item>
+			<a-asset-item id="showcase2-model" src="models_marriage_room/showcases_-_asset_pack.glb"></a-asset-item>
+			<a-asset-item id="viking-outfit-model" src="models_marriage_room/viking_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="viking-man-outfit-model" src="models_marriage_room/viking_man_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="bathtub-model" src="models_marriage_room/medieval_balia.glb"></a-asset-item>
+			<a-asset-item id="chair-model" src="models_marriage_room/furniture/viking_chair.glb"></a-asset-item>
+			<a-asset-item id="table" src="models_marriage_room/furniture/viking_table.glb"></a-asset-item>
+			<!-- <a-asset-item id="pillar-model" src="models_marriage_room/marble_pillar.glb"></a-asset-item> -->
+			
+			<!-- Imagens -->
+			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
+		</a-assets>
+
 		environment
 		obb-collider="showColliders: false"
-	<!-- camera rig (player) -->
-	<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.30" vr-hands>
-		<a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
-	</a-entity>
+		
+		<!-- camera rig (player) -->
+		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.30" vr-hands>
+			<a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
+		</a-entity>
+		
 		<!-- Ambiente 3D: modelo GLB -->
-		<a-entity id="vr_gallery" gltf-model="models_marriage_room/vr_gallery.glb" position="0 0 0"
-			scale="2 2 2"></a-entity>
+		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="2 2 2"></a-entity>
+		
 		<!-- Marble pillar 
-								<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
+		<a-entity id="pillar" gltf-model="#pillar-model" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
+		
 		<!-- Tortoise brooch em cima do pilar -->
 		<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange"
 			position="2 1.5 2" grabbable hover center-grab>
 			<a-box spatial-modal="color: white" width="0.3" height="0.3" depth="0.3" position="0 0 0"></a-box>
 		</a-entity>
+		
 		<!-- Vitrines -->
-		<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1"
-			rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2"
-			rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="5 0 -7" scale="2 2 2"
-			rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="-12 0 6" scale="1.5 1.5 1.5" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="4 0 6" scale="2 2 2" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="5 0 -7" scale="2 2 2" rotation="0 -90 0"></a-entity>
 
-		<!-- Roupas dentro das vitrines 
-							<a-entity gltf-model="models_marriage_room/viking_outfit.glb" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
-							<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity> -->
+		<!-- Roupas dentro das vitrines -->
+		<a-entity gltf-model="#viking-outfit-model" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-man-outfit-model" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity>
+		<!-- modelo de cadeira no showcase1-->
+		<a-entity gltf-model="#chair-model" position="-12 0 6" scale="2.5 2.5 2.5" rotation="0 180 0"></a-entity>
+		<!-- modelo de mesa-->
+		<a-entity gltf-model="#table" position="-2 0 6" scale="0.02 0.02 0.02" rotation="0 0 0"></a-entity>
+		<!-- Bathtub -->
+		<a-entity gltf-model="#bathtub-model" position="4 1 6" scale="1 1 1" rotation="0 0 0"></a-entity>
+		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="0 1.6 -3">
-			<a-link href="index.html" title="Voltar ao Início"
-				image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable"></a-link>
+			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
 		</a-entity>
 	</a-scene>
 </body>
