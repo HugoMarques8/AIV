@@ -25,7 +25,14 @@
 			<a-asset-item id="bathtub-model" src="models_marriage_room/medieval_balia.glb"></a-asset-item>
 			<a-asset-item id="chair-model" src="models_marriage_room/furniture/viking_chair.glb"></a-asset-item>
 			<a-asset-item id="table" src="models_marriage_room/furniture/viking_table.glb"></a-asset-item>
-			<!-- <a-asset-item id="pillar-model" src="models_marriage_room/marble_pillar.glb"></a-asset-item> -->
+			<!-- Cutlery -->
+			<a-asset-item id="viking-bowl" src="models_marriage_room/cutlery/viking_bowl.glb"></a-asset-item>
+			<a-asset-item id="viking-cup" src="models_marriage_room/cutlery/viking_model_asset_-_cup.glb"></a-asset-item>
+			<a-asset-item id="viking-mug" src="models_marriage_room/cutlery/viking_mug.glb"></a-asset-item>
+			<a-asset-item id="viking-tea-bowl" src="models_marriage_room/cutlery/viking_tea_party_-_bowl.glb"></a-asset-item>
+			<a-asset-item id="viking-cutlery" src="models_marriage_room/cutlery/viking_tea_party_-_cutlery.glb"></a-asset-item>
+			<a-asset-item id="viking-horn" src="models_marriage_room/cutlery/viking_tea_party_-_drinking_horn.glb"></a-asset-item>
+			<a-asset-item id="viking-stove" src="models_marriage_room/cutlery/viking_tea_party_-_viking_stove.glb"></a-asset-item>
 			
 			<!-- Imagens -->
 			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
@@ -36,7 +43,7 @@
 		
 		<!-- camera rig (player) -->
 		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.30" vr-hands>
-			<a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
+			<a-entity id="camera" camera position="0 2 0" look-controls></a-entity>
 		</a-entity>
 		
 		<!-- Ambiente 3D: modelo GLB -->
@@ -63,7 +70,13 @@
 		<!-- modelo de cadeira no showcase1-->
 		<a-entity gltf-model="#chair-model" position="-12 0 6" scale="2.5 2.5 2.5" rotation="0 180 0"></a-entity>
 		<!-- modelo de mesa-->
-		<a-entity gltf-model="#table" position="-2 0 6" scale="0.02 0.02 0.02" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#table" position="-2 0 6" scale="0.02 0.02 0.02" rotation="0 0 0"></a-entity>		
+		<!-- Cutlery em cima da mesa -->
+		<a-entity gltf-model="#viking-bowl" position="-4.2 2.3 6.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-cup" position="-3 2.25 7" scale="5 5 5" rotation="0 45 0"></a-entity>
+		<a-entity gltf-model="#viking-mug" position="-5.5 2.3 6.7" scale="0.3 0.3 0.3" rotation="0 -30 0"></a-entity>
+		<a-entity gltf-model="#viking-cutlery" position="-2.4 2.1 6.4" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-horn" position="-6.3 2.4 6.3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="4 1 6" scale="1 1 1" rotation="0 0 0"></a-entity>
 		
