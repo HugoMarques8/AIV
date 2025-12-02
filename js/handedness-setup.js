@@ -24,7 +24,6 @@ AFRAME.registerComponent('vr-hands', {
       rightHand.setAttribute('id', 'right-hand');
       playerRig.appendChild(rightHand);
     }
-    rightHand.setAttribute('hand-controls', 'hand: right; handModelStyle: lowPoly');
     
     // Criar ou configurar mão esquerda
     let leftHand = document.getElementById('left-hand');
@@ -33,20 +32,21 @@ AFRAME.registerComponent('vr-hands', {
       leftHand.setAttribute('id', 'left-hand');
       playerRig.appendChild(leftHand);
     }
-    leftHand.setAttribute('hand-controls', 'hand: left; handModelStyle: lowPoly');
     
     // Configurar funcionalidades por mão dominante
     if (dominantHand === 'right') {
-      // Destro: mão direita agarra, mão esquerda tem laser (movimento + seleção à distância)
+      // Destro: mão direita agarra (sem modelo), mão esquerda tem laser (com modelo de controlador)
+      rightHand.setAttribute('hand-controls', 'hand: right; handModelStyle: lowPoly');
       rightHand.setAttribute('raycaster', 'objects: .grabbable, .clickable');
       
-      leftHand.setAttribute('laser-controls', 'hand: left');
+      leftHand.setAttribute('laser-controls', 'hand: left; model: true');
       leftHand.setAttribute('raycaster', 'objects: .clickable, .grabbable');
     } else {
-      // Esquerdino: mão esquerda agarra, mão direita tem laser (movimento + seleção à distância)
+      // Esquerdino: mão esquerda agarra (sem modelo), mão direita tem laser (com modelo de controlador)
+      leftHand.setAttribute('hand-controls', 'hand: left; handModelStyle: lowPoly');
       leftHand.setAttribute('raycaster', 'objects: .grabbable, .clickable');
       
-      rightHand.setAttribute('laser-controls', 'hand: right');
+      rightHand.setAttribute('laser-controls', 'hand: right; model: true');
       rightHand.setAttribute('raycaster', 'objects: .clickable, .grabbable');
     }
     

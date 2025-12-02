@@ -12,6 +12,7 @@
 	<script src="js/center-grab.js"></script>
 	<script src="js/handedness-setup.js"></script>
 	<script src="js/ritual-challenge.js"></script>
+	<script src="js/thumbstick-movement.js"></script>
 </head>
 <body>
 	<a-scene>
@@ -44,7 +45,7 @@
 		</a-assets>
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 1.6 0" movement-controls="controls: gamepad, keyboard; constrainToNavMesh: false; speed: 0.15" vr-hands>
+		<a-entity id="player" position="0 1.6 0" thumbstick-movement="speed: 2" vr-hands>
 			<a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
