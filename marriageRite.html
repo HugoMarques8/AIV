@@ -10,44 +10,174 @@
 	<!-- Blink locomotion / teleportation component -->
 	<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 	<script src="js/center-grab.js"></script>
+	<script src="js/handedness-setup.js"></script>
+	<script src="js/ritual-challenge.js"></script>
 </head>
 <body>
 	<a-scene>
+		<!-- Assets: todos os modelos, imagens e recursos -->
+		<a-assets>
+			<!-- Modelos 3D -->
+			<a-asset-item id="gallery-model" src="models_marriage_room/vr_gallery.glb"></a-asset-item>
+			<a-asset-item id="showcase1-model" src="models_marriage_room/museum_showcase_-_die_vitrine.glb"></a-asset-item>
+			<a-asset-item id="showcase2-model" src="models_marriage_room/showcases_-_asset_pack.glb"></a-asset-item>
+			<a-asset-item id="viking-outfit-model" src="models_marriage_room/viking_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="viking-man-outfit-model" src="models_marriage_room/viking_man_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="bathtub-model" src="models_marriage_room/medieval_balia.glb"></a-asset-item>
+			<a-asset-item id="chair-model" src="models_marriage_room/furniture/viking_chair.glb"></a-asset-item>
+			<a-asset-item id="table" src="models_marriage_room/furniture/viking_table.glb"></a-asset-item>
+			<!-- Cutlery -->
+			<a-asset-item id="viking-bowl" src="models_marriage_room/cutlery/viking_bowl.glb"></a-asset-item>
+			<a-asset-item id="viking-cup" src="models_marriage_room/cutlery/viking_model_asset_-_cup.glb"></a-asset-item>
+			<a-asset-item id="viking-mug" src="models_marriage_room/cutlery/viking_mug.glb"></a-asset-item>
+			<a-asset-item id="viking-tea-bowl" src="models_marriage_room/cutlery/viking_tea_party_-_bowl.glb"></a-asset-item>
+			<a-asset-item id="viking-cutlery" src="models_marriage_room/cutlery/viking_tea_party_-_cutlery.glb"></a-asset-item>
+			<a-asset-item id="viking-horn" src="models_marriage_room/cutlery/viking_tea_party_-_drinking_horn.glb"></a-asset-item>
+			<a-asset-item id="viking-stove" src="models_marriage_room/cutlery/viking_tea_party_-_viking_stove.glb"></a-asset-item>
+			<!-- Ritual Challenge Items -->
+			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
+			<a-asset-item id="viking-key" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
+			<a-asset-item id="female-viking" src="models_marriage_room/viking_girl.glb"></a-asset-item>
+			
+			<!-- Imagens -->
+			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
+		</a-assets>
+
 		environment
 		obb-collider="showColliders: false"
+		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 1 0" dynamic-body="mass: 1;">
-			<a-entity id="camera" camera position="0 1 0" wasd-controls></a-entity>
-			<a-entity id="right-hand" oculus-touch-controls="hand: right" hand-tracking-grab-controls="hand: right"
-				blink-controls="cameraRig: #player; teleportOrigin: #camera; snapTurn: true; collisionEntities: #vr_gallery; landingNormal: 0 1 0; landingMaxAngle: 45"
-				super-hands laser-controls="hand: right" raycaster="objects: .clickable">
+		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls>
+			<a-entity id="camera" camera position="0 1.6 0" look-controls 
+				cursor="rayOrigin: mouse; fuse: false"
+				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
 		</a-entity>
+		
 		<!-- Ambiente 3D: modelo GLB -->
-		<a-entity id="vr_gallery" gltf-model="models_marriage_room/vr_gallery.glb" position="0 0 0"
-			scale="2 2 2"></a-entity>
+		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="2 2 2"></a-entity>
+		
 		<!-- Marble pillar 
-								<a-entity id="pillar" gltf-model="models_marriage_room/marble_pillar.glb" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
+		<a-entity id="pillar" gltf-model="#pillar-model" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
+		
 		<!-- Tortoise brooch em cima do pilar -->
 		<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange"
 			position="2 1.5 2" grabbable hover center-grab>
 			<a-box spatial-modal="color: white" width="0.3" height="0.3" depth="0.3" position="0 0 0"></a-box>
 		</a-entity>
+		
 		<!-- Vitrines -->
-		<a-entity gltf-model="models_marriage_room/museum_showcase_-_die_vitrine.glb" position="-3 0 7" scale="1 1 1"
-			rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="-5 0 -7" scale="2 2 2"
-			rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="models_marriage_room/showcases_-_asset_pack.glb" position="5 0 -7" scale="2 2 2"
-			rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="-12 0 6" scale="1.5 1.5 1.5" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="4 0 6" scale="2 2 2" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="5 0 -7" scale="2 2 2" rotation="0 -90 0"></a-entity>
 
-		<!-- Roupas dentro das vitrines 
-							<a-entity gltf-model="models_marriage_room/viking_outfit.glb" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
-							<a-entity gltf-model="models_marriage_room/viking_man_outfit.glb" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity> -->
+		<!-- Roupas dentro das vitrines -->
+		<a-entity gltf-model="#viking-outfit-model" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-man-outfit-model" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity>
+		<!-- modelo de cadeira no showcase1-->
+		<a-entity gltf-model="#chair-model" position="-12 0 6" scale="2.5 2.5 2.5" rotation="0 180 0"></a-entity>
+		<!-- modelo de mesa-->
+		<a-entity gltf-model="#table" position="-2 0 6" scale="0.02 0.02 0.02" rotation="0 0 0"></a-entity>		
+		<!-- Cutlery em cima da mesa -->
+		<a-entity gltf-model="#viking-bowl" position="-4.2 2.3 6.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-cup" position="-3 2.25 7" scale="5 5 5" rotation="0 45 0"></a-entity>
+		<a-entity gltf-model="#viking-mug" position="-5.5 2.3 6.7" scale="0.3 0.3 0.3" rotation="0 -30 0"></a-entity>
+		<a-entity gltf-model="#viking-cutlery" position="-2.4 2.1 6.4" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-horn" position="-6.3 2.4 6.3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<!-- Bathtub -->
+		<a-entity gltf-model="#bathtub-model" position="4 1 6" scale="1 1 1" rotation="0 0 0"></a-entity>
+		
+		<!-- Instruções para Desktop -->
+		<a-text id="desktop-instructions" 
+			value="CONTROLOS:\nWASD - Mover\nMouse - Olhar\nClick - Interagir" 
+			position="-8 3 -2" 
+			align="left" 
+			color="#FFD700" 
+			width="4"
+			geometry="primitive: plane; width: 3; height: 1.5"
+			material="color: rgba(0,0,0,0.7); opacity: 0.8; transparent: true">
+		</a-text>
+		
+		<!-- NPC GUIA na sala do museu -->
+		<a-entity id="ritual-guide" 
+			position="0 0 2" 
+			class="clickable"
+			ritual-npc-guide="dialogText: Clique aqui para iniciar\\no ritual de casamento viking; portalUrl: marriageChallenge.html">
+			<!-- Caixa de colisão invisível para facilitar o clique -->
+			<a-box width="2" height="3" depth="2" 
+				material="opacity: 0; transparent: true" 
+				position="0 1.5 0">
+			</a-box>
+			<!-- Efeito visual de brilho -->
+			<a-ring position="0 0.1 0" rotation="-90 0 0" 
+				radius-inner="1.5" radius-outer="2" 
+				color="#FFD700" opacity="0.3" 
+				material="side: double">
+				<a-animation attribute="rotation" 
+					from="-90 0 0" 
+					to="-90 360 0" 
+					dur="4000" 
+					repeat="indefinite">
+				</a-animation>
+			</a-ring>
+			<!-- Modelo viking girl com animações procedurais -->
+			<a-entity id="viking-npc-model" 
+				gltf-model="#female-viking" 
+				scale="0.01 0.01 0.01" 
+				rotation="0 180 0" 
+				npc-idle-animation 
+				check-animations
+				clickable>
+			</a-entity>
+		</a-entity>
+		
+		<!-- ÁREA DE DESAFIO (invisível inicialmente, longe do museu) -->
+		<a-entity id="challenge-area" 
+			position="100 0 0" 
+			visible="false"
+			ritual-challenge-area="requiredItems: sword, ring">
+			
+			<!-- Chão da área de desafio -->
+			<a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#2F4F2F"></a-plane>
+			
+			<!-- Zona de troca (onde levar os itens) -->
+			<a-entity id="exchange-zone" position="0 0.05 -5" exchange-zone></a-entity>
+			
+			<!-- Espada para pegar -->
+			<a-entity gltf-model="#viking-sword" 
+				position="-3 1 -3" 
+				scale="0.5 0.5 0.5" 
+				rotation="0 90 0"
+				class="grabbable"
+				grabbable hover center-grab
+				ritual-item="itemType: sword; exchangeZone: #exchange-zone">
+			</a-entity>
+			
+			<!-- Anel/Chave para pegar -->
+			<a-entity gltf-model="#viking-key" 
+				position="3 1 -3" 
+				scale="1 1 1" 
+				rotation="0 0 0"
+				class="grabbable"
+				grabbable hover center-grab
+				ritual-item="itemType: ring; exchangeZone: #exchange-zone">
+			</a-entity>
+			
+			<!-- Portal de saída (invisível até completar) -->
+			<a-entity id="exit-portal" position="0 2 -8" visible="false">
+				<a-box width="2" height="3" depth="0.3" color="#00FF00" 
+					material="emissive: #00FF00; emissiveIntensity: 0.5; opacity: 0.7; transparent: true"></a-box>
+				<a-text value="Ritual Completo!\nClique para avançar" 
+					position="0 0 0.2" align="center" color="#FFFFFF" width="3"></a-text>
+				<a-link href="adulthoodRite.html" title="Return to the museum" 
+					position="0 0 0" scale="2 3 1" class="clickable"></a-link>
+			</a-entity>
+		</a-entity>
+		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="0 1.6 -3">
-			<a-link href="index.html" title="Voltar ao Início"
-				image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable"></a-link>
+			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
 		</a-entity>
 	</a-scene>
 </body>

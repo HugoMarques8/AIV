@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Ritual de Casamento Viking</title>
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+	<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+	<script src="js/center-grab.js"></script>
+	<script src="js/handedness-setup.js"></script>
+</head>
+<body>
+	<a-scene>
+		<!-- Assets -->
+		<a-assets>
+			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
+			<a-asset-item id="viking-key" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
+			<a-asset-item id="female-viking" src="models_marriage_room/viking_girl.glb"></a-asset-item>
+		</a-assets>
+
+		<!-- Camera rig (player) -->
+		<a-entity id="player" position="0 0.7 5" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls>
+			<a-entity id="camera" camera position="0 1.6 0" look-controls 
+				cursor="rayOrigin: mouse; fuse: false"
+				raycaster="objects: .clickable, .grabbable">
+			</a-entity>
+		</a-entity>
+		
+		<!-- Ambiente ritual -->
+		<a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#2F4F2F"></a-plane>
+		<a-sky color="#001122"></a-sky>
+		
+		<!-- Fogueira central -->
+		<a-cylinder position="0 0.5 0" radius="1" height="1" color="#654321"></a-cylinder>
+		<a-sphere position="0 1.5 0" radius="0.8" color="#FF4500" opacity="0.7" 
+			material="emissive: #FF4500; emissiveIntensity: 0.8">
+			<a-animation attribute="scale" to="1.2 1.2 1.2" dur="1000" 
+				direction="alternate" repeat="indefinite" easing="easeInOutSine">
+			</a-animation>
+		</a-sphere>
+		
+		<!-- NPC Viking no ritual -->
+		<a-entity id="ritual-npc" position="0 0 -3" rotation="0 0 0">
+			<a-entity gltf-model="#female-viking" scale="1.5 1.5 1.5">
+				<!-- Respiração suave -->
+				<a-animation attribute="position" from="0 0 0" to="0 0.1 0" 
+					dur="3000" direction="alternate" repeat="indefinite" easing="easeInOutSine">
+				</a-animation>
+			</a-entity>
+		</a-entity>
+		
+		<!-- Espada do jogador -->
+		<a-entity id="player-sword" 
+			gltf-model="#viking-sword" 
+			position="-3 1 0" 
+			scale="0.5 0.5 0.5" 
+			rotation="0 90 0"
+			class="grabbable clickable"
+			grabbable hover center-grab>
+		</a-entity>
+		
+		<!-- Anel/Chave -->
+		<a-entity id="ritual-ring" 
+			gltf-model="#viking-key" 
+			position="3 1 0" 
+			scale="1 1 1" 
+			rotation="0 0 0"
+			class="grabbable clickable"
+			grabbable hover center-grab>
+		</a-entity>
+		
+		<!-- Zona de troca -->
+		<a-ring position="0 0.1 -1.5" rotation="-90 0 0" 
+			radius-inner="1" radius-outer="1.5" 
+			color="#FFD700" opacity="0.5" 
+			material="side: double">
+			<a-animation attribute="rotation" from="-90 0 0" to="-90 360 0" 
+				dur="4000" repeat="indefinite" easing="linear">
+			</a-animation>
+			<a-text value="Zona de Troca" position="0 0.5 0" 
+				align="center" color="#FFD700" width="4">
+			</a-text>
+		</a-ring>
+		
+		<!-- Instruções -->
+		<a-text value="Ritual de Casamento Viking\n\n1. Pegue a espada\n2. Pegue o anel\n3. Leve ambos à zona dourada\n4. Complete o ritual!" 
+			position="0 4 -8" 
+			align="center" 
+			color="#FFD700" 
+			width="6"
+			geometry="primitive: plane; width: 8; height: 4"
+			material="color: rgba(0,0,0,0.7); opacity: 0.8; transparent: true">
+		</a-text>
+		
+		<!-- Portal de volta (aparece após ritual) -->
+		<a-entity id="return-portal" position="0 2 -6" visible="false">
+			<a-box width="2" height="3" depth="0.3" color="#00FF00" 
+				material="emissive: #00FF00; emissiveIntensity: 0.5; opacity: 0.8; transparent: true">
+				<a-animation attribute="rotation" to="0 360 0" 
+					dur="6000" repeat="indefinite" easing="linear">
+				</a-animation>
+			</a-box>
+			<a-text value="Ritual Completo!\nVoltar ao Museu" 
+				position="0 0 0.2" align="center" color="#FFFFFF" width="3">
+			</a-text>
+			<a-link href="marriageRite.html" title="Voltar ao Museu" 
+				position="0 0 0" scale="2 3 1" class="clickable">
+			</a-link>
+		</a-entity>
+		
+		<script>
+			// Sistema simples de ritual
+			let itemsExchanged = [];
+			
+			// Verificar quando objetos são soltos na zona
+			document.addEventListener('DOMContentLoaded', function() {
+				const sword = document.querySelector('#player-sword');
+				const ring = document.querySelector('#ritual-ring');
+				const zone = document.querySelector('a-ring');
+				const returnPortal = document.querySelector('#return-portal');
+				
+				function checkExchange(item, itemName) {
+					item.addEventListener('grab-end', function() {
+						const itemPos = item.object3D.position;
+						const zonePos = new THREE.Vector3(0, 0, -1.5);
+						const distance = itemPos.distanceTo(zonePos);
+						
+						if (distance < 2 && !itemsExchanged.includes(itemName)) {
+							itemsExchanged.push(itemName);
+							console.log(`${itemName} trocado! Total: ${itemsExchanged.length}/2`);
+							
+							// Remover objeto
+							item.setAttribute('animation', {
+								property: 'scale',
+								to: '0 0 0',
+								dur: 500
+							});
+							
+							setTimeout(() => item.remove(), 500);
+							
+							// Verificar se ritual está completo
+							if (itemsExchanged.length === 2) {
+								returnPortal.setAttribute('visible', 'true');
+								
+								// Animação de celebração da NPC
+								const npc = document.querySelector('#ritual-npc a-entity');
+								npc.setAttribute('animation__celebrate', {
+									property: 'position',
+									to: '0 0.5 0',
+									dur: 500,
+									direction: 'alternate',
+									loop: 3
+								});
+							}
+						}
+					});
+				}
+				
+				checkExchange(sword, 'sword');
+				checkExchange(ring, 'ring');
+			});
+		</script>
+	</a-scene>
+</body>
+</html>
