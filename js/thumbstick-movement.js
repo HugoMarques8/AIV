@@ -51,7 +51,7 @@ AFRAME.registerComponent('thumbstick-movement', {
     
     // evt.detail.x e evt.detail.y são valores de -1 a 1
     this.velocity.x = evt.detail.x;
-    this.velocity.z = -evt.detail.y; // Invertido porque Y do joystick é para frente/trás
+    this.velocity.z = evt.detail.y; // Y positivo = para a frente, Y negativo = para trás
     
     // Atualizar texto de debug
     this.updateDebugText(`Thumbstick: X=${evt.detail.x.toFixed(2)} Y=${evt.detail.y.toFixed(2)}`);
