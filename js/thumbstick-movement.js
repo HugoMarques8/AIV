@@ -26,16 +26,13 @@ AFRAME.registerComponent('thumbstick-movement', {
     const rightHand = document.getElementById('right-hand');
     
     if (leftHand) {
-  onThumbstickMoved: function (evt) {
-    if (!this.data.enabled) return;
-    
-    // evt.detail.x e evt.detail.y são valores de -1 a 1
-    this.velocity.x = evt.detail.x;
-    this.velocity.z = -evt.detail.y; // Invertido porque Y do joystick é para frente/trás
-    
-    // Atualizar texto de debug
-    this.updateDebugText(`Thumbstick: X=${evt.detail.x.toFixed(2)} Y=${evt.detail.y.toFixed(2)}`);
-  },}
+      leftHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
+      this.updateDebugText('Left hand listener added');
+    }
+    if (rightHand) {
+      rightHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
+      this.updateDebugText('Right hand listener added');
+    }
   },
   
   updateDebugText: function(message) {
@@ -50,6 +47,9 @@ AFRAME.registerComponent('thumbstick-movement', {
     // evt.detail.x e evt.detail.y são valores de -1 a 1
     this.velocity.x = evt.detail.x;
     this.velocity.z = -evt.detail.y; // Invertido porque Y do joystick é para frente/trás
+    
+    // Atualizar texto de debug
+    this.updateDebugText(`Thumbstick: X=${evt.detail.x.toFixed(2)} Y=${evt.detail.y.toFixed(2)}`);
   },
 
   tick: function (time, delta) {
@@ -74,6 +74,9 @@ AFRAME.registerComponent('thumbstick-movement', {
     
     // Move o player
     const scaledMovement = this.direction.multiplyScalar(data.speed * delta / 1000);
+    el.object3D.position.add(scaledMovement);
+  },
+
   remove: function () {
     const leftHand = document.getElementById('left-hand');
     const rightHand = document.getElementById('right-hand');
@@ -88,9 +91,6 @@ AFRAME.registerComponent('thumbstick-movement', {
     // Remover texto de debug
     if (this.debugText && this.debugText.parentNode) {
       this.debugText.parentNode.removeChild(this.debugText);
-    }
-  } if (rightHand) {
-      rightHand.removeEventListener('thumbstickmoved', this.onThumbstickMoved);
     }
   }
 });
