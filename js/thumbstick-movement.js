@@ -21,17 +21,22 @@ AFRAME.registerComponent('thumbstick-movement', {
     // Bind event handlers
     this.onThumbstickMoved = this.onThumbstickMoved.bind(this);
     
-    // Listen for thumbstick events on both hands
+    // Aguardar que as mãos sejam criadas dinamicamente
+    this.setupHandListeners();
+  },
+  
+  setupHandListeners: function() {
+    // Tentar configurar os listeners
     const leftHand = document.getElementById('left-hand');
     const rightHand = document.getElementById('right-hand');
     
-    if (leftHand) {
+    if (leftHand && rightHand) {
       leftHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-      this.updateDebugText('Left hand listener added');
-    }
-    if (rightHand) {
       rightHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-      this.updateDebugText('Right hand listener added');
+      this.updateDebugText('Both hands ready');
+    } else {
+      // Se as mãos ainda não existem, tentar novamente
+      setTimeout(() => this.setupHandListeners(), 100);
     }
   },
   
