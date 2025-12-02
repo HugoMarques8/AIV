@@ -1,13 +1,14 @@
-// Sistema de desafio ritual viking - Troca de espadas e anéis
+// Sistema de desafio ritual viking - Portal para nova página
 AFRAME.registerComponent('ritual-npc-guide', {
   schema: {
     dialogText: { type: 'string', default: 'Clique para iniciar o ritual de casamento' },
-    challengeArea: { type: 'string', default: '#challenge-area' }
+    portalUrl: { type: 'string', default: 'marriageChallenge.html' }
   },
 
   init: function () {
     this.setupInteraction();
     this.createDialog();
+    this.hasActivated = false;
   },
 
   setupInteraction: function () {
@@ -31,7 +32,7 @@ AFRAME.registerComponent('ritual-npc-guide', {
   createDialog: function () {
     const dialog = document.createElement('a-text');
     dialog.setAttribute('value', this.data.dialogText);
-    dialog.setAttribute('position', '0 1.5 0');
+    dialog.setAttribute('position', '0 2.5 0');
     dialog.setAttribute('align', 'center');
     dialog.setAttribute('color', '#FFD700');
     dialog.setAttribute('width', '3');
@@ -39,21 +40,78 @@ AFRAME.registerComponent('ritual-npc-guide', {
   },
 
   onActivate: function () {
-    console.log('NPC ativado - iniciando teleporte para área de desafio');
+    if (this.hasActivated) return;
     
-    // Teleportar jogador para área de desafio
-    const player = document.querySelector('#player');
-    const challengeArea = document.querySelector(this.data.challengeArea);
+    this.hasActivated = true;
+    console.log('NPC ativado - criando portal para desafio');
     
-    if (player && challengeArea) {
-      const targetPos = challengeArea.getAttribute('position');
-      player.setAttribute('position', `${targetPos.x} ${targetPos.y} ${targetPos.z}`);
-      
-      // Mostrar área de desafio
-      challengeArea.setAttribute('visible', 'true');
-      
-      // Feedback sonoro (opcional)
-      this.el.emit('teleport-complete');
+    // Criar portal clicável
+    this.createPortal();
+    
+    // Feedback visual
+    this.showActivatedMessage();
+  },
+
+  createPortal: function () {
+    const portal = document.createElement('a-entity');
+    portal.setAttribute('id', 'ritual-portal');
+    portal.setAttribute('position', '3 1 0');
+    portal.setAttribute('class', 'clickable');
+    
+    // Portal visual
+    const portalBox = document.createElement('a-box');
+    portalBox.setAttribute('width', '2');
+    portalBox.setAttribute('height', '3');
+    portalBox.setAttribute('depth', '0.2');
+    portalBox.setAttribute('color', '#4CAF50');
+    portalBox.setAttribute('material', 'emissive: #4CAF50; emissiveIntensity: 0.5; opacity: 0.8; transparent: true');
+    
+    // Animação do portal
+    portalBox.setAttribute('animation', {
+      property: 'rotation',
+      to: '0 360 0',
+      dur: 8000,
+      loop: true,
+      easing: 'linear'
+    });
+    
+    // Texto do portal
+    const portalText = document.createElement('a-text');
+    portalText.setAttribute('value', 'Portal do Ritual\nClique para entrar');
+    portalText.setAttribute('position', '0 0 0.2');
+    portalText.setAttribute('align', 'center');
+    portalText.setAttribute('color', '#FFFFFF');
+    portalText.setAttribute('width', '3');
+    
+    // Link para nova página
+    const portalLink = document.createElement('a-link');
+    portalLink.setAttribute('href', this.data.portalUrl);
+    portalLink.setAttribute('title', 'Entrar no Ritual de Casamento');
+    portalLink.setAttribute('position', '0 0 0');
+    portalLink.setAttribute('scale', '2 3 1');
+    
+    portal.appendChild(portalBox);
+    portal.appendChild(portalText);
+    portal.appendChild(portalLink);
+    
+    // Adicionar à cena
+    this.el.sceneEl.appendChild(portal);
+    
+    // Efeito de aparição
+    portal.setAttribute('scale', '0 0 0');
+    portal.setAttribute('animation__appear', {
+      property: 'scale',
+      to: '1 1 1',
+      dur: 1000,
+      easing: 'easeOutBack'
+    });
+  },
+
+  showActivatedMessage: function () {
+    const dialog = this.el.querySelector('a-text');
+    if (dialog) {
+      dialog.setAttribute('value', 'Portal criado!\nClique no portal verde para\nentrar no desafio');
+      dialog.setAttribute('color', '#00FF00');
     }
   }
 });
