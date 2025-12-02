@@ -40,20 +40,16 @@ AFRAME.registerComponent('vr-hands', {
     // Configurar funcionalidades por mão dominante
     if (dominantHand === 'right') {
       // Destro: mão direita agarra, mão esquerda tem laser (movimento + seleção à distância)
-      rightHand.setAttribute('super-hands', '');
-      rightHand.setAttribute('raycaster', 'objects: .grabbable');
+      rightHand.setAttribute('raycaster', 'objects: .grabbable, .clickable');
       
       leftHand.setAttribute('laser-controls', 'hand: left');
-      leftHand.setAttribute('raycaster', 'objects: .clickable');
-      leftHand.removeAttribute('super-hands');
+      leftHand.setAttribute('raycaster', 'objects: .clickable, .grabbable');
     } else {
       // Esquerdino: mão esquerda agarra, mão direita tem laser (movimento + seleção à distância)
-      leftHand.setAttribute('super-hands', '');
-      leftHand.setAttribute('raycaster', 'objects: .grabbable');
+      leftHand.setAttribute('raycaster', 'objects: .grabbable, .clickable');
       
       rightHand.setAttribute('laser-controls', 'hand: right');
-      rightHand.setAttribute('raycaster', 'objects: .clickable');
-      rightHand.removeAttribute('super-hands');
+      rightHand.setAttribute('raycaster', 'objects: .clickable, .grabbable');
     }
     
     console.log('VR hands configured for:', dominantHand === 'right' ? 'right-handed (grab with right)' : 'left-handed (grab with left)');
