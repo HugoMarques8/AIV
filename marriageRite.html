@@ -7,6 +7,8 @@
 	<script
 		src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+	<!-- Super-hands component -->
+	<script src="https://unpkg.com/super-hands@3.0.3/dist/super-hands.min.js"></script>
 	<!-- Blink locomotion / teleportation component -->
 	<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 	<script src="js/center-grab.js"></script>
@@ -55,7 +57,7 @@
 		</a-entity>
 		
 		<!-- Ambiente 3D: modelo GLB -->
-		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="2 2 2"></a-entity>
+		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1 1 1"></a-entity>
 		
 		<!-- Marble pillar 
 		<a-entity id="pillar" gltf-model="#pillar-model" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
@@ -67,32 +69,33 @@
 		</a-entity>
 		
 		<!-- Vitrines -->
-		<a-entity gltf-model="#showcase1-model" position="-12 0 6" scale="1.5 1.5 1.5" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#showcase1-model" position="4 0 6" scale="2 2 2" rotation="0 -90 0"></a-entity>
-		<a-entity gltf-model="#showcase2-model" position="-5 0 -7" scale="2 2 2" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#showcase2-model" position="5 0 -7" scale="2 2 2" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="-12 0 3" scale="0.8 0.8 0.8" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="4 0 3" scale="1 1 1" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="-5 0 -3.5" scale="1 1 1" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="5 0 -3.5" scale="1 1 1" rotation="0 -90 0"></a-entity>
 
 		<!-- Roupas dentro das vitrines -->
-		<a-entity gltf-model="#viking-outfit-model" position="-8.4 0 -7" scale="2.5 2.5 2.5" rotation="0 0 0"></a-entity>
-		<a-entity gltf-model="#viking-man-outfit-model" position="8.4 0.5 -7" scale="2.2 2.2 1" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-outfit-model" position="-6.4 0 -3.5" scale="1.2 1.2 1.2" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-man-outfit-model" position="6.4 0.5 -3.5" scale="1.1 1.1 0.5" rotation="0 0 0"></a-entity>
 		<!-- modelo de cadeira no showcase1-->
-		<a-entity gltf-model="#chair-model" position="-12 0 6" scale="2.5 2.5 2.5" rotation="0 180 0"></a-entity>
+		<a-entity gltf-model="#chair-model" position="-12 0 3" scale="1.2 1.2 1.2" rotation="0 180 0"></a-entity>
 		<!-- modelo de mesa-->
-		<a-entity gltf-model="#table" position="-2 0 6" scale="0.02 0.02 0.02" rotation="0 0 0"></a-entity>		
+		<a-entity gltf-model="#table" position="-2 0 3" scale="0.01 0.01 0.01" rotation="0 0 0"></a-entity>		
 		<!-- Cutlery em cima da mesa -->
-		<a-entity gltf-model="#viking-bowl" position="-4.2 2.3 6.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#viking-cup" position="-3 2.25 7" scale="5 5 5" rotation="0 45 0"></a-entity>
-		<a-entity gltf-model="#viking-mug" position="-5.5 2.3 6.7" scale="0.3 0.3 0.3" rotation="0 -30 0"></a-entity>
-		<a-entity gltf-model="#viking-cutlery" position="-2.4 2.1 6.4" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
-		<a-entity gltf-model="#viking-horn" position="-6.3 2.4 6.3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-bowl" position="-4.2 1.3 3.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-cup" position="-3 1.25 4" scale="5 5 5" rotation="0 45 0"></a-entity>
+		<a-entity gltf-model="#viking-mug" position="-5.5 1.3 3.7" scale="0.3 0.3 0.3" rotation="0 -30 0"></a-entity>
+		<a-entity gltf-model="#viking-cutlery" position="-2.4 1.1 3.4" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-horn" position="-6.3 1.4 3.3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
 		<!-- Bathtub -->
-		<a-entity gltf-model="#bathtub-model" position="4 1 6" scale="1 1 1" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#bathtub-model" position="4 1 3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
 		
 		<!-- NPC GUIA na sala do museu -->
 		<a-entity id="ritual-guide" 
 			position="0 0 2" 
 			class="clickable"
-			ritual-npc-guide="dialogText: Clique aqui para iniciar\\no ritual de casamento viking; portalUrl: marriageChallenge.html">
+			ritual-npc-guide="dialogText: Clique aqui para iniciar\\no ritual de casamento viking; portalUrl: marriageChallenge.html"
+			clickable>
 			<!-- Caixa de colisão invisível para facilitar o clique -->
 			<a-box width="2" height="3" depth="2" 
 				material="opacity: 0; transparent: true" 
@@ -116,8 +119,7 @@
 				scale="0.01 0.01 0.01" 
 				rotation="0 180 0" 
 				npc-idle-animation 
-				check-animations
-				clickable>
+				check-animations>
 			</a-entity>
 		</a-entity>
 		
