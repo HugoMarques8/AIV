@@ -47,7 +47,7 @@
 		obb-collider="showColliders: false"
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 1.6 0" movement-controls=" fly: false; speed: 0.15" vr-hands>
+		<a-entity id="player" position="0 1.6 0" movement-controls="controls: gamepad, keyboard; constrainToNavMesh: false; speed: 0.15" vr-hands>
 			<a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
