@@ -47,8 +47,8 @@
 		obb-collider="showColliders: false"
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls vr-hands>
-			<a-entity id="camera" camera position="0 1.6 0" look-controls 
+		<a-entity id="player" position="0 1.6 0" movement-controls="controls: gamepad, keyboard; fly: false; speed: 0.15" vr-hands>
+			<a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -88,38 +88,7 @@
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="4 1 3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
 		
-		<!-- NPC GUIA na sala do museu -->
-		<a-entity id="ritual-guide" 
-			position="0 0 2" 
-			class="clickable"
-			ritual-npc-guide="dialogText: Clique aqui para iniciar\\no ritual de casamento viking; portalUrl: marriageChallenge.html"
-			clickable>
-			<!-- Caixa de colisão invisível para facilitar o clique -->
-			<a-box width="2" height="3" depth="2" 
-				material="opacity: 0; transparent: true" 
-				position="0 1.5 0">
-			</a-box>
-			<!-- Efeito visual de brilho -->
-			<a-ring position="0 0.1 0" rotation="-90 0 0" 
-				radius-inner="1.5" radius-outer="2" 
-				color="#FFD700" opacity="0.3" 
-				material="side: double">
-				<a-animation attribute="rotation" 
-					from="-90 0 0" 
-					to="-90 360 0" 
-					dur="4000" 
-					repeat="indefinite">
-				</a-animation>
-			</a-ring>
-			<!-- Modelo viking girl com animações procedurais -->
-			<a-entity id="viking-npc-model" 
-				gltf-model="#female-viking" 
-				scale="0.01 0.01 0.01" 
-				rotation="0 180 0" 
-				npc-idle-animation 
-				check-animations>
-			</a-entity>
-		</a-entity>
+		
 		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="0 1.6 -3">
