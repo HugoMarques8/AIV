@@ -45,8 +45,8 @@
 		</a-assets>
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 0 0" thumbstick-movement="speed: 0.7" vr-hands>
-			<a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
+		<a-entity id="player" position="0 0 0" thumbstick-movement="speed: 0.9" vr-hands>
+			<a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -65,31 +65,31 @@
 		</a-entity>
 		
 		<!-- Vitrines -->
-		<a-entity gltf-model="#showcase1-model" position="-12 0 3" scale="0.8 0.8 0.8" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#showcase1-model" position="4 0 3" scale="1 1 1" rotation="0 -90 0"></a-entity>
-		<a-entity gltf-model="#showcase2-model" position="-5 0 -3.5" scale="1 1 1" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#showcase2-model" position="5 0 -3.5" scale="1 1 1" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="-7 0 6" scale="1 1 1" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="2 0 6" scale="1.2 1.2 1.2" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="-3 0 -5" scale="1.3 1.3 1.3" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="3 0 -5" scale="1.3 1.3 1.3" rotation="0 -90 0"></a-entity>
 
 		<!-- Roupas dentro das vitrines -->
-		<a-entity gltf-model="#viking-outfit-model" position="-6.4 0 -3.5" scale="1.2 1.2 1.2" rotation="0 0 0"></a-entity>
-		<a-entity gltf-model="#viking-man-outfit-model" position="6.4 0.5 -3.5" scale="1.1 1.1 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-outfit-model" position="-5.4 0.35 -5" scale="1.2 1.2 1.2" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-man-outfit-model" position="5.4 0.35 -5" scale="1.3 1.3 1.3" rotation="0 0 0"></a-entity>
 		<!-- modelo de cadeira no showcase1-->
-		<a-entity gltf-model="#chair-model" position="-12 0 3" scale="1.2 1.2 1.2" rotation="0 180 0"></a-entity>
+		<a-entity gltf-model="#chair-model" position="-7 0 6" scale="1.6 1.6 1.6" rotation="0 180 0"></a-entity>
 		<!-- modelo de mesa-->
-		<a-entity gltf-model="#table" position="-2 0 3" scale="0.01 0.01 0.01" rotation="0 0 0"></a-entity>		
+		<a-entity gltf-model="#table" position="0 0 6" scale="0.015 0.015 0.015" rotation="0 0 0"></a-entity>		
 		<!-- Cutlery em cima da mesa -->
-		<a-entity gltf-model="#viking-bowl" position="-4.2 1.3 3.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#viking-cup" position="-3 1.25 4" scale="5 5 5" rotation="0 45 0"></a-entity>
-		<a-entity gltf-model="#viking-mug" position="-5.5 1.3 3.7" scale="0.3 0.3 0.3" rotation="0 -30 0"></a-entity>
-		<a-entity gltf-model="#viking-cutlery" position="-2.4 1.1 3.4" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
-		<a-entity gltf-model="#viking-horn" position="-6.3 1.4 3.3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-bowl" position="-6.2 2.3 3.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-cup" position="- 2.25 4" scale="2 2 2" rotation="0 45 0"></a-entity>
+		<a-entity gltf-model="#viking-mug" position="-5.5 2.3 3.7" scale="0.2 0.2 0.2" rotation="0 -30 0"></a-entity>
+		<a-entity gltf-model="#viking-cutlery" position="-2.4 2.1 3.4" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-horn" position="-6.3 2.4 3.3" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
 		<!-- Bathtub -->
-		<a-entity gltf-model="#bathtub-model" position="4 1 3" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#bathtub-model" position="2.3 0.5 6" scale="0.7 0.7 0.7"></a-entity>
 		
 		
 		
 		<!-- Link para voltar ao index.html -->
-		<a-entity position="0 1.6 -3">
+		<a-entity position="10 1.6 -3" rotation="0 -90 0">
 			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
 		</a-entity>
 	</a-scene>
