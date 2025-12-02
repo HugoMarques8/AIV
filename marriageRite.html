@@ -47,7 +47,7 @@
 		obb-collider="showColliders: false"
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls>
+		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls vr-hands>
 			<a-entity id="camera" camera position="0 1.6 0" look-controls 
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
@@ -88,17 +88,6 @@
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="4 1 6" scale="1 1 1" rotation="0 0 0"></a-entity>
 		
-		<!-- Instruções para Desktop -->
-		<a-text id="desktop-instructions" 
-			value="CONTROLOS:\nWASD - Mover\nMouse - Olhar\nClick - Interagir" 
-			position="-8 3 -2" 
-			align="left" 
-			color="#FFD700" 
-			width="4"
-			geometry="primitive: plane; width: 3; height: 1.5"
-			material="color: rgba(0,0,0,0.7); opacity: 0.8; transparent: true">
-		</a-text>
-		
 		<!-- NPC GUIA na sala do museu -->
 		<a-entity id="ritual-guide" 
 			position="0 0 2" 
@@ -129,49 +118,6 @@
 				npc-idle-animation 
 				check-animations
 				clickable>
-			</a-entity>
-		</a-entity>
-		
-		<!-- ÁREA DE DESAFIO (invisível inicialmente, longe do museu) -->
-		<a-entity id="challenge-area" 
-			position="100 0 0" 
-			visible="false"
-			ritual-challenge-area="requiredItems: sword, ring">
-			
-			<!-- Chão da área de desafio -->
-			<a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#2F4F2F"></a-plane>
-			
-			<!-- Zona de troca (onde levar os itens) -->
-			<a-entity id="exchange-zone" position="0 0.05 -5" exchange-zone></a-entity>
-			
-			<!-- Espada para pegar -->
-			<a-entity gltf-model="#viking-sword" 
-				position="-3 1 -3" 
-				scale="0.5 0.5 0.5" 
-				rotation="0 90 0"
-				class="grabbable"
-				grabbable hover center-grab
-				ritual-item="itemType: sword; exchangeZone: #exchange-zone">
-			</a-entity>
-			
-			<!-- Anel/Chave para pegar -->
-			<a-entity gltf-model="#viking-key" 
-				position="3 1 -3" 
-				scale="1 1 1" 
-				rotation="0 0 0"
-				class="grabbable"
-				grabbable hover center-grab
-				ritual-item="itemType: ring; exchangeZone: #exchange-zone">
-			</a-entity>
-			
-			<!-- Portal de saída (invisível até completar) -->
-			<a-entity id="exit-portal" position="0 2 -8" visible="false">
-				<a-box width="2" height="3" depth="0.3" color="#00FF00" 
-					material="emissive: #00FF00; emissiveIntensity: 0.5; opacity: 0.7; transparent: true"></a-box>
-				<a-text value="Ritual Completo!\nClique para avançar" 
-					position="0 0 0.2" align="center" color="#FFFFFF" width="3"></a-text>
-				<a-link href="adulthoodRite.html" title="Return to the museum" 
-					position="0 0 0" scale="2 3 1" class="clickable"></a-link>
 			</a-entity>
 		</a-entity>
 		
