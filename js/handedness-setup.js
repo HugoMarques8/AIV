@@ -24,6 +24,7 @@ AFRAME.registerComponent('vr-hands', {
       rightHand.setAttribute('id', 'right-hand');
       playerRig.appendChild(rightHand);
     }
+    rightHand.setAttribute('hand-controls', 'hand: right; handModelStyle: lowPoly');
     
     // Criar ou configurar mão esquerda
     let leftHand = document.getElementById('left-hand');
@@ -32,6 +33,7 @@ AFRAME.registerComponent('vr-hands', {
       leftHand.setAttribute('id', 'left-hand');
       playerRig.appendChild(leftHand);
     }
+    leftHand.setAttribute('hand-controls', 'hand: left; handModelStyle: lowPoly');
     
     // Configurar funcionalidades por mão dominante
     if (dominantHand === 'right') {
