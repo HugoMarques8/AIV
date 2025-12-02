@@ -9,6 +9,15 @@ AFRAME.registerComponent('thumbstick-movement', {
     this.velocity = new THREE.Vector3();
     this.direction = new THREE.Vector3();
     
+    // Criar texto de debug visível na VR
+    this.debugText = document.createElement('a-text');
+    this.debugText.setAttribute('value', 'Waiting for thumbstick...');
+    this.debugText.setAttribute('position', '0 2.5 -2');
+    this.debugText.setAttribute('align', 'center');
+    this.debugText.setAttribute('color', '#00FF00');
+    this.debugText.setAttribute('width', '4');
+    this.el.sceneEl.appendChild(this.debugText);
+    
     // Bind event handlers
     this.onThumbstickMoved = this.onThumbstickMoved.bind(this);
     
@@ -17,13 +26,22 @@ AFRAME.registerComponent('thumbstick-movement', {
     const rightHand = document.getElementById('right-hand');
     
     if (leftHand) {
-      leftHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-    }
-    if (rightHand) {
-      rightHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-    }
+  onThumbstickMoved: function (evt) {
+    if (!this.data.enabled) return;
     
-    console.log('Thumbstick movement component initialized');
+    // evt.detail.x e evt.detail.y são valores de -1 a 1
+    this.velocity.x = evt.detail.x;
+    this.velocity.z = -evt.detail.y; // Invertido porque Y do joystick é para frente/trás
+    
+    // Atualizar texto de debug
+    this.updateDebugText(`Thumbstick: X=${evt.detail.x.toFixed(2)} Y=${evt.detail.y.toFixed(2)}`);
+  },}
+  },
+  
+  updateDebugText: function(message) {
+    if (this.debugText) {
+      this.debugText.setAttribute('value', message);
+    }
   },
 
   onThumbstickMoved: function (evt) {
@@ -56,9 +74,6 @@ AFRAME.registerComponent('thumbstick-movement', {
     
     // Move o player
     const scaledMovement = this.direction.multiplyScalar(data.speed * delta / 1000);
-    el.object3D.position.add(scaledMovement);
-  },
-
   remove: function () {
     const leftHand = document.getElementById('left-hand');
     const rightHand = document.getElementById('right-hand');
@@ -67,6 +82,14 @@ AFRAME.registerComponent('thumbstick-movement', {
       leftHand.removeEventListener('thumbstickmoved', this.onThumbstickMoved);
     }
     if (rightHand) {
+      rightHand.removeEventListener('thumbstickmoved', this.onThumbstickMoved);
+    }
+    
+    // Remover texto de debug
+    if (this.debugText && this.debugText.parentNode) {
+      this.debugText.parentNode.removeChild(this.debugText);
+    }
+  } if (rightHand) {
       rightHand.removeEventListener('thumbstickmoved', this.onThumbstickMoved);
     }
   }
