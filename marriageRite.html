@@ -13,6 +13,7 @@
 	<script src="js/handedness-setup.js"></script>
 	<script src="js/ritual-challenge.js"></script>
 	<script src="js/thumbstick-movement.js"></script>
+	<script src="js/npc-dialogue.js"></script>
 </head>
 <body>
 	<a-scene>
@@ -84,7 +85,7 @@
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
 		<!-- NPC idle ao lado da bathtub -->
-		<a-entity gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer></a-entity>
+		<a-entity gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer npc-dialogue="audioSrc: audio/npc-marriage-dialogue.mp3; portalDestination: marriageChallenge.html"></a-entity>
 		<!-- Stove -->
 		<a-entity gltf-model="#viking-stove" position="-6 0.6 4" scale="1 1 1" rotation="0 90 0"></a-entity>
 		<!-- Viking pillar -->
