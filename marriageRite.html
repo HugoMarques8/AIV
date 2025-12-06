@@ -85,7 +85,27 @@
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
 		<!-- NPC idle ao lado da bathtub -->
-		<a-entity gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer npc-dialogue="audioSrc: audio/npc-marriage-dialogue.mp3; portalDestination: marriageChallenge.html"></a-entity>
+		<a-entity gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer npc-dialogue="audioSrc: audio/npc-marriage-dialogue.mp3"></a-entity>
+		
+		<!-- Painel de diálogo (invisível até clicar no NPC) -->
+		<a-entity id="dialogue-panel" position="8.5 2.5 4" visible="false" look-at="[camera]">
+			<!-- Background -->
+			<a-plane width="3" height="1" color="#1a1a1a" opacity="0.9"></a-plane>
+			
+			<!-- Texto -->
+			<a-text value="Greetings, traveler. I am Astrid, keeper of the marriage rituals.&#10;&#10;I have just completed the ceremonial bath, washing away my maidenhood as our ancestors did before me.&#10;&#10;Are you ready to witness the sacred ceremony?" 
+				align="center" width="2.8" color="#ffffff" wrap-count="40" position="0 0 0.01"></a-text>
+		</a-entity>
+		
+		<!-- Portal (invisível até clicar Yes) -->
+		<a-entity id="challenge-portal" position="9.4 0.5 4" visible="false">
+			<a-torus radius="1.5" radius-tubular="0.1" color="#00ffff" 
+				material="shader: flat; emissive: #00ffff; emissiveIntensity: 0.8"
+				animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-torus>
+			<a-circle radius="1.4" color="#001a33" material="opacity: 0.7; side: double"
+				animation="property: material.opacity; from: 0.7; to: 0.9; dir: alternate; loop: true; dur: 2000"></a-circle>
+			<a-link href="marriageChallenge.html" title="Enter Challenge" class="clickable" position="0 0 0"></a-link>
+		</a-entity>
 		<!-- Stove -->
 		<a-entity gltf-model="#viking-stove" position="-6 0.6 4" scale="1 1 1" rotation="0 90 0"></a-entity>
 		<!-- Viking pillar -->
