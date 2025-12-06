@@ -31,22 +31,22 @@
 			<a-asset-item id="viking-bowl" src="models_marriage_room/cutlery/viking_bowl.glb"></a-asset-item>
 			<a-asset-item id="viking-cup" src="models_marriage_room/cutlery/viking_model_asset_-_cup.glb"></a-asset-item>
 			<a-asset-item id="viking-mug" src="models_marriage_room/cutlery/viking_mug.glb"></a-asset-item>
-			<a-asset-item id="viking-tea-bowl" src="models_marriage_room/cutlery/viking_tea_party_-_bowl.glb"></a-asset-item>
 			<a-asset-item id="viking-cutlery" src="models_marriage_room/cutlery/viking_tea_party_-_cutlery.glb"></a-asset-item>
 			<a-asset-item id="viking-horn" src="models_marriage_room/cutlery/viking_tea_party_-_drinking_horn.glb"></a-asset-item>
 			<a-asset-item id="viking-stove" src="models_marriage_room/cutlery/viking_tea_party_-_viking_stove.glb"></a-asset-item>
-			<!-- Ritual Challenge Items -->
-			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
-			<a-asset-item id="viking-key" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
-			<a-asset-item id="female-viking" src="models_marriage_room/viking_girl.glb"></a-asset-item>
-			
+			<a-asset-item id="pillar-model" src="models_marriage_room/viking_column.glb"></a-asset-item>
+			<a-asset-item id="rune_sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
+			<a-asset-item id="key-model" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
+			<a-asset-item id="statue_viking_goddess" src="models_marriage_room/viking_goddess.glb"></a-asset-item>
+			<a-asset-item id="pillar_showcase" src="models_marriage_room/scandinavian_column.glb"></a-asset-item>
+			<a-asset-item id="chest-model" src="models_marriage_room/furniture/viking_chest.glb"></a-asset-item>
 			<!-- Imagens -->
 			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
 		</a-assets>
 		
 		<!-- camera rig (player) -->
-		<a-entity id="player" position="0 0 0" thumbstick-movement="speed: 0.9" vr-hands>
-			<a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
+		<a-entity id="player" position="0 0 0" thumbstick-movement="speed: 0.9" vr-hands wasd-controls="acceleration: 20">
+			<a-entity id="camera" camera position="0 3 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -55,9 +55,6 @@
 		<!-- Ambiente 3D: modelo GLB -->
 		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1.5 1.5 1.5"></a-entity>
 		
-		<!-- Marble pillar 
-		<a-entity id="pillar" gltf-model="#pillar-model" position="2 1.5 2" scale="0.03 0.03 0.03"></a-entity> -->
-		
 		<!-- Tortoise brooch em cima do pilar -->
 		<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange"
 			position="2 1.5 2" grabbable hover center-grab>
@@ -65,8 +62,8 @@
 		</a-entity>
 		
 		<!-- Vitrines -->
-		<a-entity gltf-model="#showcase1-model" position="-7 0 6" scale="1 1 1" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#showcase1-model" position="2 0 6" scale="1.2 1.2 1.2" rotation="0 -90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="-9 0 4" scale="1 1 1" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#showcase1-model" position="3 0 4" scale="1.5 1.5 1.5" rotation="0 0 0"></a-entity>
 		<a-entity gltf-model="#showcase2-model" position="-3 0 -5" scale="1.3 1.3 1.3" rotation="0 90 0"></a-entity>
 		<a-entity gltf-model="#showcase2-model" position="3 0 -5" scale="1.3 1.3 1.3" rotation="0 -90 0"></a-entity>
 
@@ -74,20 +71,28 @@
 		<a-entity gltf-model="#viking-outfit-model" position="-5.4 0.35 -5" scale="1.2 1.2 1.2" rotation="0 0 0"></a-entity>
 		<a-entity gltf-model="#viking-man-outfit-model" position="5.4 0.35 -5" scale="1.3 1.3 1.3" rotation="0 0 0"></a-entity>
 		<!-- modelo de cadeira no showcase1-->
-		<a-entity gltf-model="#chair-model" position="-7 0 6" scale="1.6 1.6 1.6" rotation="0 180 0"></a-entity>
+		<a-entity gltf-model="#chair-model" position="-9 0 4" scale="1.6 1.6 1.6" rotation="0 180 0"></a-entity>
 		<!-- modelo de mesa-->
-		<a-entity gltf-model="#table" position="0 0 6" scale="0.015 0.015 0.015" rotation="0 0 0"></a-entity>		
+		<a-entity gltf-model="#table" position="-1.4 0 4" scale="0.013 0.013 0.013" rotation="0 0 0"></a-entity>		
 		<!-- Cutlery em cima da mesa -->
-		<a-entity gltf-model="#viking-bowl" position="-6.2 2.3 3.2" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
-		<a-entity gltf-model="#viking-cup" position="- 2.25 4" scale="2 2 2" rotation="0 45 0"></a-entity>
-		<a-entity gltf-model="#viking-mug" position="-5.5 2.3 3.7" scale="0.2 0.2 0.2" rotation="0 -30 0"></a-entity>
-		<a-entity gltf-model="#viking-cutlery" position="-2.4 2.1 3.4" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
-		<a-entity gltf-model="#viking-horn" position="-6.3 2.4 3.3" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-bowl" position="-2.8 1.65 4.1" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-cup" position="-4 1.45 4.6" scale="4 4 4" rotation="0 45 0"></a-entity>
+		<a-entity gltf-model="#viking-mug" position="-3.4 1.5 4.6" scale="0.2 0.2 0.2" rotation="0 60 0"></a-entity>
+		<a-entity gltf-model="#viking-cutlery" position="-2 1.35 4.1" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#viking-horn" position="-1.6 1.6 4.6" scale="0.4 0.4 0.4" rotation="0 0 0"></a-entity>
 		<!-- Bathtub -->
-		<a-entity gltf-model="#bathtub-model" position="2.3 0.5 6" scale="0.7 0.7 0.7"></a-entity>
-		
-		
-		
+		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
+		<!-- Stove -->
+		<a-entity gltf-model="#viking-stove" position="-6 0.6 4" scale="1 1 1" rotation="0 90 0"></a-entity>
+		<!-- Viking pillar -->
+		<a-entity gltf-model="#pillar-model" position="-1.3 1.6 -5" rotation="0 0 0"></a-entity>
+		<!-- Sword on the expositor -->
+		<a-entity gltf-model="#rune_sword" position="3 1.2 -5" rotation="0 90 90" scale="1 1 1"></a-entity>
+		<!-- Statue of Viking goddess -->
+		<a-entity gltf-model="#statue_viking_goddess" position="-3 1.6 -5" rotation="0 180 0" scale="1 1 1"></a-entity>
+		<a-entity gltf-model="#pillar_showcase" position="-3 0.3 -5" rotation="0 -90 0" scale="0.1 0.05 0.1"></a-entity>
+		<!-- Bau -->
+		<a-entity gltf-model="#chest-model" position="-9 0 -5" rotation="0 90 0" scale="1 1 1"></a-entity>
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">
 			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
