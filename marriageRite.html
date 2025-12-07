@@ -13,7 +13,6 @@
 	<script src="js/handedness-setup.js"></script>
 	<script src="js/ritual-challenge.js"></script>
 	<script src="js/thumbstick-movement.js"></script>
-	<script src="js/npc-dialogue.js"></script>
 </head>
 <body>
 	<a-scene>
@@ -42,6 +41,9 @@
 			<a-asset-item id="pillar_showcase" src="models_marriage_room/scandinavian_column.glb"></a-asset-item>
 			<a-asset-item id="chest-model" src="models_marriage_room/furniture/viking_chest.glb"></a-asset-item>
 			<a-asset-item id="npc-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
+			<a-asset-item id="stone_hammer" src="models_marriage_room/stone_mjolnir.glb"></a-asset-item>
+			<!-- Audio -->
+			<audio id="astrid-dialogue" src="audio/npc-marriage-dialogue.mp3" preload="auto"></audio>
 			<!-- Imagens -->
 			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
 		</a-assets>
@@ -85,25 +87,18 @@
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
 		<!-- NPC idle ao lado da bathtub -->
-		<a-entity gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer npc-dialogue="audioSrc: audio/npc-marriage-dialogue.mp3"></a-entity>
+		<a-entity id="npc-astrid" gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer class="clickable"></a-entity>
 		
-		<!-- Painel de diálogo (invisível até clicar no NPC) -->
-		<a-entity id="dialogue-panel" position="8.5 2.5 4" visible="false" look-at="[camera]">
-			<!-- Background -->
-			<a-plane width="3" height="1" color="#1a1a1a" opacity="0.9"></a-plane>
-			
-			<!-- Texto -->
-			<a-text value="Greetings, traveler. I am Astrid, keeper of the marriage rituals.&#10;&#10;I have just completed the ceremonial bath, washing away my maidenhood as our ancestors did before me.&#10;&#10;Are you ready to witness the sacred ceremony?" 
-				align="center" width="2.8" color="#ffffff" wrap-count="40" position="0 0 0.01"></a-text>
+		<!-- Painel de subtítulos -->
+		<a-entity id="npc-subtitle" position="8.5 3 4" visible="false" rotation="0 180 0">
+			<a-plane color="#000000" opacity="0.7" width="6" height="0.5"></a-plane>
+			<a-text id="subtitle-text" value="" position="0 0 0.01" 
+				align="center" color="#FFFFFF" width="5.5" wrap-count="50">
+			</a-text>
 		</a-entity>
 		
-		<!-- Portal (invisível até clicar Yes) -->
-		<a-entity id="challenge-portal" position="9.4 0.5 4" visible="false">
-			<a-torus radius="1.5" radius-tubular="0.1" color="#00ffff" 
-				material="shader: flat; emissive: #00ffff; emissiveIntensity: 0.8"
-				animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-torus>
-			<a-circle radius="1.4" color="#001a33" material="opacity: 0.7; side: double"
-				animation="property: material.opacity; from: 0.7; to: 0.9; dir: alternate; loop: true; dur: 2000"></a-circle>
+		<!-- Portal (aparece apos falar com a npc) -->
+		<a-entity id="challenge-portal" position="10 2 4" visible="false">
 			<a-link href="marriageChallenge.html" title="Enter Challenge" class="clickable" position="0 0 0"></a-link>
 		</a-entity>
 		<!-- Stove -->
@@ -115,12 +110,69 @@
 		<!-- Statue of Viking goddess -->
 		<a-entity gltf-model="#statue_viking_goddess" position="-3 1.6 -5" rotation="0 180 0" scale="1 1 1"></a-entity>
 		<a-entity gltf-model="#pillar_showcase" position="-3 0.3 -5" rotation="0 -90 0" scale="0.1 0.05 0.1"></a-entity>
+		<!-- Mjolnir -->
+		<a-entity gltf-model="#stone_hammer" position="1.3 0.55 -5" rotation="0 0 0" scale="0.01 0.01 0.01"></a-entity>
 		<!-- Bau -->
 		<a-entity gltf-model="#chest-model" position="-9 0 -5" rotation="0 90 0" scale="1 1 1"></a-entity>
+		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">
 			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
 		</a-entity>
+		
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const npc = document.querySelector('#npc-astrid');
+				const audio = document.querySelector('#astrid-dialogue');
+				const subtitlePanel = document.querySelector('#npc-subtitle');
+				const subtitleText = document.querySelector('#subtitle-text');
+				const portal = document.querySelector('#challenge-portal');
+				
+				// Legendas sincronizadas com o áudio
+				const subtitles = [
+					{ time: 0, text: "Welcome, brave one. I am Astrid, keeper of the marriage rituals." },
+					{ time: 5, text: "I have just completed the ceremonial bath, as you did before me." },
+					{ time: 9, text: "We wash away our former lives, preparing ourselves for this sacred union as our ancestors did before us." },
+					{ time: 16, text: "Are you ready to complete the sacred ceremony with me?" },
+					{ time: 20, text: "" } // Clear subtitle
+				];
+				
+				let currentSubtitle = 0;
+				let audioPlayed = false;
+				
+				// Clicar na NPC para iniciar diálogo
+				npc.addEventListener('click', function() {
+					if (!audioPlayed) {
+						audio.currentTime = 0;
+						currentSubtitle = 0;
+						audio.play();
+						audioPlayed = true;
+					}
+				});
+				
+				// Mostrar painel quando áudio começa
+				audio.addEventListener('play', function() {
+					subtitlePanel.setAttribute('visible', 'true');
+				});
+				
+				// Atualizar legendas durante o áudio
+				audio.addEventListener('timeupdate', function() {
+					const currentTime = audio.currentTime;
+					if (currentSubtitle < subtitles.length && currentTime >= subtitles[currentSubtitle].time) {
+						subtitleText.setAttribute('value', subtitles[currentSubtitle].text);
+						currentSubtitle++;
+					}
+				});
+				
+				// Esconder legendas e mostrar portal quando terminar
+				audio.addEventListener('ended', function() {
+					setTimeout(() => {
+						subtitlePanel.setAttribute('visible', 'false');
+						portal.setAttribute('visible', 'true');
+					}, 2000);
+				});
+			});
+		</script>
 	</a-scene>
 </body>
 </html>
