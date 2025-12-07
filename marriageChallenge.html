@@ -13,41 +13,44 @@
 	<a-scene>
 		<!-- Assets -->
 		<a-assets>
+			<a-asset-item id="forest-scene" src="models_marriage_room/challenge scene/winter_forest.glb"></a-asset-item>
+			<a-asset-item id="campfire" src="models_marriage_room/challenge scene/campfire.glb"></a-asset-item>
 			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
 			<a-asset-item id="viking-key" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
 			<a-asset-item id="female-viking-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
+			<!-- Skybox 360° de Aurora Boreal - substituir por imagem real -->
+			<img id="aurora-sky" src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg">
 		</a-assets>
 
 		<!-- Camera rig (player) -->
-		<a-entity id="player" position="0 0.7 5" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls vr-hands>
+		<a-entity id="player" position="0 0.7 0" movement-controls="fly: false; speed: 0.25" wasd-controls look-controls vr-hands>
 			<a-entity id="camera" camera position="0 1.6 0" look-controls 
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
 		</a-entity>
 		
-		<!-- Ambiente ritual -->
-		<a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#2F4F2F"></a-plane>
-		<a-sky color="#001122"></a-sky>
+		<!-- Ambiente floresta -->
+		<a-entity gltf-model="#forest-scene" position="0 0 0" scale="2 2 2"></a-entity>
+		<a-entity gltf-model="#campfire" position="0 0 -12" scale="1 1 1" animation-mixer></a-entity>
 		
-		<!-- Fogueira central -->
-		<a-cylinder position="0 0.5 0" radius="1" height="1" color="#654321"></a-cylinder>
-		<a-sphere position="0 1.5 0" radius="0.8" color="#FF4500" opacity="0.7" 
-			material="emissive: #FF4500; emissiveIntensity: 0.8">
-			<a-animation attribute="scale" to="1.2 1.2 1.2" dur="1000" 
-				direction="alternate" repeat="indefinite" easing="easeInOutSine">
-			</a-animation>
-		</a-sphere>
+		<!-- Céu de inverno nórdico com Aurora Boreal -->
+		<a-sky src="#aurora-sky"></a-sky>
+		
+		<!-- Luz ambiente fria (inverno) -->
+		<a-entity light="type: ambient; color: #b3c9d9; intensity: 0.6"></a-entity>
+		<a-entity light="type: directional; color: #dde5ed; intensity: 0.8" position="5 10 5"></a-entity>
+
 		
 		<!-- NPC Viking no ritual -->
-		<a-entity gltf-model="#female-viking-idle" scale="0.015 0.015 0.015" animation-mixer></a-entity>
+		<a-entity gltf-model="#female-viking-idle" position="2 0 -6.5" scale="0.015 0.015 0.015" rotation="0 -30 0" animation-mixer></a-entity>
 		
 		<!-- Espada do jogador -->
 		<a-entity id="player-sword" 
 			gltf-model="#viking-sword" 
 			position="-3 1 0" 
 			scale="0.5 0.5 0.5" 
-			rotation="0 90 0"
+			rotation="0 90 90"
 			class="grabbable clickable"
 			grabbable hover center-grab>
 		</a-entity>
@@ -63,7 +66,7 @@
 		</a-entity>
 		
 		<!-- Zona de troca -->
-		<a-ring position="0 0.1 -1.5" rotation="-90 0 0" 
+		<a-ring position="2 0.3 -6" rotation="-90 0 0" 
 			radius-inner="1" radius-outer="1.5" 
 			color="#FFD700" opacity="0.5" 
 			material="side: double">
@@ -74,16 +77,6 @@
 				align="center" color="#FFD700" width="4">
 			</a-text>
 		</a-ring>
-		
-		<!-- Instruções -->
-		<a-text value="Ritual de Casamento Viking\n\n1. Pegue a espada\n2. Pegue o anel\n3. Leve ambos à zona dourada\n4. Complete o ritual!" 
-			position="0 4 -8" 
-			align="center" 
-			color="#FFD700" 
-			width="6"
-			geometry="primitive: plane; width: 8; height: 4"
-			material="color: rgba(0,0,0,0.7); opacity: 0.8; transparent: true">
-		</a-text>
 		
 		<!-- Portal de volta (aparece após ritual) -->
 		<a-entity id="return-portal" position="0 2 -6" visible="false">
