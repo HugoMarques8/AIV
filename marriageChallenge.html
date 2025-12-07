@@ -15,7 +15,7 @@
 		<a-assets>
 			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
 			<a-asset-item id="viking-key" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
-			<a-asset-item id="female-viking" src="models_marriage_room/viking_girl.glb"></a-asset-item>
+			<a-asset-item id="female-viking-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
 		</a-assets>
 
 		<!-- Camera rig (player) -->
@@ -40,14 +40,7 @@
 		</a-sphere>
 		
 		<!-- NPC Viking no ritual -->
-		<a-entity id="ritual-npc" position="0 0 -3" rotation="0 0 0">
-			<a-entity gltf-model="#female-viking" scale="1.5 1.5 1.5">
-				<!-- Respiração suave -->
-				<a-animation attribute="position" from="0 0 0" to="0 0.1 0" 
-					dur="3000" direction="alternate" repeat="indefinite" easing="easeInOutSine">
-				</a-animation>
-			</a-entity>
-		</a-entity>
+		<a-entity gltf-model="#female-viking-idle" scale="0.015 0.015 0.015" animation-mixer></a-entity>
 		
 		<!-- Espada do jogador -->
 		<a-entity id="player-sword" 
