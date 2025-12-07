@@ -46,6 +46,8 @@
 			<audio id="astrid-dialogue" src="audio/npc-marriage-dialogue.mp3" preload="auto"></audio>
 			<!-- Imagens -->
 			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
+			<img id="challenge-preview" src="models_marriage_room/images/preview_challenge.png">
+			<img id="audio-icon" src="models_marriage_room/images/audio-icon.png">
 		</a-assets>
 		
 		<!-- camera rig (player) -->
@@ -59,12 +61,6 @@
 		<!-- Ambiente 3D: modelo GLB -->
 		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1.5 1.5 1.5"></a-entity>
 		
-		<!-- Tortoise brooch em cima do pilar -->
-		<a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3" material="color: orange"
-			position="2 1.5 2" grabbable hover center-grab>
-			<a-box spatial-modal="color: white" width="0.3" height="0.3" depth="0.3" position="0 0 0"></a-box>
-		</a-entity>
-		
 		<!-- Vitrines -->
 		<a-entity gltf-model="#showcase1-model" position="-9 0 4" scale="1 1 1" rotation="0 90 0"></a-entity>
 		<a-entity gltf-model="#showcase1-model" position="3 0 4" scale="1.5 1.5 1.5" rotation="0 0 0"></a-entity>
@@ -73,7 +69,32 @@
 
 		<!-- Roupas dentro das vitrines -->
 		<a-entity gltf-model="#viking-outfit-model" position="-5.4 0.35 -5" scale="1.2 1.2 1.2" rotation="0 0 0"></a-entity>
+		<!-- Info: Bride's Outfit -->
+		<a-entity position="-5.4 1.5 -4.5" rotation="0 180 0">
+			<a-plane width="1.3" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Bride's Wedding Attire\n10th Century" align="center" width="1.2" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.75 0 0.02" 
+				class="clickable info-trigger" data-info="bride-outfit" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
+		
 		<a-entity gltf-model="#viking-man-outfit-model" position="5.4 0.35 -5" scale="1.3 1.3 1.3" rotation="0 0 0"></a-entity>
+		<!-- Info: Groom's Outfit -->
+		<a-entity position="5.4 1.5 -4.5" rotation="0 180 0">
+			<a-plane width="1.3" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Groom's Wedding Attire\n10th Century" align="center" width="1.2" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.75 0 0.02" 
+				class="clickable info-trigger" data-info="groom-outfit" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
 		<!-- modelo de cadeira no showcase1-->
 		<a-entity gltf-model="#chair-model" position="-9 0 4" scale="1.6 1.6 1.6" rotation="0 180 0"></a-entity>
 		<!-- modelo de mesa-->
@@ -86,6 +107,19 @@
 		<a-entity gltf-model="#viking-horn" position="-1.6 1.6 4.6" scale="0.4 0.4 0.4" rotation="0 0 0"></a-entity>
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
+		<!-- Info: Ceremonial Bath -->
+		<a-entity position="3 1 2.5" rotation="0 180 0">
+			<a-plane width="1.4" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Ceremonial Bath\n for the Purification Ritual" align="center" width="1.3" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.7 0 0.02" 
+				class="clickable info-trigger" data-info="sword" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
+		
 		<!-- NPC idle ao lado da bathtub -->
 		<a-entity id="npc-astrid" gltf-model="#npc-idle" position="8.5 0 4" rotation="0 180 0" scale="0.015 0.015 0.015" animation-mixer class="clickable"></a-entity>
 		
@@ -99,21 +133,65 @@
 		
 		<!-- Portal (aparece apos falar com a npc) -->
 		<a-entity id="challenge-portal" position="10 2 4" visible="false">
-			<a-link href="marriageChallenge.html" title="Enter Challenge" class="clickable" position="0 0 0"></a-link>
+			<a-link href="marriageChallenge.html" title="Enter Challenge" image="#challenge-preview" class="clickable" position="0 0 0"></a-link>
 		</a-entity>
+
 		<!-- Stove -->
 		<a-entity gltf-model="#viking-stove" position="-6 0.6 4" scale="1 1 1" rotation="0 90 0"></a-entity>
 		<!-- Viking pillar -->
 		<a-entity gltf-model="#pillar-model" position="-1.3 1.6 -5" rotation="0 0 0"></a-entity>
 		<!-- Sword on the expositor -->
 		<a-entity gltf-model="#rune_sword" position="3 1.2 -5" rotation="0 90 90" scale="1 1 1"></a-entity>
+		<!-- Info: Viking Rune Sword -->
+		<a-entity position="3 2 -4.7" rotation="0 0 0">
+			<a-plane width="0.8" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Viking Rune Sword\n9th Century" align="center" width="1.1" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.7 0 0.02" 
+				class="clickable info-trigger" data-info="sword" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
+		
 		<!-- Statue of Viking goddess -->
 		<a-entity gltf-model="#statue_viking_goddess" position="-3 1.6 -5" rotation="0 180 0" scale="1 1 1"></a-entity>
 		<a-entity gltf-model="#pillar_showcase" position="-3 0.3 -5" rotation="0 -90 0" scale="0.1 0.05 0.1"></a-entity>
+		<!-- Info: Viking Goddess Statue -->
+		<a-entity position="-3 0.8 -4.5" rotation="0 180 0">
+			<a-plane width="1.4" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Goddess Freyja Statue\nProtector of Love" align="center" width="1.3" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.8 0 0.02" 
+				class="clickable info-trigger" data-info="goddess" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
+		
 		<!-- Mjolnir -->
 		<a-entity gltf-model="#stone_hammer" position="1.3 0.55 -5" rotation="0 0 0" scale="0.01 0.01 0.01"></a-entity>
+		<!-- Info: Mjolnir -->
+		<a-entity position="1.3 0.3 -4.5" rotation="0 180 0">
+			<a-plane width="1" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Mjölnir\nThor's Hammer" align="center" width="0.9" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.6 0 0.02" 
+				class="clickable info-trigger" data-info="hammer" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
 		<!-- Bau -->
 		<a-entity gltf-model="#chest-model" position="-9 0 -5" rotation="0 90 0" scale="1 1 1"></a-entity>
+		
+		<!-- Viking Key Display -->
+		<a-entity gltf-model="#pillar_showcase" position="-11 0 -1" rotation="0 0 0" scale="0.1 0.05 0.1"></a-entity>
+		<a-entity gltf-model="#key-model" position="-11 1.35 -1" rotation="90 90 0" scale="0.2 0.2 0.2" 
+			class="grabbable clickable" grabbable hover center-grab></a-entity>
 		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">
@@ -170,6 +248,46 @@
 						subtitlePanel.setAttribute('visible', 'false');
 						portal.setAttribute('visible', 'true');
 					}, 2000);
+				});
+				
+				// Sistema de informação de objetos
+				const infoAudios = {
+					'sword': { text: 'This Viking rune sword was used in marriage ceremonies, passed from father to son as a symbol of ancestral protection.' },
+					'goddess': { text: 'Freyja, the goddess of love, fertility, and marriage, was invoked to bless Viking unions.' },
+					'hammer': { text: 'Mjölnir, Thor\'s hammer, was placed in the bride\'s lap during the ceremony to ensure fertility.' },
+					'bride-outfit': { text: 'The bride wore her finest dress, often with intricate embroidery and a bridal crown symbolizing her transition to married life.' },
+					'groom-outfit': { text: 'The groom dressed in his best tunic and cloak, wearing symbols of his family\'s status and warrior honor.' },
+					'bath': { text: 'Both bride and groom performed a ceremonial bath before the wedding, washing away their former lives as bachelors to begin anew.' }
+				};
+				
+				const infoTriggers = document.querySelectorAll('.info-trigger');
+				let currentInfoAudio = null;
+				
+				infoTriggers.forEach(trigger => {
+					trigger.addEventListener('click', function() {
+						const infoType = this.getAttribute('data-info');
+						const info = infoAudios[infoType];
+						
+						if (info) {
+							// Parar áudio anterior se existir
+							if (currentInfoAudio) {
+								currentInfoAudio.pause();
+							}
+							
+							// Mostrar texto no painel de subtítulos
+							subtitleText.setAttribute('value', info.text);
+							subtitlePanel.setAttribute('visible', 'true');
+							
+							// Esconder após 8 segundos
+							setTimeout(() => {
+								subtitlePanel.setAttribute('visible', 'false');
+							}, 8000);
+							
+							// Aqui podes adicionar áudio real depois:
+							// currentInfoAudio = new Audio('audio/info-' + infoType + '.mp3');
+							// currentInfoAudio.play();
+						}
+					});
 				});
 			});
 		</script>
