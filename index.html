@@ -63,25 +63,137 @@
       }
     </script>
       <a-scene>
-        <!-- Sala branca -->
-        <a-box position="0 0 0" width="40" height="20" depth="40" color="#fff" material="side: double;" static-body></a-box>
+        <!-- Assets -->
+        <a-assets>
+          <a-asset-item id="white-gallery" src="initial_room/white_round_exhibition_gallery.glb"></a-asset-item>
+          <img id="portal-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
+          <audio id="intro-audio" src="audio/intro-simulation.mp3" preload="auto"></audio>
+        </a-assets>
+        
+        <!-- Sala branca (Animus) -->
+        <a-entity id="white-gallery-room" gltf-model="#white-gallery" position="0 0 0" scale="2 2 2"></a-entity>
+        
+        <!-- Luz ambiente -->
+        <a-entity light="type: ambient; color: #FFF; intensity: 0.8"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.5" position="5 10 5"></a-entity>
+        
+        <!-- Painel de introdução -->
+        <a-entity id="intro-panel" position="0 2.5 -3" visible="false">
+          <a-plane id="intro-bg" color="#000000" opacity="0.85" width="5" height="4" class="clickable"></a-plane>
+          <a-text id="loading-text" 
+            value="VIKINGR LIF\nTEMPORAL INTEGRATION SIMULATION" 
+            position="0 0 0.01" 
+            align="center" 
+            color="#00D4FF" 
+            width="4.5" 
+            wrap-count="45"
+            font="monoid"
+            visible="true">
+          </a-text>
+          <a-text id="intro-text" 
+            value="\n\n\nWelcome, Time Explorer.\n\nYou are entering a simulation focused on Viking civilization.\nIntegrate yourself into the past to investigate\nand discover what made this ancient society thrive.\n\nExperience the sacred Norse rituals from within\ntheir culture.\n\nGo to the portal to iniciate your immersion." 
+            position="0 0 0.02" 
+            align="center" 
+            color="#00D4FF" 
+            width="4.5" 
+            wrap-count="45"
+            font="monoid"
+            visible="false">
+          </a-text>
+          <a-text id="click-prompt" 
+            value="[Click to continue]" 
+            position="0 -1.5 0.02" 
+            align="center" 
+            color="#FFD700" 
+            width="2" 
+            visible="false"
+            animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1000; loop: true; easing: easeInOutSine">
+          </a-text>
+        </a-entity>
+        
         <!-- camera rig (player) -->
-		  <a-entity id="player" position="0 0 0" thumbstick-movement="speed: 0.7" vr-hands>
+		  <a-entity id="player" position="0 1.6 0" thumbstick-movement="speed: 0.9" vr-hands wasd-controls="acceleration: 20">
 			  <a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
 				  cursor="rayOrigin: mouse; fuse: false"
 				  raycaster="objects: .clickable, .grabbable">
 			  </a-entity>
 		  </a-entity>
-			</a-entity>
-	      </a-entity>
-        <!-- Portal para marriageRite.html -->
-        <a-entity position="0 1.6 -4">
-          <a-link href="marriageRite.html" title="Ir para Marriage Rite" image="pngtree-gray-network-placeholder-png-image_3416659.jpg"></a-link>
-        </a-entity>
+
         <!-- Portal para adulthoodRite.html -->
-        <a-entity position="-5 1.6 -4">
-          <a-link href="adulthoodRite.html" title="Ir para Adulthood Rite" image="pngtree-gray-network-placeholder-png-image_3416659.jpg"></a-link>
+        <a-entity id="adulthood-portal" position="0 1.6 -5" visible="false">
+          <a-link href="adulthoodRite.html" title="Begin Experience" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
         </a-entity>
+        
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const introPanel = document.querySelector('#intro-panel');
+            const loadingText = document.querySelector('#loading-text');
+            const introText = document.querySelector('#intro-text');
+            const clickPrompt = document.querySelector('#click-prompt');
+            const introAudio = document.querySelector('#intro-audio');
+            const adulthoodPortal = document.querySelector('#adulthood-portal');
+            let audioStarted = false;
+            
+            // Sequência de introdução (sempre executar)
+            setTimeout(() => {
+              // Mostrar painel com loading
+              introPanel.setAttribute('visible', 'true');
+              introPanel.setAttribute('animation', {
+                property: 'scale',
+                from: '0.8 0.8 0.8',
+                to: '1 1 1',
+                dur: 1000,
+                easing: 'easeOutQuad'
+              });
+              
+              // Após 2 segundos, mostrar prompt para clicar
+              setTimeout(() => {
+                clickPrompt.setAttribute('visible', 'true');
+              }, 2000);
+            }, 500);
+            
+            // Clicar no background do painel para mostrar texto e iniciar áudio
+            const introBg = document.querySelector('#intro-bg');
+            introBg.addEventListener('click', function(evt) {
+              if (!audioStarted) {
+                evt.stopPropagation();
+                audioStarted = true;
+                loadingText.setAttribute('visible', 'false');
+                clickPrompt.setAttribute('visible', 'false');
+                introText.setAttribute('visible', 'true');
+                
+                // Tocar áudio
+                introAudio.play().catch(error => console.log('Audio play error:', error));
+                
+                // Quando o áudio terminar, esconder painel e mostrar portal
+                introAudio.addEventListener('ended', function() {
+                  setTimeout(() => {
+                    introPanel.setAttribute('animation__fadeout', {
+                      property: 'scale',
+                      to: '0.8 0.8 0.8',
+                      dur: 1000,
+                      easing: 'easeInQuad'
+                    });
+                    
+                    setTimeout(() => {
+                      introPanel.setAttribute('visible', 'false');
+                      adulthoodPortal.setAttribute('visible', 'true');
+                      
+                      // Animação de surgimento do portal
+                      adulthoodPortal.setAttribute('animation', {
+                        property: 'scale',
+                        from: '0 0 0',
+                        to: '1 1 1',
+                        dur: 800,
+                        easing: 'easeOutElastic'
+                      });
+                    }, 1000);
+                  }, 1000);
+                });
+              }
+            });
+          });
+        </script>
       </a-scene>
   </body>
 </html>
