@@ -199,6 +199,18 @@
 		</a-entity>
 		<!-- Bau -->
 		<a-entity gltf-model="#chest-model" position="-9 0 -5" rotation="0 90 0" scale="1 1 1"></a-entity>
+		<!-- Info: Arranged Marriages -->
+		<a-entity position="-9 1.5 -4.5" rotation="0 0 0">
+			<a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+				<a-text value="Viking Chest\nArranged Unions" align="center" width="1.4" color="#FFD700" position="0 0 0.01"></a-text>
+			</a-plane>
+			<a-circle radius="0.1" position="0.85 0 0.02" 
+				class="clickable info-trigger" data-info="arranged-marriage" 
+				src="#audio-icon"
+				material="transparent: true; opacity: 0.9; shader: flat; side: double"
+				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
+			</a-circle>
+		</a-entity>
 		
 		<!-- Viking Key Display -->
 		<a-entity gltf-model="#pillar_showcase" position="-11 0 -1" rotation="0 0 0" scale="0.1 0.05 0.1"></a-entity>
@@ -262,15 +274,16 @@
 					}, 2000);
 				});
 				
-				// Sistema de informação de objetos
+				// Sistema de informação de objetos (Voz do Simulador)
 				const infoAudios = {
-					'sword': { text: 'This Viking rune sword was used in marriage ceremonies, passed from father to son as a symbol of ancestral protection.' },
-					'goddess': { text: 'Freyja, the goddess of love, fertility, and marriage, was invoked to bless Viking unions.' },
-					'hammer': { text: 'Mjölnir, Thor\'s hammer, was placed in the bride\'s lap during the ceremony to ensure fertility.' },
-					'bride-outfit': { text: 'The bride wore her finest dress, often with intricate embroidery and a bridal crown symbolizing her transition to married life.' },
-					'groom-outfit': { text: 'The groom dressed in his best tunic and cloak, wearing symbols of his family\'s status and warrior honor.' },
-					'bath': { text: 'Both bride and groom performed a ceremonial bath before the wedding, washing away their former lives as bachelors to begin anew.' },
-					'feast': { text: 'The wedding feast could last several days, with mead, ale, and roasted meats. Guests shared drinking horns to honor the couple, and toasts were made to the gods for blessings of prosperity and many children.' }
+					'sword': { text: 'You are viewing a recreation of a 9th century Viking rune sword. These ceremonial blades were passed from father to son, symbolizing ancestral protection and family lineage in marriage rituals.' },
+					'goddess': { text: 'This is a statue of Freyja, the Norse goddess of love, fertility, and marriage. Vikings invoked her blessings during wedding ceremonies to ensure prosperous unions.' },
+					'hammer': { text: 'Mjölnir, Thor\'s hammer. Historical records indicate it was placed in the bride\'s lap during ceremonies as a fertility symbol and divine blessing.' },
+					'bride-outfit': { text: 'Attire inspired by 10th century Viking women. Historical evidence suggests wedding attire was characterized by intricate embroidery and the use of bridal crowns, symbolizing the transition from maidenhood to married life.' },
+					'groom-outfit': { text: 'Attire inspired by 10th century Viking men. Historical evidence suggests grooms wore their finest tunics and cloaks, often decorated with family symbols and brooches that displayed their warrior status and honor.' },
+					'bath': { text: 'This was where the ceremonial bath took place. It represented a crucial pre-wedding ritual. Both bride and groom would cleanse themselves, symbolically washing away their former lives before beginning their union.' },
+					'feast': { text: 'The wedding feast was a central element of Viking marriage ceremonies, often lasting several days. Mead, ale, and roasted meats were shared. Guests used drinking horns to toast the couple, invoking the gods for blessings of prosperity and fertility.' },
+					'arranged-marriage': { text: 'Viking marriages were typically arranged by families for political alliances, economic benefits, or social status. The bride\'s father negotiated with the groom\'s family, establishing a bride price and dowry. While romantic love was not the primary consideration, mutual consent was legally required. Women had the right to refuse a match, and divorce was permitted under Norse law. This chest would have contained the bride\'s dowry - valuable items, jewelry, and household goods she brought to the marriage.' }
 				};
 				
 				const infoTriggers = document.querySelectorAll('.info-trigger');
@@ -291,14 +304,16 @@
 							subtitleText.setAttribute('value', info.text);
 							subtitlePanel.setAttribute('visible', 'true');
 							
-							// Esconder após 8 segundos
-							setTimeout(() => {
-								subtitlePanel.setAttribute('visible', 'false');
-							}, 8000);
+							// Tocar áudio informativo
+							currentInfoAudio = new Audio('audio/info-' + infoType + '.mp3');
+							currentInfoAudio.play();
 							
-							// Aqui podes adicionar áudio real depois:
-							// currentInfoAudio = new Audio('audio/info-' + infoType + '.mp3');
-							// currentInfoAudio.play();
+							// Esconder legendas quando o áudio terminar
+							currentInfoAudio.addEventListener('ended', function() {
+								setTimeout(() => {
+									subtitlePanel.setAttribute('visible', 'false');
+								}, 2000);
+							});
 						}
 					});
 				});
