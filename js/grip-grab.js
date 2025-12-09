@@ -80,8 +80,9 @@ AFRAME.registerComponent('grip-grab', {
     this.originalScale = object.getAttribute('scale');
     this.originalParent = object.parentNode;
     
-    console.log('Original scale:', this.originalScale);
-    console.log('Original position:', this.originalPosition);
+    const scaleStr = JSON.stringify(this.originalScale);
+    const posStr = JSON.stringify(this.originalPosition);
+    this.updateDebugText('Scale: ' + scaleStr + ' Pos: ' + posStr);
     
     // Parar animações
     object.removeAttribute('animation__float');
@@ -99,7 +100,10 @@ AFRAME.registerComponent('grip-grab', {
     // Garantir que está visível
     object.setAttribute('visible', true);
     
-    this.updateDebugText('GRABBED: ' + object.id + ' at hand');
+    setTimeout(() => {
+      this.updateDebugText('HOLDING: ' + object.id + ' in hand ' + this.el.id);
+    }, 500);
+    
     console.log('Grabbed object:', object.id, 'attached to hand:', this.el.id);
   },
   
@@ -111,6 +115,9 @@ AFRAME.registerComponent('grip-grab', {
     const worldRotation = new THREE.Euler();
     this.grabbed.object3D.getWorldPosition(worldPosition);
     this.grabbed.object3D.getWorldQuaternion(new THREE.Quaternion());
+    
+    const releasePos = 'x:' + worldPosition.x.toFixed(1) + ' y:' + worldPosition.y.toFixed(1) + ' z:' + worldPosition.z.toFixed(1);
+    this.updateDebugText('RELEASED at ' + releasePos);
     
     // Devolver ao parent original
     this.originalParent.appendChild(this.grabbed);
@@ -126,8 +133,12 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed.setAttribute('rotation', this.originalRotation);
     this.grabbed.setAttribute('scale', this.originalScale);
     
-    this.updateDebugText('RELEASED: ' + this.grabbed.id);
-    console.log('Released object:', this.grabbed.id);
+    console.log('Released object:', this.grabbed.id, 'at', releasePos);
+    
+    setTimeout(() => {
+      this.updateDebugText('Ready for next grab');
+    }, 2000);
+    
     this.grabbed = null;
   },
   
