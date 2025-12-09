@@ -1,20 +1,20 @@
-// Componente para permitir grab com o botão grip dos controladores Oculus
+// Componente para permitir grab com o botão squeeze (lateral) dos controladores Oculus
 AFRAME.registerComponent('grip-grab', {
   init: function() {
     this.grabbed = null;
-    this.gripPressed = false;
+    this.squeezePressed = false;
     
     // Bind dos event handlers
-    this.onGripDown = this.onGripDown.bind(this);
-    this.onGripUp = this.onGripUp.bind(this);
+    this.onSqueezeStart = this.onSqueezeStart.bind(this);
+    this.onSqueezeEnd = this.onSqueezeEnd.bind(this);
     
-    // Adicionar listeners para o botão grip
-    this.el.addEventListener('gripdown', this.onGripDown);
-    this.el.addEventListener('gripup', this.onGripUp);
+    // Adicionar listeners para o botão squeeze (lateral/interno do comando)
+    this.el.addEventListener('squeezestart', this.onSqueezeStart);
+    this.el.addEventListener('squeezeend', this.onSqueezeEnd);
   },
   
-  onGripDown: function() {
-    this.gripPressed = true;
+  onSqueezeStart: function() {
+    this.squeezePressed = true;
     
     // Encontrar o objeto mais próximo que seja grabbable
     const raycaster = this.el.components.raycaster;
@@ -29,8 +29,8 @@ AFRAME.registerComponent('grip-grab', {
     }
   },
   
-  onGripUp: function() {
-    this.gripPressed = false;
+  onSqueezeEnd: function() {
+    this.squeezePressed = false;
     
     if (this.grabbed) {
       this.releaseObject();
@@ -74,8 +74,8 @@ AFRAME.registerComponent('grip-grab', {
   },
   
   remove: function() {
-    this.el.removeEventListener('gripdown', this.onGripDown);
-    this.el.removeEventListener('gripup', this.onGripUp);
+    this.el.removeEventListener('squeezestart', this.onSqueezeStart);
+    this.el.removeEventListener('squeezeend', this.onSqueezeEnd);
     
     if (this.grabbed) {
       this.releaseObject();

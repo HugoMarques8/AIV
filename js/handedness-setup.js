@@ -36,8 +36,8 @@ AFRAME.registerComponent('vr-hands', {
       rightHand.setAttribute('grip-grab', '');
       
       leftHand.setAttribute('oculus-touch-controls', 'hand: left');
-      leftHand.setAttribute('laser-controls', '');
-      leftHand.setAttribute('raycaster', 'objects: .clickable, .grabbable; far: 10');
+      leftHand.setAttribute('laser-controls', 'hand: left');
+      leftHand.setAttribute('raycaster', 'objects: .clickable; far: 10');
     } else {
       // Esquerdino: mão esquerda agarra (grip), mão direita tem laser e movimento
       leftHand.setAttribute('oculus-touch-controls', 'hand: left');
@@ -45,8 +45,8 @@ AFRAME.registerComponent('vr-hands', {
       leftHand.setAttribute('grip-grab', '');
       
       rightHand.setAttribute('oculus-touch-controls', 'hand: right');
-      rightHand.setAttribute('laser-controls', '');
-      rightHand.setAttribute('raycaster', 'objects: .clickable, .grabbable; far: 10');
+      rightHand.setAttribute('laser-controls', 'hand: right');
+      rightHand.setAttribute('raycaster', 'objects: .clickable; far: 10');
     }
     
     console.log('VR hands configured for:', dominantHand === 'right' ? 'right-handed (right=grip grab, left=laser+movement)' : 'left-handed (left=grip grab, right=laser+movement)');
