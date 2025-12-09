@@ -4,13 +4,6 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed = null;
     this.squeezePressed = false;
     
-    // Criar esfera visual de debug na mão para ver onde está
-    this.handMarker = document.createElement('a-sphere');
-    this.handMarker.setAttribute('radius', '0.05');
-    this.handMarker.setAttribute('color', '#FF00FF');
-    this.handMarker.setAttribute('position', '0 0 0');
-    this.el.appendChild(this.handMarker);
-    
     // Criar texto de debug
     this.debugText = document.createElement('a-text');
     this.debugText.setAttribute('value', 'Grip-Grab Ready');
