@@ -31,11 +31,28 @@ AFRAME.registerComponent('thumbstick-movement', {
     const rightHand = document.getElementById('right-hand');
     
     if (leftHand && rightHand) {
-      leftHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-      rightHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
-      this.updateDebugText('Both hands ready');
+      // Verificar qual mão tem oculus-touch-controls (a mão do laser/movimento)
+      const leftHasControls = leftHand.hasAttribute('oculus-touch-controls');
+      const rightHasControls = rightHand.hasAttribute('oculus-touch-controls');
+      
+      if (leftHasControls || rightHasControls) {
+        // Só adicionar listener à mão que tem oculus-touch-controls
+        if (leftHasControls) {
+          leftHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
+          this.updateDebugText('Left hand ready (movement)');
+        }
+        if (rightHasControls) {
+          rightHand.addEventListener('thumbstickmoved', this.onThumbstickMoved);
+          this.updateDebugText('Right hand ready (movement)');
+        }
+      } else {
+        // Mãos existem mas ainda não têm controlos, esperar
+        this.updateDebugText('Waiting for hand controls...');
+        setTimeout(() => this.setupHandListeners(), 100);
+      }
     } else {
       // Se as mãos ainda não existem, tentar novamente
+      this.updateDebugText('Waiting for hands...');
       setTimeout(() => this.setupHandListeners(), 100);
     }
   },
