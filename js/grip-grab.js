@@ -80,18 +80,27 @@ AFRAME.registerComponent('grip-grab', {
     this.originalScale = object.getAttribute('scale');
     this.originalParent = object.parentNode;
     
+    console.log('Original scale:', this.originalScale);
+    console.log('Original position:', this.originalPosition);
+    
     // Parar animações
     object.removeAttribute('animation__float');
     
     // Anexar o objeto à mão
     this.el.appendChild(object);
     
-    // Posicionar na frente do controlador (visível)
-    object.setAttribute('position', '0 0.05 -0.15');
+    // Posicionar à frente do controlador (mais longe para ser visível)
+    // X=0 (centro), Y=0 (altura do controlador), Z=-0.2 (20cm à frente)
+    object.setAttribute('position', '0 0 -0.2');
     object.setAttribute('rotation', '0 0 0');
+    // Manter escala original
+    object.setAttribute('scale', this.originalScale);
     
-    this.updateDebugText('GRABBED: ' + object.id);
-    console.log('Grabbed object:', object.id);
+    // Garantir que está visível
+    object.setAttribute('visible', true);
+    
+    this.updateDebugText('GRABBED: ' + object.id + ' at hand');
+    console.log('Grabbed object:', object.id, 'attached to hand:', this.el.id);
   },
   
   releaseObject: function() {
