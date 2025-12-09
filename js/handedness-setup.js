@@ -25,23 +25,30 @@ AFRAME.registerComponent('vr-hands', {
       return;
     }
     
-    // Configurar funcionalidades por mão dominante
+    // AMBAS as mãos usam oculus-touch-controls (compatível com controladores Meta Quest)
+    // A diferença é que a mão do movimento tem laser e raycaster
+    // A mão de grab usa o botão grip do controlador
+    
     if (dominantHand === 'right') {
-      // Destro: mão direita agarra, mão esquerda tem laser
-      rightHand.setAttribute('hand-tracking-grab-controls', 'hand: right');
+      // Destro: mão direita agarra (grip), mão esquerda tem laser e movimento
+      rightHand.setAttribute('oculus-touch-controls', 'hand: right');
+      rightHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: false');
+      rightHand.setAttribute('grip-grab', '');
       
-      leftHand.setAttribute('oculus-touch-controls', 'hand: left; model: false');
-      leftHand.setAttribute('laser-controls', 'hand: left; model: true');
-      leftHand.setAttribute('raycaster', 'objects: .clickable');
+      leftHand.setAttribute('oculus-touch-controls', 'hand: left');
+      leftHand.setAttribute('laser-controls', '');
+      leftHand.setAttribute('raycaster', 'objects: .clickable, .grabbable; far: 10');
     } else {
-      // Esquerdino: mão esquerda agarra, mão direita tem laser
-      leftHand.setAttribute('hand-tracking-grab-controls', 'hand: left');
+      // Esquerdino: mão esquerda agarra (grip), mão direita tem laser e movimento
+      leftHand.setAttribute('oculus-touch-controls', 'hand: left');
+      leftHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: false');
+      leftHand.setAttribute('grip-grab', '');
       
-      rightHand.setAttribute('oculus-touch-controls', 'hand: right; model: false');
-      rightHand.setAttribute('laser-controls', 'hand: right; model: true');
-      rightHand.setAttribute('raycaster', 'objects: .clickable');
+      rightHand.setAttribute('oculus-touch-controls', 'hand: right');
+      rightHand.setAttribute('laser-controls', '');
+      rightHand.setAttribute('raycaster', 'objects: .clickable, .grabbable; far: 10');
     }
     
-    console.log('VR hands configured for:', dominantHand === 'right' ? 'right-handed (grab with right)' : 'left-handed (grab with left)');
+    console.log('VR hands configured for:', dominantHand === 'right' ? 'right-handed (right=grip grab, left=laser+movement)' : 'left-handed (left=grip grab, right=laser+movement)');
   }
 });
