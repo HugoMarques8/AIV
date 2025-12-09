@@ -36,18 +36,16 @@ AFRAME.registerComponent('vr-hands', {
     // Configurar funcionalidades por mão dominante
     if (dominantHand === 'right') {
       // Destro: mão direita agarra, mão esquerda tem laser
-      rightHand.setAttribute('oculus-touch-controls', 'hand: right; model: false');
       rightHand.setAttribute('hand-tracking-grab-controls', 'hand: right');
-      rightHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.1');
+      rightHand.setAttribute('objects: .grabbable;');
       
       leftHand.setAttribute('oculus-touch-controls', 'hand: left; model: false');
       leftHand.setAttribute('laser-controls', 'hand: left; model: true');
       leftHand.setAttribute('raycaster', 'objects: .clickable, .grabbable');
     } else {
       // Esquerdino: mão esquerda agarra, mão direita tem laser
-      leftHand.setAttribute('oculus-touch-controls', 'hand: left; model: false');
       leftHand.setAttribute('hand-tracking-grab-controls', 'hand: left');
-      leftHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.1');
+      leftHand.setAttribute('objects: .grabbable;');
       
       rightHand.setAttribute('oculus-touch-controls', 'hand: right; model: false');
       rightHand.setAttribute('laser-controls', 'hand: right; model: true');
