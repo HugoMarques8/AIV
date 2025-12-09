@@ -81,69 +81,67 @@ AFRAME.registerComponent('grip-grab', {
     // Guardar referência ao objeto
     this.grabbed = object;
     
-    // Guardar posição, rotação e escala originais
-    this.originalPosition = object.getAttribute('position');
-    this.originalRotation = object.getAttribute('rotation');
+    // Guardar escala original
     this.originalScale = object.getAttribute('scale');
-    this.originalParent = object.parentNode;
-    
-    const scaleStr = JSON.stringify(this.originalScale);
-    const posStr = JSON.stringify(this.originalPosition);
-    this.updateDebugText('Scale: ' + scaleStr);
     
     // Parar animações
     object.removeAttribute('animation__float');
     
-    // Anexar o objeto ao controlador
-    this.el.appendChild(object);
+    // NÃO anexar como filho - apenas marcar como grabbed
+    // Calcular offset inicial entre mão e objeto
+    this.handPosition = new THREE.Vector3();
+    this.objectPosition = new THREE.Vector3();
+    this.offset = new THREE.Vector3();
     
-    // Posicionar BEM À FRENTE do controlador (50cm à frente)
-    // Z negativo = à frente, Y positivo = acima
-    object.setAttribute('position', '0 0.1 -0.5');
-    object.setAttribute('rotation', '0 0 0');
+    this.el.object3D.getWorldPosition(this.handPosition);
+    object.object3D.getWorldPosition(this.objectPosition);
     
-    // AUMENTAR a escala para ficar bem visível (multiplicar por 5)
-    const newScale = {
-      x: this.originalScale.x * 5,
-      y: this.originalScale.y * 5,
-      z: this.originalScale.z * 5
-    };
-    object.setAttribute('scale', newScale);
+    // Offset = posição do objeto - posição da mão
+    this.offset.copy(this.objectPosition).sub(this.handPosition);
     
-    // Garantir que está visível
-    object.setAttribute('visible', true);
+    // Guardar posição anterior da mão para calcular delta
+    this.previousHandPosition = new THREE.Vector3();
+    this.previousHandPosition.copy(this.handPosition);
     
-    setTimeout(() => {
-      this.updateDebugText('HOLDING: ' + object.id + ' (50cm à frente, 5x maior)');
-    }, 500);
-    
-    console.log('Grabbed object:', object.id, 'attached to hand:', this.el.id);
+    this.updateDebugText('GRABBED: ' + object.id);
+    console.log('Grabbed object:', object.id);
   },
   
+  tick: function() {
+    if (!this.grabbed) return;
+    
+    // Atualizar posição da mão
+    this.el.object3D.getWorldPosition(this.handPosition);
+    
+    // Calcular delta (quanto a mão se moveu)
+    const deltaX = this.handPosition.x - this.previousHandPosition.x;
+    const deltaY = this.handPosition.y - this.previousHandPosition.y;
+    const deltaZ = this.handPosition.z - this.previousHandPosition.z;
+    
+    // Atualizar posição do objeto
+    const currentPos = this.grabbed.getAttribute('position');
+    this.grabbed.setAttribute('position', {
+      x: currentPos.x + deltaX,
+      y: currentPos.y + deltaY,
+      z: currentPos.z + deltaZ
+    });
+    
+    // Atualizar matriz do objeto
+    this.grabbed.object3D.updateMatrixWorld();
+    
+    // Guardar posição atual para próximo frame
+    this.previousHandPosition.copy(this.handPosition);
+  },
+
   releaseObject: function() {
     if (!this.grabbed) return;
     
-    // Obter posição global antes de soltar
-    const worldPosition = new THREE.Vector3();
-    const worldRotation = new THREE.Euler();
-    this.grabbed.object3D.getWorldPosition(worldPosition);
-    this.grabbed.object3D.getWorldQuaternion(new THREE.Quaternion());
-    
-    const releasePos = 'x:' + worldPosition.x.toFixed(1) + ' y:' + worldPosition.y.toFixed(1) + ' z:' + worldPosition.z.toFixed(1);
+    // Obter posição atual
+    const currentPos = this.grabbed.getAttribute('position');
+    const releasePos = 'x:' + currentPos.x.toFixed(1) + ' y:' + currentPos.y.toFixed(1) + ' z:' + currentPos.z.toFixed(1);
     this.updateDebugText('RELEASED at ' + releasePos);
     
-    // Devolver ao parent original
-    this.originalParent.appendChild(this.grabbed);
-    
-    // Definir posição global
-    this.grabbed.setAttribute('position', {
-      x: worldPosition.x,
-      y: worldPosition.y,
-      z: worldPosition.z
-    });
-    
-    // Restaurar rotação e escala originais
-    this.grabbed.setAttribute('rotation', this.originalRotation);
+    // Restaurar escala original
     this.grabbed.setAttribute('scale', this.originalScale);
     
     console.log('Released object:', this.grabbed.id, 'at', releasePos);
