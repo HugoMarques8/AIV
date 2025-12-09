@@ -74,13 +74,21 @@ AFRAME.registerComponent('grip-grab', {
     // Guardar referência ao objeto
     this.grabbed = object;
     
-    // Guardar posição e rotação originais
+    // Guardar posição, rotação e escala originais
     this.originalPosition = object.getAttribute('position');
+    this.originalRotation = object.getAttribute('rotation');
+    this.originalScale = object.getAttribute('scale');
     this.originalParent = object.parentNode;
+    
+    // Parar animações
+    object.removeAttribute('animation__float');
     
     // Anexar o objeto à mão
     this.el.appendChild(object);
-    object.setAttribute('position', '0 0 -0.1');
+    
+    // Posicionar na frente do controlador (visível)
+    object.setAttribute('position', '0 0.05 -0.15');
+    object.setAttribute('rotation', '0 0 0');
     
     this.updateDebugText('GRABBED: ' + object.id);
     console.log('Grabbed object:', object.id);
@@ -91,7 +99,9 @@ AFRAME.registerComponent('grip-grab', {
     
     // Obter posição global antes de soltar
     const worldPosition = new THREE.Vector3();
+    const worldRotation = new THREE.Euler();
     this.grabbed.object3D.getWorldPosition(worldPosition);
+    this.grabbed.object3D.getWorldQuaternion(new THREE.Quaternion());
     
     // Devolver ao parent original
     this.originalParent.appendChild(this.grabbed);
@@ -102,6 +112,10 @@ AFRAME.registerComponent('grip-grab', {
       y: worldPosition.y,
       z: worldPosition.z
     });
+    
+    // Restaurar rotação e escala originais
+    this.grabbed.setAttribute('rotation', this.originalRotation);
+    this.grabbed.setAttribute('scale', this.originalScale);
     
     this.updateDebugText('RELEASED: ' + this.grabbed.id);
     console.log('Released object:', this.grabbed.id);
