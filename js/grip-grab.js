@@ -4,6 +4,13 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed = null;
     this.squeezePressed = false;
     
+    // Criar esfera visual de debug na mão para ver onde está
+    this.handMarker = document.createElement('a-sphere');
+    this.handMarker.setAttribute('radius', '0.05');
+    this.handMarker.setAttribute('color', '#FF00FF');
+    this.handMarker.setAttribute('position', '0 0 0');
+    this.el.appendChild(this.handMarker);
+    
     // Criar texto de debug
     this.debugText = document.createElement('a-text');
     this.debugText.setAttribute('value', 'Grip-Grab Ready');
@@ -82,26 +89,32 @@ AFRAME.registerComponent('grip-grab', {
     
     const scaleStr = JSON.stringify(this.originalScale);
     const posStr = JSON.stringify(this.originalPosition);
-    this.updateDebugText('Scale: ' + scaleStr + ' Pos: ' + posStr);
+    this.updateDebugText('Scale: ' + scaleStr);
     
     // Parar animações
     object.removeAttribute('animation__float');
     
-    // Anexar o objeto à mão
+    // Anexar o objeto ao controlador
     this.el.appendChild(object);
     
-    // Posicionar à frente do controlador (mais longe para ser visível)
-    // X=0 (centro), Y=0 (altura do controlador), Z=-0.2 (20cm à frente)
-    object.setAttribute('position', '0 0 -0.2');
+    // Posicionar BEM À FRENTE do controlador (50cm à frente)
+    // Z negativo = à frente, Y positivo = acima
+    object.setAttribute('position', '0 0.1 -0.5');
     object.setAttribute('rotation', '0 0 0');
-    // Manter escala original
-    object.setAttribute('scale', this.originalScale);
+    
+    // AUMENTAR a escala para ficar bem visível (multiplicar por 5)
+    const newScale = {
+      x: this.originalScale.x * 5,
+      y: this.originalScale.y * 5,
+      z: this.originalScale.z * 5
+    };
+    object.setAttribute('scale', newScale);
     
     // Garantir que está visível
     object.setAttribute('visible', true);
     
     setTimeout(() => {
-      this.updateDebugText('HOLDING: ' + object.id + ' in hand ' + this.el.id);
+      this.updateDebugText('HOLDING: ' + object.id + ' (50cm à frente, 5x maior)');
     }, 500);
     
     console.log('Grabbed object:', object.id, 'attached to hand:', this.el.id);
