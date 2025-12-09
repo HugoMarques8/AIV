@@ -15,28 +15,20 @@ AFRAME.registerComponent('vr-hands', {
 
   setupHands: function () {
     const dominantHand = localStorage.getItem('dominantHand') || 'right';
-    const playerRig = this.el;
     
-    // Criar ou configurar mão direita
-    let rightHand = document.getElementById('right-hand');
-    if (!rightHand) {
-      rightHand = document.createElement('a-entity');
-      rightHand.setAttribute('id', 'right-hand');
-      playerRig.appendChild(rightHand);
-    }
+    // Obter as mãos que já existem no HTML
+    const rightHand = document.getElementById('right-hand');
+    const leftHand = document.getElementById('left-hand');
     
-    // Criar ou configurar mão esquerda
-    let leftHand = document.getElementById('left-hand');
-    if (!leftHand) {
-      leftHand = document.createElement('a-entity');
-      leftHand.setAttribute('id', 'left-hand');
-      playerRig.appendChild(leftHand);
+    if (!rightHand || !leftHand) {
+      console.error('Hands not found! Make sure to add #right-hand and #left-hand entities in your HTML');
+      return;
     }
     
     // Configurar funcionalidades por mão dominante
     if (dominantHand === 'right') {
       // Destro: mão direita agarra, mão esquerda tem laser
-      rightHand.setAttribute('hand-tracking-grab-controls','hand: right');
+      rightHand.setAttribute('hand-tracking-grab-controls', 'hand: right');
       
       leftHand.setAttribute('oculus-touch-controls', 'hand: left; model: false');
       leftHand.setAttribute('laser-controls', 'hand: left; model: true');
