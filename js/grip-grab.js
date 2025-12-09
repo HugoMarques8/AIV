@@ -4,6 +4,15 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed = null;
     this.squeezePressed = false;
     
+    // Criar texto de debug
+    this.debugText = document.createElement('a-text');
+    this.debugText.setAttribute('value', 'Grip-Grab Ready');
+    this.debugText.setAttribute('position', '0 2 -2');
+    this.debugText.setAttribute('align', 'center');
+    this.debugText.setAttribute('color', '#00FFFF');
+    this.debugText.setAttribute('width', '4');
+    this.el.sceneEl.appendChild(this.debugText);
+    
     // Bind dos event handlers
     this.onSqueezeStart = this.onSqueezeStart.bind(this);
     this.onSqueezeEnd = this.onSqueezeEnd.bind(this);
@@ -13,19 +22,40 @@ AFRAME.registerComponent('grip-grab', {
     this.el.addEventListener('squeezeend', this.onSqueezeEnd);
   },
   
+  updateDebugText: function(message) {
+    if (this.debugText) {
+      this.debugText.setAttribute('value', message);
+    }
+  },
+  
   onSqueezeStart: function() {
     this.squeezePressed = true;
+    this.updateDebugText('Squeeze pressed!');
     
     // Encontrar o objeto mais próximo que seja grabbable
     const raycaster = this.el.components.raycaster;
-    if (raycaster && raycaster.intersections.length > 0) {
+    if (!raycaster) {
+      this.updateDebugText('No raycaster found!');
+      return;
+    }
+    
+    this.updateDebugText('Raycaster intersections: ' + raycaster.intersections.length);
+    
+    if (raycaster.intersections.length > 0) {
       const intersection = raycaster.intersections[0];
       const target = intersection.object.el;
       
+      this.updateDebugText('Target found: ' + (target ? target.id || 'no-id' : 'null'));
+      
       // Verificar se o objeto é grabbable
       if (target && target.classList.contains('grabbable')) {
+        this.updateDebugText('Grabbing: ' + target.id);
         this.grabObject(target);
+      } else {
+        this.updateDebugText('Target not grabbable');
       }
+    } else {
+      this.updateDebugText('No intersections');
     }
   },
   
@@ -49,6 +79,7 @@ AFRAME.registerComponent('grip-grab', {
     this.el.appendChild(object);
     object.setAttribute('position', '0 0 -0.1');
     
+    this.updateDebugText('GRABBED: ' + object.id);
     console.log('Grabbed object:', object.id);
   },
   
@@ -69,6 +100,7 @@ AFRAME.registerComponent('grip-grab', {
       z: worldPosition.z
     });
     
+    this.updateDebugText('RELEASED: ' + this.grabbed.id);
     console.log('Released object:', this.grabbed.id);
     this.grabbed = null;
   },
