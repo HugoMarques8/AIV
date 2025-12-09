@@ -55,7 +55,8 @@
 		<!-- camera rig (player) -->
 		<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands>
 			<a-entity id="camera" camera position="0 3 0" look-controls="pointerLockEnabled: false"
-				cursor="rayOrigin: mouse; fuse: false">
+				cursor="rayOrigin: mouse; fuse: false"
+				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
 			<a-entity id="right-hand"></a-entity>
 			<a-entity id="left-hand"></a-entity>
@@ -217,8 +218,7 @@
 		
 		<!-- Viking Key Display -->
 		<a-entity gltf-model="#pillar_showcase" position="-11 0 -1" rotation="0 0 0" scale="0.1 0.05 0.1"></a-entity>
-		<a-entity id="viking-key" gltf-model="#key-model" position="-11 1.35 -1" rotation="90 90 0" scale="0.2 0.2 0.2" 
-			class="grabbable"></a-entity>
+		<a-entity id="viking-key" gltf-model="#key-model" position="-11 1.35 -1" rotation="90 90 0" scale="0.2 0.2 0.2"></a-entity>
 		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">

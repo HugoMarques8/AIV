@@ -27,8 +27,8 @@
 		</a-assets>
 
 		<!-- Camera rig (player) -->
-		<a-entity id="player" position="0 0.7 0" thumbstick-movement="speed: 5.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
-			<a-entity id="camera" camera position="0 1.6 0" look-controls 
+		<a-entity id="player" position="0 0.6 0" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
+			<a-entity id="camera" camera position="0 3 0" look-controls 
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -65,7 +65,7 @@
 			position="-3 1 -2" 
 			scale="1 1 1" 
 			rotation="0 120 90"
-			class="grabbable clickable"
+			class="grabbable"
 			grabbable hover center-grab
 			animation__float="property: position; to: -3 1.3 -2; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
 		</a-entity>
@@ -76,7 +76,7 @@
 			position="3 1 0" 
 			scale="0.01 0.01 0.01" 
 			rotation="0 0 0"
-			class="grabbable clickable"
+			class="grabbable"
 			grabbable hover center-grab
 			animation__float="property: position; to: 3 1.3 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
 		</a-entity>
