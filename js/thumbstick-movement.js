@@ -10,6 +10,7 @@ AFRAME.registerComponent('thumbstick-movement', {
     this.direction = new THREE.Vector3();
     
     // Criar texto de debug visível na VR
+    /*
     this.debugText = document.createElement('a-text');
     this.debugText.setAttribute('value', 'Waiting for thumbstick...');
     this.debugText.setAttribute('position', '0 2.5 -2');
@@ -17,6 +18,7 @@ AFRAME.registerComponent('thumbstick-movement', {
     this.debugText.setAttribute('color', '#00FF00');
     this.debugText.setAttribute('width', '4');
     this.el.sceneEl.appendChild(this.debugText);
+    */
     
     // Bind event handlers
     this.onThumbstickMoved = this.onThumbstickMoved.bind(this);
@@ -58,9 +60,11 @@ AFRAME.registerComponent('thumbstick-movement', {
   },
   
   updateDebugText: function(message) {
+    /*
     if (this.debugText) {
       this.debugText.setAttribute('value', message);
     }
+    */
   },
 
   onThumbstickMoved: function (evt) {
@@ -111,8 +115,10 @@ AFRAME.registerComponent('thumbstick-movement', {
     }
     
     // Remover texto de debug
+    /*
     if (this.debugText && this.debugText.parentNode) {
       this.debugText.parentNode.removeChild(this.debugText);
     }
+    */
   }
 });

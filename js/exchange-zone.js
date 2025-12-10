@@ -7,6 +7,7 @@ AFRAME.registerComponent('exchange-zone', {
     this.checkInterval = null;
     
     // Criar texto de debug
+    /* 
     this.debugText = document.createElement('a-text');
     this.debugText.setAttribute('value', 'Exchange Zone Ready');
     this.debugText.setAttribute('position', '2 2 -6');
@@ -14,6 +15,7 @@ AFRAME.registerComponent('exchange-zone', {
     this.debugText.setAttribute('color', '#FFFF00');
     this.debugText.setAttribute('width', '4');
     this.el.sceneEl.appendChild(this.debugText);
+    */
     
     // Começar a verificar objetos a cada 500ms
     this.checkInterval = setInterval(() => {
@@ -57,8 +59,10 @@ AFRAME.registerComponent('exchange-zone', {
     }
     
     // Atualizar debug
+    /*
     const status = 'Sword: ' + (this.swordPlaced ? 'YES' : 'NO') + ' | Ring: ' + (this.ringPlaced ? 'YES' : 'NO');
     this.debugText.setAttribute('value', status);
+    */
     
     // Se ambos colocados, completar ritual
     if (this.swordPlaced && this.ringPlaced) {
@@ -111,8 +115,10 @@ AFRAME.registerComponent('exchange-zone', {
   completeRitual: function() {
     clearInterval(this.checkInterval);
     
+    /*
     this.debugText.setAttribute('value', 'RITUAL COMPLETE!');
     this.debugText.setAttribute('color', '#00FF00');
+    */
     
     console.log('Ritual completed! Showing portal...');
     

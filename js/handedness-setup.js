@@ -32,7 +32,7 @@ AFRAME.registerComponent('vr-hands', {
     if (dominantHand === 'right') {
       // Destro: mão direita agarra (grip), mão esquerda tem laser e movimento
       rightHand.setAttribute('oculus-touch-controls', 'hand: right');
-      rightHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: true; lineColor: red; lineOpacity: 0.8');
+      rightHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: false');
       rightHand.setAttribute('grip-grab', '');
       
       leftHand.setAttribute('oculus-touch-controls', 'hand: left');
@@ -41,7 +41,7 @@ AFRAME.registerComponent('vr-hands', {
     } else {
       // Esquerdino: mão esquerda agarra (grip), mão direita tem laser e movimento
       leftHand.setAttribute('oculus-touch-controls', 'hand: left');
-      leftHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: true; lineColor: red; lineOpacity: 0.8');
+      leftHand.setAttribute('raycaster', 'objects: .grabbable; far: 0.5; showLine: false');
       leftHand.setAttribute('grip-grab', '');
       
       rightHand.setAttribute('oculus-touch-controls', 'hand: right');

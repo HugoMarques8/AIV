@@ -38,7 +38,7 @@
 			<a-asset-item id="viking-stove" src="models_marriage_room/cutlery/viking_tea_party_-_viking_stove.glb"></a-asset-item>
 			<a-asset-item id="pillar-model" src="models_marriage_room/viking_column.glb"></a-asset-item>
 			<a-asset-item id="rune_sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
-			<a-asset-item id="key-model" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
+			<a-asset-item id="key-model" src="models_marriage_room/key_in_bronze_viking_age_compressed.glb"></a-asset-item>
 			<a-asset-item id="statue_viking_goddess" src="models_marriage_room/viking_goddess.glb"></a-asset-item>
 			<a-asset-item id="pillar_showcase" src="models_marriage_room/scandinavian_column.glb"></a-asset-item>
 			<a-asset-item id="chest-model" src="models_marriage_room/furniture/viking_chest.glb"></a-asset-item>
@@ -54,7 +54,7 @@
 		
 		<!-- camera rig (player) -->
 		<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands>
-			<a-entity id="camera" camera position="0 3 0" look-controls="pointerLockEnabled: false"
+			<a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -116,7 +116,7 @@
 			</a-circle>
 		</a-entity>
 		<!-- Cutlery em cima da mesa -->
-		<a-entity gltf-model="#viking-bowl" position="-2.8 1.625 4.1" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
+		<a-entity gltf-model="#viking-bowl" position="-2.8 1.615 4.1" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
 		<a-entity gltf-model="#viking-cup" position="-4 1.45 4.6" scale="4 4 4" rotation="0 45 0"></a-entity>
 		<a-entity gltf-model="#viking-mug" position="-3.4 1.5 4.6" scale="0.2 0.2 0.2" rotation="0 60 0"></a-entity>
 		<a-entity gltf-model="#viking-cutlery" position="-2 1.35 4.1" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
@@ -218,7 +218,7 @@
 		
 		<!-- Viking Key Display -->
 		<a-entity gltf-model="#pillar_showcase" position="-11 0 -1" rotation="0 0 0" scale="0.1 0.05 0.1"></a-entity>
-		<a-entity id="viking-key" gltf-model="#key-model" position="-11 1.35 -1" rotation="90 90 0" scale="0.2 0.2 0.2"></a-entity>
+		<a-entity gltf-model="#key-model" position="-12.25 2.6 -2.75" rotation="90 90 0" scale="0.2 0.2 0.2"></a-entity>
 		
 		<!-- Link para voltar ao index.html -->
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">

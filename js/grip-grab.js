@@ -4,7 +4,18 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed = null;
     this.squeezePressed = false;
     
+    // Criar linha curta visual (0.5m) para mostrar direção de grab
+    this.grabLine = document.createElement('a-entity');
+    this.grabLine.setAttribute('line', {
+      start: '0 0 0',
+      end: '0 0 -0.5',
+      color: '#FF0000',
+      opacity: 0.6
+    });
+    this.el.appendChild(this.grabLine);
+    
     // Criar texto de debug
+    /*
     this.debugText = document.createElement('a-text');
     this.debugText.setAttribute('value', 'Grip-Grab Ready');
     this.debugText.setAttribute('position', '0 2 -2');
@@ -12,6 +23,7 @@ AFRAME.registerComponent('grip-grab', {
     this.debugText.setAttribute('color', '#00FFFF');
     this.debugText.setAttribute('width', '4');
     this.el.sceneEl.appendChild(this.debugText);
+    */
     
     // Bind dos event handlers
     this.onSqueezeStart = this.onSqueezeStart.bind(this);
@@ -22,13 +34,15 @@ AFRAME.registerComponent('grip-grab', {
     this.el.addEventListener('gripdown', this.onSqueezeStart);
     this.el.addEventListener('gripup', this.onSqueezeEnd);
     
-    this.updateDebugText('Grip-Grab listening for gripdown...');
+    // this.updateDebugText('Grip-Grab listening for gripdown...');
   },
   
   updateDebugText: function(message) {
+    /*
     if (this.debugText) {
       this.debugText.setAttribute('value', message);
     }
+    */
   },
   
   onSqueezeStart: function() {
