@@ -10,7 +10,8 @@ AFRAME.registerComponent('grip-grab', {
       start: '0 0 0',
       end: '0 0 -0.5',
       color: '#FF0000',
-      opacity: 0.6
+      opacity: 0.6,
+      rotation: '0 -45 0'
     });
     this.el.appendChild(this.grabLine);
     
