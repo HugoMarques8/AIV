@@ -38,7 +38,7 @@ AFRAME.registerComponent('exchange-zone', {
         Math.pow(swordPos.z - zonePos.z, 2)
       );
       
-      if (distance < zoneRadius && swordPos.y < 1.5) {
+      if (distance < zoneRadius) {
         this.placeSword(sword);
       }
     }
@@ -53,7 +53,7 @@ AFRAME.registerComponent('exchange-zone', {
         Math.pow(ringPos.z - zonePos.z, 2)
       );
       
-      if (distance < zoneRadius && ringPos.y < 1.5) {
+      if (distance < zoneRadius) {
         this.placeRing(ring);
       }
     }
