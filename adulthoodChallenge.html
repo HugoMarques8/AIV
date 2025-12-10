@@ -113,6 +113,31 @@
           image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable">
         </a-link>
       </a-entity>
+
+      <script>
+				const sword = document.querySelector('#weapon_sword');
+        const hammer = document.querySelector('#weapon_hammer');
+        const ax = document.querySelector('#weapon_ax');
+
+        sword.addEventListener('grab-start', function() {
+					sword.removeAttribute('animation');
+				});
+        sword.addEventListener('grab-end', function() {
+					sword.setAttribute('animation', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
+				});
+        hammer.addEventListener('grab-start', function() {
+          hammer.removeAttribute('animation');
+        });
+        hammer.addEventListener('grab-end', function() {
+					hammer.setAttribute('animation', 'property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear');
+				});
+        ax.addEventListener('grab-start', function() {
+          ax.removeAttribute('animation');
+        });
+        ax.addEventListener('grab-end', function() {
+          ax.setAttribute('animation', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
+        });
+      </script>
     </a-scene>
   </body>
 </html>
