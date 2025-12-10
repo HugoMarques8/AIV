@@ -1,0 +1,11 @@
+Model Information:
+* title:	Viking Sword with Runes – Game-Ready 3D Model
+* source:	https://sketchfab.com/3d-models/viking-sword-with-runes-game-ready-3d-model-f0fc56c2b71f4349adf32d6feb8af0cb
+* author:	blenderizm (https://sketchfab.com/blenderizm)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Viking Sword with Runes – Game-Ready 3D Model" (https://sketchfab.com/3d-models/viking-sword-with-runes-game-ready-3d-model-f0fc56c2b71f4349adf32d6feb8af0cb) by blenderizm (https://sketchfab.com/blenderizm) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
