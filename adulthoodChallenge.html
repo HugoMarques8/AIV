@@ -123,19 +123,21 @@
 					sword.removeAttribute('animation__float');
 				});
         sword.addEventListener('grab-end', function() {
-					sword.setAttributeNS('animation__float', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
-				});
+          sword.setAttribute('animation__float', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
+        });
+
         hammer.addEventListener('grab-start', function() {
           hammer.removeAttribute('animation__float');
         });
         hammer.addEventListener('grab-end', function() {
-					hammer.setAttributeNS('animation__float', 'property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear');
-				});
+          hammer.setAttribute('animation__float', 'property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear');
+        });
+
         ax.addEventListener('grab-start', function() {
           ax.removeAttribute('animation__float');
         });
         ax.addEventListener('grab-end', function() {
-          ax.setAttributeNS('animation__float', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
+          ax.setAttribute('animation__float', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
         });
       </script>
     </a-scene>
