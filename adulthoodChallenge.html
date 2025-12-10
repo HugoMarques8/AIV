@@ -71,7 +71,7 @@
         position="-1 2 -1.3"
         rotation="0 90 90"
 			  class="grabbable" 
-        animation="property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear">
+        animation__float="property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear">
       </a-entity>
       <a-entity
         id="weapon_hammer"
@@ -80,7 +80,7 @@
         position="0 2.1 -1.3"
         rotation="-72 -122 173"
 			  class="grabbable"
-        animation="property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear">
+        animation__float="property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear">
       </a-entity>
       <a-entity
         id="weapon_sword"
@@ -89,7 +89,7 @@
         position="1 2 -1.3"
         rotation="3 -20 -35"
 			  class="grabbable"
-        animation="property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear">
+        animation__float="property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear">
       </a-entity>
       <a-entity
         id="house_entity"
@@ -120,22 +120,22 @@
         const ax = document.querySelector('#weapon_ax');
 
         sword.addEventListener('grab-start', function() {
-					sword.removeAttribute('animation');
+					sword.removeAttribute('animation__float');
 				});
         sword.addEventListener('grab-end', function() {
-					sword.setAttribute('animation', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
+					sword.setAttribute('animation__float', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
 				});
         hammer.addEventListener('grab-start', function() {
-          hammer.removeAttribute('animation');
+          hammer.removeAttribute('animation__float');
         });
         hammer.addEventListener('grab-end', function() {
-					hammer.setAttribute('animation', 'property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear');
+					hammer.setAttribute('animation__float', 'property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear');
 				});
         ax.addEventListener('grab-start', function() {
-          ax.removeAttribute('animation');
+          ax.removeAttribute('animation__float');
         });
         ax.addEventListener('grab-end', function() {
-          ax.setAttribute('animation', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
+          ax.setAttribute('animation__float', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
         });
       </script>
     </a-scene>
