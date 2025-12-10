@@ -1,115 +1,64 @@
 <!doctype html>
 <html>
-  <head>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
-    <script src="js/handedness-setup.js"></script>
-    <script src="js/thumbstick-movement.js"></script>
-    <script src="js/grip-grab.js"></script>
-	  <script src="js/exchange-zone.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets>
-        <a-img id = "ground" src = "assets/ground.jpg"></a-img>
-        <a-asset-item
-          id = "viking_house"
-          src = "assets/viking_hut/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "ax"
-          src = "assets/the_ax_vikings/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "hammer"
-          src = "assets/viking_hammer/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "sword"
-          src = "assets/viking_sword_with_runes__game-ready_3d_model/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "bob"
-          src = "assets/bob/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "north_sky"
-          src = "assets/free_-_skybox_tundra_northern_lights/scene.gltf">
-        </a-asset-item>
-      </a-assets>
+<head>
+	<meta charset="utf-8">
+	<title>Viking Marriage Rite Room</title>
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+	<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Modelos 3D -->
+			<a-asset-item id="gallery-model" src="models_marriage_room/vr_gallery.glb"></a-asset-item>
+			<a-asset-item id="showcase1-model" src="models_marriage_room/museum_showcase_-_die_vitrine.glb"></a-asset-item>
+			<a-asset-item id="showcase2-model" src="models_marriage_room/showcases_-_asset_pack.glb"></a-asset-item>
+			<a-asset-item id="viking-outfit-model" src="models_marriage_room/viking_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="viking-man-outfit-model" src="models_marriage_room/viking_man_outfit_compressed.glb"></a-asset-item>
+			<a-asset-item id="bathtub-model" src="models_marriage_room/medieval_balia.glb"></a-asset-item>
+			<a-asset-item id="chair-model" src="models_marriage_room/furniture/viking_chair.glb"></a-asset-item>
+			<a-asset-item id="table" src="models_marriage_room/furniture/viking_table.glb"></a-asset-item>
+			<!-- Cutlery -->
+			<a-asset-item id="viking-bowl" src="models_marriage_room/cutlery/viking_bowl.glb"></a-asset-item>
+			<a-asset-item id="viking-cup" src="models_marriage_room/cutlery/viking_model_asset_-_cup.glb"></a-asset-item>
+			<a-asset-item id="viking-mug" src="models_marriage_room/cutlery/viking_mug.glb"></a-asset-item>
+			<a-asset-item id="viking-cutlery" src="models_marriage_room/cutlery/viking_tea_party_-_cutlery.glb"></a-asset-item>
+			<a-asset-item id="viking-horn" src="models_marriage_room/cutlery/viking_tea_party_-_drinking_horn.glb"></a-asset-item>
+			<a-asset-item id="viking-stove" src="models_marriage_room/cutlery/viking_tea_party_-_viking_stove.glb"></a-asset-item>
+			<a-asset-item id="pillar-model" src="models_marriage_room/viking_column.glb"></a-asset-item>
+			<a-asset-item id="rune_sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
+			<a-asset-item id="key-model" src="models_marriage_room/key_in_bronze_viking_age.glb"></a-asset-item>
+			<a-asset-item id="statue_viking_goddess" src="models_marriage_room/viking_goddess.glb"></a-asset-item>
+			<a-asset-item id="pillar_showcase" src="models_marriage_room/scandinavian_column.glb"></a-asset-item>
+			<a-asset-item id="chest-model" src="models_marriage_room/furniture/viking_chest.glb"></a-asset-item>
+			<a-asset-item id="npc-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
+			<a-asset-item id="stone_hammer" src="models_marriage_room/stone_mjolnir.glb"></a-asset-item>
 
-      <a-plane 
-        src="#ground"
-        position="0 1.476 0" 
-        rotation="-90 0 0" 
-        width="626" 
-        height="399"
-        repeat="100 100"
-      ></a-plane>
-
-      <a-entity
-        id="sky"
-        gltf-model="#north_sky"
-        scale="1 1 1"
-        position="0 25 0"
-        rotation="0 -90 0">
-      </a-entity>
-
-      <a-entity
-        id="bob_entity"
-        gltf-model="#bob"
-        scale="0.015 0.015 0.015"
-        position="0 1.6 -5"
-        rotation="0 90 0">
-      </a-entity>
-      <a-entity
-        id="weapon_ax"
-        gltf-model="#ax"
-        scale="0.4 0.4 0.4"
-        position="-1 2 -1.3"
-        rotation="0 90 90"
-        animation="property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear">
-      </a-entity>
-      <a-entity
-        id="weapon_hammer"
-        gltf-model="#hammer"
-        scale="1 1 1"
-        position="0 2.1 -1.3"
-        rotation="-72 -122 173"
-        animation="property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear">
-      </a-entity>
-      <a-entity
-        id="weapon_sword"
-        gltf-model="#sword"
-        scale="0.2 0.2 0.2"
-        position="1 2 -1.3"
-        rotation="3 -20 -35"
-        animation="property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear">
-      </a-entity>
-      <a-entity
-        id="house_entity"
-        gltf-model="#viking_house"
-        scale="1 1 1"
-        position="0 1.5 3"
-        rotation="0 -90 0">
-      </a-entity>
-
-      <a-entity id="player" position="0 1 0" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
-        <a-entity id="camera" camera position="0 1 0" look-controls 
-          cursor="rayOrigin: mouse; fuse: false"
-          raycaster="objects: .clickable, .grabbable">
-        </a-entity>
-        <a-entity id="right-hand"></a-entity>
-        <a-entity id="left-hand"></a-entity>
-		  </a-entity>
-      
-      <a-entity position="0 3.5 -7">
-        <a-link href="index.html" title="Voltar ao Início"
-          image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable">
-        </a-link>
-      </a-entity>
-    </a-scene>
-  </body>
+			<!-- Imagens -->
+			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
+			<img id="challenge-preview" src="models_marriage_room/images/preview_challenge.png">
+			<img id="audio-icon" src="models_marriage_room/images/audio-icon.png">
+		</a-assets>
+		
+		<!-- camera rig (player) -->
+		<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands>
+			<a-entity id="camera" camera position="0 3 0" look-controls="pointerLockEnabled: false"
+				cursor="rayOrigin: mouse; fuse: false"
+				raycaster="objects: .clickable, .grabbable">
+			</a-entity>
+			<a-entity id="right-hand"></a-entity>
+			<a-entity id="left-hand"></a-entity>
+		</a-entity>
+		
+		<!-- Ambiente 3D: modelo GLB -->
+		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1.5 1.5 1.5"></a-entity>
+		
+		<!-- Link para voltar ao index.html -->
+		<a-entity position="10 1.6 -3" rotation="0 -90 0">
+			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
+		</a-entity>
+	</a-scene>
+</body>
 </html>
