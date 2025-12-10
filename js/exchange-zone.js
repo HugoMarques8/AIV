@@ -78,17 +78,17 @@ AFRAME.registerComponent('exchange-zone', {
     // Efeito visual
     const flash = document.createElement('a-sphere');
     flash.setAttribute('position', '2 0.5 -6');
-    flash.setAttribute('radius', '0.5');
+    flash.setAttribute('radius', '1');
     flash.setAttribute('color', '#FFD700');
-    flash.setAttribute('opacity', '0.8');
+    flash.setAttribute('opacity', '0.9');
     flash.setAttribute('material', 'transparent: true');
-    flash.setAttribute('animation', 'property: scale; to: 3 3 3; dur: 1000; easing: easeOutQuad');
-    flash.setAttribute('animation__fade', 'property: material.opacity; to: 0; dur: 1000; easing: easeOutQuad');
+    flash.setAttribute('animation', 'property: scale; to: 6 6 6; dur: 2000; easing: easeOutQuad');
+    flash.setAttribute('animation__fade', 'property: material.opacity; to: 0; dur: 2000; easing: easeOutQuad');
     this.el.sceneEl.appendChild(flash);
     
     setTimeout(() => {
       flash.parentNode.removeChild(flash);
-    }, 1000);
+    }, 2000);
   },
 
   placeRing: function(ring) {
@@ -99,17 +99,17 @@ AFRAME.registerComponent('exchange-zone', {
     // Efeito visual
     const flash = document.createElement('a-sphere');
     flash.setAttribute('position', '2 0.5 -6');
-    flash.setAttribute('radius', '0.5');
+    flash.setAttribute('radius', '1');
     flash.setAttribute('color', '#FFD700');
-    flash.setAttribute('opacity', '0.8');
+    flash.setAttribute('opacity', '0.9');
     flash.setAttribute('material', 'transparent: true');
-    flash.setAttribute('animation', 'property: scale; to: 3 3 3; dur: 1000; easing: easeOutQuad');
-    flash.setAttribute('animation__fade', 'property: material.opacity; to: 0; dur: 1000; easing: easeOutQuad');
+    flash.setAttribute('animation', 'property: scale; to: 6 6 6; dur: 2000; easing: easeOutQuad');
+    flash.setAttribute('animation__fade', 'property: material.opacity; to: 0; dur: 2000; easing: easeOutQuad');
     this.el.sceneEl.appendChild(flash);
     
     setTimeout(() => {
       flash.parentNode.removeChild(flash);
-    }, 1000);
+    }, 2000);
   },
 
   completeRitual: function() {
