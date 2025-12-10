@@ -7,10 +7,10 @@ AFRAME.registerComponent('grip-grab', {
     // Criar linha curta visual (0.5m) para mostrar direção de grab
     this.grabLine = document.createElement('a-entity');
     this.grabLine.setAttribute('line', {
-      start: '0 0 0',
-      end: '0 0 -0.5',
+      start: '0 0.005 -0.025',
+      end: '0 0.005 -0.525',
       color: '#FF0000',
-      opacity: 0.6
+      opacity: 0.6,
     });
     this.el.appendChild(this.grabLine);
     
