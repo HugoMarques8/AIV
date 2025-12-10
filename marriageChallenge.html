@@ -22,6 +22,7 @@
 			<a-asset-item id="female-viking-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
 			<!-- Skybox 360° de Aurora Boreal -->
 			<img id="aurora-sky" src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg">
+			<img id="preview-museum" src="models_marriage_room/images/marriage.png">
 			<!-- Audio explicativo -->
 			<audio id="ceremony-explanation" src="audio/ceremony-explanation.mp3" preload="auto"></audio>
 		</a-assets>
@@ -91,22 +92,16 @@
 	</a-ring>
 	
 	<!-- Cilindro invisível de detecção -->
-	<a-cylinder id="exchange-zone" position="2 0.5 -6" radius="1.5" height="1" 
+	<a-cylinder id="exchange-zone" position="2 0.5 -6" radius="1.5" height="4" 
 		opacity="0" material="transparent: true; opacity: 0"
 		exchange-zone>
 	</a-cylinder>		<!-- Portal de volta (aparece após ritual) -->
-		<a-entity id="return-portal" position="-4 2 -10" rotation="0 30 0" visible="false">
-			<a-box width="2" height="3" depth="0.3" color="#00FF00" 
-				material="emissive: #00FF00; emissiveIntensity: 0.5; opacity: 0.8; transparent: true">
-				<a-animation attribute="rotation" to="0 360 0" 
-					dur="6000" repeat="indefinite" easing="linear">
-				</a-animation>
-			</a-box>
+		<a-entity id="return-portal" position="-4 3.2 -10" rotation="0 30 0" visible="true">
 			<a-text value="Challenge Complete!\nReturn to Museum" 
 				position="0 0 0.2" align="center" color="#FFFFFF" width="3">
 			</a-text>
 			<a-link href="marriageRite.html" title="Return to Museum" 
-				position="0 0 0" scale="2 3 1" class="clickable">
+				position="0 0 0" scale="2 3 1" class="clickable" image="#preview-museum">
 			</a-link>
 		</a-entity>
 		
