@@ -81,7 +81,6 @@ AFRAME.registerComponent('grip-grab', {
     
     if (this.grabbed) {
       this.releaseObject();
-      this.setAttribute('animation__float', 'property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear');
     }
   },
   
@@ -96,25 +95,25 @@ AFRAME.registerComponent('grip-grab', {
     object.removeAttribute('animation__float');
     
     // NÃO anexar como filho - apenas marcar como grabbed
-    // Calcular offset inicial entre mão e objeto
+    // Calcular offsets de posição e rotação em relação à mão
     this.handPosition = new THREE.Vector3();
-    this.handRotation = new THREE.Vector3();
+    this.handQuaternion = new THREE.Quaternion();
     this.objectPosition = new THREE.Vector3();
-    this.offset = new THREE.Vector3();
+    this.objectQuaternion = new THREE.Quaternion();
+    this.relativeOffset = new THREE.Vector3();
+    this.rotationOffset = new THREE.Quaternion();
     
     this.el.object3D.getWorldPosition(this.handPosition);
-    this.el.object3D.getWorldRotation(this.handRotation);
+    this.el.object3D.getWorldQuaternion(this.handQuaternion);
     object.object3D.getWorldPosition(this.objectPosition);
+    object.object3D.getWorldQuaternion(this.objectQuaternion);
     
-    // Offset = posição do objeto - posição da mão
-    this.offset.copy(this.objectPosition).sub(this.handPosition);
-    this.offset.copy(this.handRotation).sub(this.handRotation);
+    // Offset de posição salvo no espaço da mão
+    const handInverse = this.handQuaternion.clone().invert();
+    this.relativeOffset.copy(this.objectPosition).sub(this.handPosition).applyQuaternion(handInverse);
     
-    // Guardar posição anterior da mão para calcular delta
-    this.previousHandPosition = new THREE.Vector3();
-    this.previousHandPosition.copy(this.handPosition);
-    this.previousHandRotation = new THREE.Vector3();
-    this.previousHandRotation.copy(this.handRotation);
+    // Offset de rotação entre mão e objeto
+    this.rotationOffset.copy(handInverse).multiply(this.objectQuaternion);
     
     this.updateDebugText('GRABBED: ' + object.id);
     console.log('Grabbed object:', object.id);
@@ -123,33 +122,30 @@ AFRAME.registerComponent('grip-grab', {
   tick: function() {
     if (!this.grabbed) return;
     
-    // Atualizar posição da mão
+    // Atualizar posição e rotação da mão
+    const handQuat = this.handQuaternion; // reutilizar instância para evitar alocações
     this.el.object3D.getWorldPosition(this.handPosition);
-    this.el.object3D.getWorldRotation(this.handRotation);
+    this.el.object3D.getWorldQuaternion(handQuat);
     
-    // Calcular delta (quanto a mão se moveu)
-    const deltaX = this.handPosition.x - this.previousHandPosition.x;
-    const deltaY = this.handPosition.y - this.previousHandPosition.y;
-    const deltaZ = this.handPosition.z - this.previousHandPosition.z;
-
-    const deltaXRotation = this.handRotation.x - this.previousHandRotation.x;
-    const deltaYRotation = this.handRotation.y - this.previousHandRotation.y;
-    const deltaZRotation = this.handRotation.z - this.previousHandRotation.z;
+    // Calcular nova posição do objeto preservando offset relativo
+    const worldOffset = this.relativeOffset.clone().applyQuaternion(handQuat);
+    const newPos = this.handPosition.clone().add(worldOffset);
+    this.grabbed.setAttribute('position', newPos);
     
-    // Atualizar posição do objeto
-    const currentPos = this.grabbed.getAttribute('position');
-    this.grabbed.setAttribute('position', {
-      x: currentPos.x + deltaX,
-      y: currentPos.y + deltaY,
-      z: currentPos.z + deltaZ
+    // Calcular nova rotação do objeto preservando offset relativo
+    const desiredQuat = handQuat.clone().multiply(this.rotationOffset);
+    this.grabbed.object3D.quaternion.copy(desiredQuat);
+    
+    // Atualizar rotação no atributo para manter consistência com A-Frame
+    const euler = new THREE.Euler().setFromQuaternion(desiredQuat, 'YXZ');
+    this.grabbed.setAttribute('rotation', {
+      x: THREE.MathUtils.radToDeg(euler.x),
+      y: THREE.MathUtils.radToDeg(euler.y),
+      z: THREE.MathUtils.radToDeg(euler.z)
     });
     
     // Atualizar matriz do objeto
-    this.grabbed.object3D.updateMatrixWorld();
-    
-    // Guardar posição atual para próximo frame
-    this.previousHandPosition.copy(this.handPosition);
-    this.previousHandRotation.copy(this.handRotation);
+    this.grabbed.object3D.updateMatrixWorld(true);
   },
 
   releaseObject: function() {
