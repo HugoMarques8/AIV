@@ -54,7 +54,7 @@
 		</a-assets>
 		
 	<!-- camera rig (player) -->
-	<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands dynamic-body="shape: sphere; mass: 1; sphereRadius: 0.5">
+	<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls="constrainToNavMesh: false" wasd-controls="acceleration: 20" vr-hands kinematic-body>
 		<!-- Geometria invisível para colisão -->
 		<a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
 		<a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"

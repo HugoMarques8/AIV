@@ -98,9 +98,51 @@ AFRAME.registerComponent('thumbstick-movement', {
     this.direction.y = 0; // Mantém no plano horizontal
     this.direction.normalize();
     
-    // Move o player
+    // Move o player com verificação de colisão
     const scaledMovement = this.direction.multiplyScalar(data.speed * delta / 1000);
-    el.object3D.position.add(scaledMovement);
+    
+    // Guardar posição atual
+    const currentPos = el.object3D.position.clone();
+    const newPos = currentPos.clone().add(scaledMovement);
+    
+    // Tentar mover
+    el.object3D.position.copy(newPos);
+    
+    // Se tem kinematic-body, deixar o physics engine lidar com colisões
+    // Caso contrário, verificar manualmente
+    if (!el.components['kinematic-body']) {
+      // Verificar colisão com static-bodies
+      const playerRadius = 0.5;
+      const staticBodies = document.querySelectorAll('[static-body]');
+      let hasCollision = false;
+      
+      staticBodies.forEach(body => {
+        const bodyPos = body.object3D.position;
+        const geom = body.getAttribute('geometry');
+        
+        if (geom && geom.primitive === 'box') {
+          const width = (geom.width || 1) / 2;
+          const depth = (geom.depth || 1) / 2;
+          
+          // Collision check simplificado (AABB vs esfera)
+          const closestX = Math.max(bodyPos.x - width, Math.min(newPos.x, bodyPos.x + width));
+          const closestZ = Math.max(bodyPos.z - depth, Math.min(newPos.z, bodyPos.z + depth));
+          
+          const distX = newPos.x - closestX;
+          const distZ = newPos.z - closestZ;
+          const distance = Math.sqrt(distX * distX + distZ * distZ);
+          
+          if (distance < playerRadius) {
+            hasCollision = true;
+          }
+        }
+      });
+      
+      // Se colidiu, reverter posição
+      if (hasCollision) {
+        el.object3D.position.copy(currentPos);
+      }
+    }
   },
 
   remove: function () {
