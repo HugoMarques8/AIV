@@ -1,0 +1,11 @@
+Model Information:
+* title:	Viking War Horn
+* source:	https://sketchfab.com/3d-models/viking-war-horn-124e58ef07da473f9c5d0762733553ae
+* author:	Batuhan13 (https://sketchfab.com/Batuhan13)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Viking War Horn" (https://sketchfab.com/3d-models/viking-war-horn-124e58ef07da473f9c5d0762733553ae) by Batuhan13 (https://sketchfab.com/Batuhan13) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

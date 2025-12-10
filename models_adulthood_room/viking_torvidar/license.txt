@@ -1,0 +1,11 @@
+Model Information:
+* title:	viking torvidar
+* source:	https://sketchfab.com/3d-models/viking-torvidar-4aa7334238004405baedad0976e8d878
+* author:	MUSHIDO_SKARSGARD (https://sketchfab.com/MUSHIDO_SKARSGARD)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "viking torvidar" (https://sketchfab.com/3d-models/viking-torvidar-4aa7334238004405baedad0976e8d878) by MUSHIDO_SKARSGARD (https://sketchfab.com/MUSHIDO_SKARSGARD) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -6,7 +6,7 @@
 	<script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
-  <script src="js/center-grab.js"></script>
+  	<script src="js/center-grab.js"></script>
 	<script src="js/handedness-setup.js"></script>
 	<script src="js/ritual-challenge.js"></script>
 	<script src="js/thumbstick-movement.js"></script>
@@ -22,6 +22,11 @@
 			<a-asset-item id = "sword" src = "models_adulthood_room/viking_sword_with_runes__game-ready_3d_model/scene.gltf"></a-asset-item>
 			<a-asset-item id = "raven" src = "models_adulthood_room/raven_-_vikings_3d_prophecy_-_episode_16/scene.gltf"></a-asset-item>
 			<a-asset-item id = "shield" src = "models_adulthood_room/viking_shield/scene.gltf"></a-asset-item>
+			<a-asset-item id = "npc" src = "models_adulthood_room/viking_torvidar/scene.gltf"></a-asset-item>
+			<a-asset-item id = "war_horn" src = "models_adulthood_room/viking_war_horn/scene.gltf"></a-asset-item>
+			<a-asset-item id = "outfit" src = "models_adulthood_room/male_viking_warrior_outfit/scene.gltf"></a-asset-item>
+			<a-asset-item id="showcase1-model" src="models_marriage_room/museum_showcase_-_die_vitrine.glb"></a-asset-item>
+			<a-asset-item id="showcase2-model" src="models_marriage_room/showcases_-_asset_pack.glb"></a-asset-item>
 
 			<!-- Imagens -->
 			<img id="link-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
@@ -49,7 +54,7 @@
 		<a-entity
 			id="entity_raven"
 			gltf-model="#raven"
-			scale="0.2 0.2 0.2"
+			scale="0.1 0.1 0.1"
 			position="1 2 -1.3">
 		</a-entity>
 		<a-entity
@@ -58,6 +63,26 @@
 			scale="0.05 0.05 0.05"
 			position="3 1 -2">
 		</a-entity>
+		<a-entity
+			id="npc_entity"
+			gltf-model="#npc"
+			scale="1.3 1.3 1.3"
+			position="0 1.3 -4">
+		</a-entity>
+		<a-entity
+			id="entity_war_horn"
+			gltf-model="#war_horn"
+			scale="0.001 0.001 0.001"
+			position="-2 1.5 -2">
+		</a-entity>
+		<a-entity
+			id="entity_outfit"
+			gltf-model="#outfit"
+			scale="1 1 1"
+			position="2 1.5 -2">
+		</a-entity>
+		<a-entity gltf-model="#showcase1-model" position="3 0 4" scale="1.5 1.5 1.5" rotation="0 0 0"></a-entity>
+		<a-entity gltf-model="#showcase2-model" position="-3 0 -5" scale="1.3 1.3 1.3" rotation="0 90 0"></a-entity>
 		
 		<!-- camera rig (player) -->
 		<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands>
