@@ -1,0 +1,431 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 4315,
+      "max": [
+        89.34093475341797,
+        381.33282470703125,
+        179.78854370117188
+      ],
+      "min": [
+        -89.61636352539063,
+        36.474456787109375,
+        38.7703857421875
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 51780,
+      "componentType": 5126,
+      "count": 4315,
+      "max": [
+        0.9999985694885254,
+        0.9999998211860657,
+        0.9999994039535522
+      ],
+      "min": [
+        -0.9999985098838806,
+        -0.9996144771575928,
+        -0.9999999403953552
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 4315,
+      "max": [
+        0.9998186826705933,
+        0.9999721050262451,
+        0.9998435378074646,
+        1.0
+      ],
+      "min": [
+        -0.9997488856315613,
+        -0.999467670917511,
+        -0.9979475140571594,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 4315,
+      "max": [
+        0.99609375,
+        0.9133780002593994
+      ],
+      "min": [
+        0.00390625,
+        0.00390625
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 21348,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 103560,
+      "componentType": 5126,
+      "count": 377,
+      "max": [
+        249.13404846191406,
+        307.1681213378906,
+        405.1277160644531
+      ],
+      "min": [
+        -249.0269012451172,
+        1.4246630668640137,
+        41.64860916137695
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 108084,
+      "componentType": 5126,
+      "count": 377,
+      "max": [
+        0.999483048915863,
+        0.9999985694885254,
+        0.9999819993972778
+      ],
+      "min": [
+        -0.9957799315452576,
+        -0.12113501876592636,
+        -0.9000400900840759
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 69040,
+      "componentType": 5126,
+      "count": 377,
+      "max": [
+        0.7563062906265259,
+        0.8790062665939331,
+        0.9998401403427124,
+        1.0
+      ],
+      "min": [
+        -0.28513437509536743,
+        -0.9991033673286438,
+        -0.8482581973075867,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 34520,
+      "componentType": 5126,
+      "count": 377,
+      "max": [
+        0.7409499287605286,
+        0.99609375
+      ],
+      "min": [
+        0.00390625,
+        0.010245184414088726
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 85392,
+      "componentType": 5125,
+      "count": 1986,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Jefferson Frenay (https://sketchfab.com/MrTeckmachin)",
+      "license": "CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)",
+      "source": "https://sketchfab.com/3d-models/the-throne-of-the-viking-king-2f5bb270b50445a9adf4d1c1f581a285",
+      "title": "The Throne of the Viking King"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 93336,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 37536,
+      "byteOffset": 93336,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 112608,
+      "byteOffset": 130872,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 75072,
+      "byteOffset": 243480,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 318552,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/lambert3_baseColor.png"
+    },
+    {
+      "uri": "textures/lambert3_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/lambert3_normal.png"
+    },
+    {
+      "uri": "textures/lambert4_baseColor.png"
+    },
+    {
+      "uri": "textures/lambert4_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/lambert4_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "lambert3",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "lambert4",
+      "normalTexture": {
+        "index": 5
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 3
+        },
+        "metallicRoughnessTexture": {
+          "index": 4
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "TheThrone_low_lambert3_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "TheStairs_low_lambert4_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        0.8333333134651184,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.850371663592295e-16,
+        -0.8333333134651184,
+        0.0,
+        0.0,
+        0.8333333134651184,
+        1.850371663592295e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "6020e360925f4494abd38ea2b51b1d0e.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        6
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.05958383530378342,
+        0.0,
+        1.0
+      ],
+      "name": "TheThrone"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "TheThrone_low"
+    },
+    {
+      "mesh": 0,
+      "name": "TheThrone_low_lambert3_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "name": "TheStairs_low"
+    },
+    {
+      "mesh": 1,
+      "name": "TheStairs_low_lambert4_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    }
+  ]
+}
