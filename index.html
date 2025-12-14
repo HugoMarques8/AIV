@@ -7,8 +7,6 @@
   <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
   <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
   <script src="js/handedness-setup.js"></script>
-  <script src="js/center-grab.js"></script>
-	<script src="js/ritual-challenge.js"></script>
 	<script src="js/thumbstick-movement.js"></script>
 	<script src="js/grip-grab.js"></script>
   <style>
@@ -127,7 +125,12 @@
 
         <!-- Portal para adulthoodRite.html -->
         <a-entity id="adulthood-portal" position="0 1.6 -5" visible="false">
-          <a-link href="adulthoodRite.html" title="Begin Experience" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
+          <a-link href="adulthoodRite.html" title="Begin Experience (Adulthood)" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
+        </a-entity>
+
+        <!-- Portal para marriageRite.html -->
+        <a-entity id="marriage-portal" position="-3 1.6 -5" visible="false">
+          <a-link href="marriageRite.html" title="Begin Experience (Marriage)" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
         </a-entity>
         
         <script>
@@ -138,6 +141,8 @@
             const clickPrompt = document.querySelector('#click-prompt');
             const introAudio = document.querySelector('#intro-audio');
             const adulthoodPortal = document.querySelector('#adulthood-portal');
+            const marriagePortal = document.querySelector('#marriage-portal');
+            const introBg = document.querySelector('#intro-bg');
             let audioStarted = false;
             
             // Sequência de introdução (sempre executar)
@@ -159,7 +164,6 @@
             }, 500);
             
             // Clicar no background do painel para mostrar texto e iniciar áudio
-            const introBg = document.querySelector('#intro-bg');
             introBg.addEventListener('click', function(evt) {
               if (!audioStarted) {
                 evt.stopPropagation();
@@ -183,10 +187,20 @@
                     
                     setTimeout(() => {
                       introPanel.setAttribute('visible', 'false');
+                      // Remover a classe clickable do intro-bg para não bloquear o raycast
+                      introBg.classList.remove('clickable');
                       adulthoodPortal.setAttribute('visible', 'true');
                       
                       // Animação de surgimento do portal
                       adulthoodPortal.setAttribute('animation', {
+                        property: 'scale',
+                        from: '0 0 0',
+                        to: '1 1 1',
+                        dur: 800,
+                        easing: 'easeOutElastic'
+                      });
+                      marriagePortal.setAttribute('visible', 'true');
+                      marriagePortal.setAttribute('animation', {
                         property: 'scale',
                         from: '0 0 0',
                         to: '1 1 1',
