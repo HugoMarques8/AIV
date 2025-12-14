@@ -25,6 +25,8 @@
 			<img id="preview-museum" src="models_marriage_room/images/marriage.png">
 			<!-- Audio explicativo -->
 			<audio id="ceremony-explanation" src="audio/ceremony-explanation.mp3" preload="auto"></audio>
+			<audio id="ambient-sound" src="audio/ambient-sounds-at-night-243045.mp3" preload="auto"></audio>
+			<audio id="fire-sound" src="audio/copyright-free-fire-crackling-427409.mp3" preload="auto"></audio>
 		</a-assets>
 
 		<!-- Camera rig (player) -->
@@ -39,7 +41,7 @@
 		
 		<!-- Ambiente floresta -->
 		<a-entity gltf-model="#forest-scene" position="0 0 0" scale="2 2 2"></a-entity>
-		<a-entity gltf-model="#campfire" position="0 0 -12" scale="1 1 1" animation-mixer></a-entity>
+		<a-entity gltf-model="#campfire" position="0 0 -12" scale="1 1 1" animation-mixer sound="src: #fire-sound; autoplay: true; loop: true; volume: 0.7"></a-entity>
 		
 		<!-- Céu de inverno nórdico com Aurora Boreal -->
 		<a-sky src="#aurora-sky"></a-sky>
@@ -105,6 +107,9 @@
 			</a-link>
 		</a-entity>
 		
+		<!-- Som ambiente geral -->
+		<a-entity sound="src: #ambient-sound; autoplay: true; loop: true; volume: 0.5"></a-entity>
+
 		<script>
 			// Sistema simples de ritual
 			let itemsExchanged = [];
