@@ -105,12 +105,6 @@
 			</a-link>
 		</a-entity>
 		
-		<!-- Limite invisível quadrado da área jogável -->
-		<a-box position="0 2 -11.5" width="16" height="6" depth="1" visible="false" static-body="shape: box"></a-box> <!-- parede traseira -->
-		<a-box position="0 2 1.5" width="16" height="6" depth="1" visible="false" static-body="shape: box"></a-box> <!-- parede frontal -->
-		<a-box position="-8.5 2 -5" width="1" height="6" depth="13" visible="false" static-body="shape: box"></a-box> <!-- parede esquerda -->
-		<a-box position="8.5 2 -5" width="1" height="6" depth="13" visible="true" static-body="shape: box"></a-box> <!-- parede direita -->
-		
 		<script>
 			// Sistema simples de ritual
 			let itemsExchanged = [];
@@ -208,9 +202,15 @@
 							if (itemsExchanged.length === 2) {
 								returnPortal.setAttribute('visible', 'true');
 								
-								// Trocar animação da Astrid para "thankfull"
-								const npcAstrid = document.querySelector('#npc-astrid');
-								npcAstrid.setAttribute('gltf-model', 'models_marriage_room/animations_npc/thankfull.glb');
+								// Animação de celebração da NPC
+								const npc = document.querySelector('#ritual-npc a-entity');
+								npc.setAttribute('animation__celebrate', {
+									property: 'position',
+									to: '0 0.5 0',
+									dur: 500,
+									direction: 'alternate',
+									loop: 3
+								});
 							}
 						}
 					});

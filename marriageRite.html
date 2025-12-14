@@ -273,14 +273,14 @@
 					subtitlePanel.setAttribute('visible', 'true');
 				});
 				
-				// Atualizar legendas durante o áudio
-				audio.addEventListener('timeupdate', function() {
-					const currentTime = audio.currentTime;
-					if (currentSubtitle < subtitles.length && currentTime >= subtitles[currentSubtitle].time) {
-						subtitleText.setAttribute('value', subtitles[currentSubtitle].text);
-						currentSubtitle++;
-					}
-				});
+			// Atualizar legendas durante o áudio
+			audio.addEventListener('timeupdate', function() {
+				const currentTime = audio.currentTime;
+				if (currentSubtitle < subtitles.length && currentTime >= subtitles[currentSubtitle].time) {
+					subtitleText.setAttribute('value', subtitles[currentSubtitle].text);
+					currentSubtitle++;
+				}
+			});
 				
 				// Esconder legendas e mostrar portal quando terminar
 				audio.addEventListener('ended', function() {

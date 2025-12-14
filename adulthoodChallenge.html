@@ -14,30 +14,16 @@
     <a-scene>
       <a-assets>
         <a-img id = "ground" src = "models_adulthood_room/ground.jpg"></a-img>
-        <a-asset-item
-          id = "viking_house"
-          src = "models_adulthood_room/viking_hut/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "ax"
-          src = "models_adulthood_room/the_ax_vikings/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "hammer"
-          src = "models_adulthood_room/viking_hammer/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "sword"
-          src = "models_adulthood_room/viking_sword_with_runes__game-ready_3d_model/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "bob"
-          src = "models_adulthood_room/bob/scene.gltf">
-        </a-asset-item>
-        <a-asset-item
-          id = "north_sky"
-          src = "models_adulthood_room/free_-_skybox_tundra_northern_lights/scene.gltf">
-        </a-asset-item>
+        <a-img id = "link-image" src = "images_adulthood/marriage.png" >
+        <a-asset-item id = "viking_house" src = "models_adulthood_room/viking_hut/scene.gltf"></a-asset-item>
+        <a-asset-item id = "ax" src = "models_adulthood_room/the_ax_vikings/scene.gltf"></a-asset-item>
+        <a-asset-item  id = "hammer" src = "models_adulthood_room/viking_hammer/scene.gltf"></a-asset-item>
+        <a-asset-item id = "sword" src = "models_adulthood_room/viking_sword_with_runes__game-ready_3d_model/scene.gltf"></a-asset-item>
+        <a-asset-item id = "bob" src = "models_adulthood_room/bob/scene.gltf"> </a-asset-item>
+        <a-asset-item id = "north_sky"  src = "models_adulthood_room/free_-_skybox_tundra_northern_lights/scene.gltf"></a-asset-item>
+        <a-asset-item id= "forest-scene" src="models_marriage_room/challenge scene/winter_forest.glb"></a-asset-item>
+
+        <audio id="scene-noise" src = "audio_adulthood/ambient.m4r" preload="auto"></audio>
       </a-assets>
 
       <a-plane 
@@ -46,8 +32,16 @@
         rotation="-90 0 0" 
         width="626" 
         height="399"
-        repeat="100 100"
-      ></a-plane>
+        repeat="100 100">
+      </a-plane>
+
+      <a-entity 
+        gltf-model="#forest-scene" 
+        position="0 1.29 8.537" 
+        rotation="0 -11.170 0"
+        scale="2 2 2"
+        sound = "src: #scene-noise; autoplay: true; loop: true; volume: 0.5">
+      </a-entity>
 
       <a-entity
         id="sky"
@@ -60,7 +54,7 @@
       <a-entity
         id="bob_entity"
         gltf-model="#bob"
-        scale="0.015 0.015 0.015"
+        scale="0.009 0.009 0.009"
         position="0 1.6 -5"
         rotation="0 90 0">
       </a-entity>
@@ -98,6 +92,7 @@
         position="0 1.5 3"
         rotation="0 -90 0">
       </a-entity>
+      <a-box position="0 4.2 3" width="8" height="6" depth="6" visible="false" static-body="shape: box"></a-box>
 
       <a-entity id="player" position="0 1.476 0" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
         <a-entity id="camera" camera position="0 1 0" look-controls 
@@ -109,8 +104,8 @@
 		  </a-entity>
       
       <a-entity position="0 3.5 -7">
-        <a-link href="adulthoodRite.html" title="Go back to the museum"
-          image="pngtree-gray-network-placeholder-png-image_3416659.jpg" class="clickable">
+        <a-link href="marriageRite.html" title="Advance to Marriage Rite"
+          image="#link-image" class="clickable">
         </a-link>
       </a-entity>
 
