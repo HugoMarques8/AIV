@@ -51,7 +51,7 @@
 		</a-assets>
 		
 	<!-- camera rig (player) -->
-	<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls="constrainToNavMesh: false" wasd-controls="acceleration: 20" vr-hands kinematic-body>
+	<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 2.5" movement-controls="constrainToNavMesh: false" wasd-controls="acceleration: 20" vr-hands kinematic-body>
 		<!-- Geometria invisível para colisão -->
 		<a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
 		<a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
@@ -63,10 +63,10 @@
 	</a-entity>		<!-- Ambiente 3D: modelo GLB -->
 		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1.5 1.5 1.5"></a-entity>
 		<!-- Paredes invisíveis de colisão -->
-		<a-box position="0 2 -4.7" width="24" height="4" depth="0.5" visible="false" static-body="shape: box"></a-box>
-		<a-box position="0 2 2.6" width="24" height="4" depth="0.5" visible="false" static-body="shape: box"></a-box>
-		<a-box position="-10 2 0" width="0.5" height="4" depth="18" visible="false" static-body="shape: box"></a-box>
-		<a-box position="12 2 0" width="0.5" height="4" depth="18" visible="false" static-body="shape: box"></a-box>
+		<a-box position="0 2 -4.7" width="24" height="4" depth="0.5" visible="true" static-body="shape: box"></a-box>
+		<a-box position="0 2 2.6" width="24" height="4" depth="0.5" visible="true" static-body="shape: box"></a-box>
+		<a-box position="-10 2 0" width="0.5" height="4" depth="18" visible="true" static-body="shape: box"></a-box>
+		<a-box position="12 2 0" width="0.5" height="4" depth="18" visible="true" static-body="shape: box"></a-box>
 		
 		<!-- Vitrines -->
 		<a-entity gltf-model="#showcase1-model" position="-9 0 4" scale="1 1 1" rotation="0 90 0"></a-entity>

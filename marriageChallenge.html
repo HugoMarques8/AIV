@@ -30,7 +30,7 @@
 		</a-assets>
 
 		<!-- Camera rig (player) -->
-		<a-entity id="player" position="0 0.8 0" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
+		<a-entity id="player" position="0 0.8 0" thumbstick-movement="speed: 2.5" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
 			<a-entity id="camera" camera position="0 3 0" look-controls 
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
@@ -65,7 +65,7 @@
 	<!-- Espada do jogador -->
 	<a-entity id="player-sword" 
 		gltf-model="#viking-sword" 
-		position="-3 1 -2" 
+		position="-3 2.5 -2" 
 		scale="1 1 1" 
 		rotation="0 120 90"
 		class="grabbable"
@@ -73,7 +73,7 @@
 	</a-entity>		<!-- Anel -->
 		<a-entity id="ritual-ring" 
 			gltf-model="#viking-ring" 
-			position="3 1 0" 
+			position="3 2.5 0" 
 			scale="0.01 0.01 0.01" 
 			rotation="0 0 0"
 			class="grabbable"
