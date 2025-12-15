@@ -25,10 +25,12 @@
 			<img id="preview-museum" src="models_marriage_room/images/marriage.png">
 			<!-- Audio explicativo -->
 			<audio id="ceremony-explanation" src="audio/ceremony-explanation.mp3" preload="auto"></audio>
+			<audio id="ambient-sound" src="audio/ambient-sounds-at-night-243045.mp3" preload="auto"></audio>
+			<audio id="fire-sound" src="audio/copyright-free-fire-crackling-427409.mp3" preload="auto"></audio>
 		</a-assets>
 
 		<!-- Camera rig (player) -->
-		<a-entity id="player" position="0 0.8 0" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
+		<a-entity id="player" position="0 0.8 0" thumbstick-movement="speed: 2.5" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
 			<a-entity id="camera" camera position="0 3 0" look-controls 
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
@@ -39,7 +41,7 @@
 		
 		<!-- Ambiente floresta -->
 		<a-entity gltf-model="#forest-scene" position="0 0 0" scale="2 2 2"></a-entity>
-		<a-entity gltf-model="#campfire" position="0 0 -12" scale="1 1 1" animation-mixer></a-entity>
+		<a-entity gltf-model="#campfire" position="0 0 -12" scale="1 1 1" animation-mixer sound="src: #fire-sound; autoplay: true; loop: true; volume: 0.7"></a-entity>
 		
 		<!-- Céu de inverno nórdico com Aurora Boreal -->
 		<a-sky src="#aurora-sky"></a-sky>
@@ -63,7 +65,7 @@
 	<!-- Espada do jogador -->
 	<a-entity id="player-sword" 
 		gltf-model="#viking-sword" 
-		position="-3 1 -2" 
+		position="-3 2.5 -2" 
 		scale="1 1 1" 
 		rotation="0 120 90"
 		class="grabbable"
@@ -71,7 +73,7 @@
 	</a-entity>		<!-- Anel -->
 		<a-entity id="ritual-ring" 
 			gltf-model="#viking-ring" 
-			position="3 1 0" 
+			position="3 2.5 0" 
 			scale="0.01 0.01 0.01" 
 			rotation="0 0 0"
 			class="grabbable"
@@ -105,6 +107,9 @@
 			</a-link>
 		</a-entity>
 		
+		<!-- Som ambiente geral -->
+		<a-entity sound="src: #ambient-sound; autoplay: true; loop: true; volume: 0.5"></a-entity>
+
 		<script>
 			// Sistema simples de ritual
 			let itemsExchanged = [];
