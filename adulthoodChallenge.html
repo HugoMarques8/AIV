@@ -23,6 +23,7 @@
         const bob = document.querySelector('#bob-Colision');
 
         bob.addEventListener('hitstart', function(e) {
+          bob.setAttribute('visible', 'true');
           if (e.detail.body.el === swordBox || e.detail.body.el === hammerBox || e.detail.body.el === axBox) {
             let currentWidth = parseFloat(healthAmount.getAttribute('width'));
             if (currentWidth > 0) {
@@ -101,7 +102,8 @@
         scale="0.009 0.009 0.009"
         position="0 1.6 -5"
         rotation="0 90 0">
-        <a-cylinder id="bob-Colision" aabb-collider="objects: a-box" position="-0.66 94.20334 -0.011" height="1" radius="1" visible = "false" geometry="height: 100; radius: 20"></a-cylinder>
+        <a-box id="bob-Colision" aabb-collider="objects: a-box" position="-0.66 94.20334 -0.011" height="1" depth="1" width="1" visible = "false"
+          event-set__hitstart="visible: true"></a-box>
       </a-entity>
       <a-entity id="health-Bar" position = "0 3.25 -5">
         <a-plane id="health-exterior" color="#000000" opacity="0.9" width="2.5" height="0.25"></a-plane>
