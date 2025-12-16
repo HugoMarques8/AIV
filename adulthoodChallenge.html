@@ -131,8 +131,11 @@
         const bob = document.querySelector('#bob-Colision');
 
         swordBox.emit('physicscollided', {collidingEntity: anotherEntityEl}, false)
+        hammerBox.emit('physicscollided', {collidingEntity: anotherEntityEl}, false)
+        axBox.emit('physicscollided', {collidingEntity: anotherEntityEl}, false)
 
         bob.addEventListener('physicscollided', function(e) {
+          sword.setAttribute('animation__float', 'property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear');
           if (e.detail.body.el === swordBox || e.detail.body.el === hammerBox || e.detail.body.el === axBox) {
             let currentWidth = parseFloat(healthAmount.getAttribute('width'));
             if (currentWidth > 0) {
