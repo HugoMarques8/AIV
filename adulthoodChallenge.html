@@ -72,7 +72,7 @@
         rotation="0 90 90"
 			  class="grabbable" 
         animation__float="property: rotation; to: 0 450 90; loop: true; dur: 8000; easing: linear">
-        <a-box id = "ax-Colision" position="-0.66 -0.112 -0.011" width="0.39" height="0.6" depth="0.001" rotation="-0.552 0.358 -89.803" visible="false" static-body="shape: box"></a-box>
+        <a-box id = "ax-Colision" position="-0.66 -0.112 -0.011" width="0.39" height="0.6" depth="0.001" rotation="-0.552 0.358 -89.803" visible="false" dynamic-body="shape: box"></a-box>
       </a-entity>
       <a-entity
         id="weapon_hammer"
@@ -82,7 +82,7 @@
         rotation="-72 -122 173"
 			  class="grabbable"
         animation__float="property: rotation; to: -72 238 173; loop: true; dur: 8000; easing: linear">
-        <a-box id = "hammer-Colision"position="-0.01 0.149 -0.443" width="0.17" height="0.37" depth="0.17" rotation="17.656 0.218 -147.6" visible="false" static-body="shape: box"></a-box>
+        <a-box id = "hammer-Colision"position="-0.01 0.149 -0.443" width="0.17" height="0.37" depth="0.17" rotation="17.656 0.218 -147.6" visible="false" dynamic-body="shape: box"></a-box>
       </a-entity>
       <a-entity
         id="weapon_sword"
@@ -92,7 +92,7 @@
         rotation="3 -20 -35"
 			  class="grabbable"
         animation__float="property: rotation; to: 3 340 -35; loop: true; dur: 8000; easing: linear">
-        <a-box id = "sword-Colision" position="0.065 0.034 0.124" width="0.55" height="3" depth="0.03" rotation="-11.817 8.805 34.239" visible="false" static-body="shape: box"></a-box>
+        <a-box id = "sword-Colision" position="0.065 0.034 0.124" width="0.55" height="3" depth="0.03" rotation="-11.817 8.805 34.239" visible="false" dynamic-body="shape: box"></a-box>
       </a-entity>
       <a-entity
         id="house_entity"
@@ -101,7 +101,7 @@
         position="0 1.5 3"
         rotation="0 -90 0">
       </a-entity>
-      <a-box position="0 4.2 3" width="8" height="6" depth="6" visible="false" static-body="shape: box"></a-box>
+      <a-box position="0 4.2 3" width="8" height="6" depth="6" visible="false" dynamic-body="shape: box"></a-box>
 
       <a-entity id="player" position="0 1.476 -1" thumbstick-movement="speed: 3.0" movement-controls="fly: false; speed: 0.25" wasd-controls vr-hands>
         <a-entity id="camera" camera position="0 1 0" look-controls 
@@ -127,87 +127,18 @@
         const axBox = document.querySelector('#ax-Colision');
 
         const healthAmount = document.querySelector('#health-ammountGreen');
-        const healthBar = document.querySelector('#health-Bar');
 
         const bob = document.querySelector('#bob-Colision');
-        const bobEntity = document.querySelector('#bob_entity');
 
-        // HP System
-        let bobMaxHealth = 100;
-        let bobCurrentHealth = 100;
-        let lastHitTime = 0;
-        const hitCooldown = 300; // milliseconds between hits
-
-        // Update health bar width
-        function updateHealthBar() {
-          const healthPercent = Math.max(0, bobCurrentHealth / bobMaxHealth);
-          const maxWidth = 2.4;
-          const newWidth = maxWidth * healthPercent;
-          healthAmount.setAttribute('width', newWidth);
-          
-          // Update position to keep bar left-aligned
-          healthAmount.setAttribute('position', `${-(maxWidth - newWidth) / 2} 0 0.02`);
-        }
-
-        // Damage Bob
-        function damageBob(damage) {
-          const now = Date.now();
-          if (now - lastHitTime < hitCooldown) return; // Prevent spam damage
-          
-          lastHitTime = now;
-          bobCurrentHealth -= damage;
-          
-          if (bobCurrentHealth < 0) {
-            bobCurrentHealth = 0;
-          }
-          
-          updateHealthBar();
-          
-          // Visual feedback: brief scale pulse
-          const originalScale = bobEntity.getAttribute('scale');
-          bobEntity.setAttribute('scale', {
-            x: originalScale.x * 0.95,
-            y: originalScale.y * 0.95,
-            z: originalScale.z * 0.95
-          });
-          setTimeout(() => {
-            bobEntity.setAttribute('scale', originalScale);
-          }, 100);
-        }
-
-        // Collision detection for weapons hitting Bob
-        function checkWeaponCollisions() {
-          const weapons = [
-            { element: sword, damage: 15 },
-            { element: hammer, damage: 25 },
-            { element: ax, damage: 20 }
-          ];
-
-          weapons.forEach(weapon => {
-            if (weapon.element && bob) {
-              // Get world positions
-              const weaponPos = weapon.element.object3D.getWorldPosition(new THREE.Vector3());
-              const bobPos = bob.getWorldPosition(new THREE.Vector3());
-              
-              // Calculate distance
-              const distance = weaponPos.distanceTo(bobPos);
-              
-              // If weapon is close enough to Bob, apply damage
-              if (distance < 2) {
-                damageBob(weapon.damage);
-              }
+        bob.addEventListener('collide', function(e) {
+          if (e.detail.body.el === swordBox || e.detail.body.el === hammerBox || e.detail.body.el === axBox) {
+            let currentWidth = parseFloat(healthAmount.getAttribute('width'));
+            if (currentWidth > 0) {
+              currentWidth -= 0.4;
+              healthAmount.setAttribute('width', currentWidth);
             }
-          });
-        }
-
-        // Run collision check every frame
-        const scene = document.querySelector('a-scene');
-        scene.addEventListener('renderstart', function() {
-          scene.addEventListener('tick', checkWeaponCollisions);
+          }
         });
-
-        // Initialize health bar
-        updateHealthBar();
 
         sword.addEventListener('grab-start', function() {
 					sword.removeAttribute('animation__float');
