@@ -61,8 +61,8 @@
       </a-entity>
       <a-entity id="health-Bar" position = "0 3.25 -5">
         <a-plane id="health-exterior" color="#000000" opacity="0.9" width="2.5" height="0.25"></a-plane>
-        <a-plane id="health-ammountRed" position="0 0 0.01" color="#00ff00" opacity="0.9" width="2.4" height="0.15"></a-plane>
-        <a-plane id="health-ammount" position="0 0 0.02" color="#00ff00" opacity="0.9" width="2.4" height="0.15"></a-plane>
+        <a-plane id="health-ammountRed" position="0 0 0.01" color="#ff0000" opacity="0.9" width="2.4" height="0.15"></a-plane>
+        <a-plane id="health-ammountGreen" position="0 0 0.02" color="#00ff00" opacity="0.9" width="2.4" height="0.15"></a-plane>
       </a-entity>
       <a-entity
         id="weapon_ax"
@@ -126,7 +126,7 @@
         const ax = document.querySelector('#weapon_ax');
         const axBox = document.querySelector('#ax-Colision');
 
-        const healthAmount = document.querySelector('#health-ammount');
+        const healthAmount = document.querySelector('#health-ammountGreen');
 
         const bob = document.querySelector('#bob-Colision');
 
