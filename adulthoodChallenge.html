@@ -127,28 +127,87 @@
         const axBox = document.querySelector('#ax-Colision');
 
         const healthAmount = document.querySelector('#health-ammountGreen');
+        const healthBar = document.querySelector('#health-Bar');
 
         const bob = document.querySelector('#bob-Colision');
+        const bobEntity = document.querySelector('#bob_entity');
 
-        bob.addEventListener('collide', function(e) {
-          healthAmount.setAttribute('width', 0);
-          if(e.detail.body.el === swordBox){
-            if(healthAmount.getAttribute('width') > 0){
-              let currentWidth = healthAmount.getAttribute('width');
-              healthAmount.setAttribute('width', currentWidth - 0.4);
-            }
-          }else if(e.detail.body.el === hammerBox){
-            if(healthAmount.getAttribute('width') > 0){
-              let currentWidth = healthAmount.getAttribute('width');
-              healthAmount.setAttribute('width', currentWidth - 0.25);
-            }
-          }else if(e.detail.body.el === axBox){
-            if(healthAmount.getAttribute('width') > 0){
-              let currentWidth = healthAmount.getAttribute('width');
-              healthAmount.setAttribute('width', currentWidth - 0.3);
-            }
+        // HP System
+        let bobMaxHealth = 100;
+        let bobCurrentHealth = 100;
+        let lastHitTime = 0;
+        const hitCooldown = 300; // milliseconds between hits
+
+        // Update health bar width
+        function updateHealthBar() {
+          const healthPercent = Math.max(0, bobCurrentHealth / bobMaxHealth);
+          const maxWidth = 2.4;
+          const newWidth = maxWidth * healthPercent;
+          healthAmount.setAttribute('width', newWidth);
+          
+          // Update position to keep bar left-aligned
+          healthAmount.setAttribute('position', `${-(maxWidth - newWidth) / 2} 0 0.02`);
+        }
+
+        // Damage Bob
+        function damageBob(damage) {
+          const now = Date.now();
+          if (now - lastHitTime < hitCooldown) return; // Prevent spam damage
+          
+          lastHitTime = now;
+          bobCurrentHealth -= damage;
+          
+          if (bobCurrentHealth < 0) {
+            bobCurrentHealth = 0;
           }
+          
+          updateHealthBar();
+          
+          // Visual feedback: brief scale pulse
+          const originalScale = bobEntity.getAttribute('scale');
+          bobEntity.setAttribute('scale', {
+            x: originalScale.x * 0.95,
+            y: originalScale.y * 0.95,
+            z: originalScale.z * 0.95
+          });
+          setTimeout(() => {
+            bobEntity.setAttribute('scale', originalScale);
+          }, 100);
+        }
+
+        // Collision detection for weapons hitting Bob
+        function checkWeaponCollisions() {
+          const weapons = [
+            { element: sword, damage: 15 },
+            { element: hammer, damage: 25 },
+            { element: ax, damage: 20 }
+          ];
+
+          weapons.forEach(weapon => {
+            if (weapon.element && bob) {
+              // Get world positions
+              const weaponPos = weapon.element.object3D.getWorldPosition(new THREE.Vector3());
+              const bobPos = bob.getWorldPosition(new THREE.Vector3());
+              
+              // Calculate distance
+              const distance = weaponPos.distanceTo(bobPos);
+              
+              // If weapon is close enough to Bob, apply damage
+              if (distance < 2) {
+                damageBob(weapon.damage);
+              }
+            }
+          });
+        }
+
+        // Run collision check every frame
+        const scene = document.querySelector('a-scene');
+        scene.addEventListener('renderstart', function() {
+          scene.addEventListener('tick', checkWeaponCollisions);
         });
+
+        // Initialize health bar
+        updateHealthBar();
 
         sword.addEventListener('grab-start', function() {
 					sword.removeAttribute('animation__float');
