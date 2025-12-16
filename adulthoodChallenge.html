@@ -135,16 +135,16 @@
             if(healthAmount.getAttribute('width') > 0){
               let currentWidth = healthAmount.getAttribute('width');
               healthAmount.setAttribute('width', currentWidth - 0.4);
-            }else if(e.detail.body.el === hammerBox){
-              if(healthAmount.getAttribute('width') > 0){
-                let currentWidth = healthAmount.getAttribute('width');
-                healthAmount.setAttribute('width', currentWidth - 0.25);
-              }
-            }else if(e.detail.body.el === axBox){
-              if(healthAmount.getAttribute('width') > 0){
-                let currentWidth = healthAmount.getAttribute('width');
-                healthAmount.setAttribute('width', currentWidth - 0.3);
-              }
+            }
+          }else if(e.detail.body.el === hammerBox){
+            if(healthAmount.getAttribute('width') > 0){
+              let currentWidth = healthAmount.getAttribute('width');
+              healthAmount.setAttribute('width', currentWidth - 0.25);
+            }
+          }else if(e.detail.body.el === axBox){
+            if(healthAmount.getAttribute('width') > 0){
+              let currentWidth = healthAmount.getAttribute('width');
+              healthAmount.setAttribute('width', currentWidth - 0.3);
             }
           }
         });
