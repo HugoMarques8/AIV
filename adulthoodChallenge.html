@@ -130,7 +130,9 @@
 
         const bob = document.querySelector('#bob-Colision');
 
-        bob.addEventListener('collide', function(e) {
+        swordBox.emit('physicscollided', {collidingEntity: anotherEntityEl}, false)
+
+        bob.addEventListener('physicscollided', function(e) {
           if (e.detail.body.el === swordBox || e.detail.body.el === hammerBox || e.detail.body.el === axBox) {
             let currentWidth = parseFloat(healthAmount.getAttribute('width'));
             if (currentWidth > 0) {
