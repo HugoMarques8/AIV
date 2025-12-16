@@ -57,7 +57,12 @@
         scale="0.009 0.009 0.009"
         position="0 1.6 -5"
         rotation="0 90 0">
-        <a-cylinder id="ax-Colision" position="-0.66 94.20334 -0.011" height="1" radius="1" visible = "false" geometry="height: 100; radius: 20"></a-cylinder>
+        <a-cylinder id="bob-Colision" position="-0.66 94.20334 -0.011" height="1" radius="1" visible = "false" geometry="height: 100; radius: 20"></a-cylinder>
+      </a-entity>
+      <a-entity id="health-Bar" position = "0 3.25 -5">
+        <a-plane id="health-exterior" color="#000000" opacity="0.9" width="2.5" height="0.25"></a-plane>
+        <a-plane id="health-ammountRed" position="0 0 0.01" color="#00ff00" opacity="0.9" width="2.4" height="0.15"></a-plane>
+        <a-plane id="health-ammount" position="0 0 0.02" color="#00ff00" opacity="0.9" width="2.4" height="0.15"></a-plane>
       </a-entity>
       <a-entity
         id="weapon_ax"
@@ -115,8 +120,34 @@
 
       <script>
 				const sword = document.querySelector('#weapon_sword');
+        const swordBox = document.querySelector('#sword-Colision');
         const hammer = document.querySelector('#weapon_hammer');
+        const hammerBox = document.querySelector('#hammer-Colision');
         const ax = document.querySelector('#weapon_ax');
+        const axBox = document.querySelector('#ax-Colision');
+
+        const healthAmount = document.querySelector('#health-ammount');
+
+        const bob = document.querySelector('#bob-Colision');
+
+        bob.addEventListener('collide', function(e) {
+          if(e.detail.body.el === swordBox){
+            if(healthAmount.getAttribute('width') > 0){
+              let currentWidth = healthAmount.getAttribute('width');
+              healthAmount.setAttribute('width', currentWidth - 0.4);
+            }else if(e.detail.body.el === hammerBox){
+              if(healthAmount.getAttribute('width') > 0){
+                let currentWidth = healthAmount.getAttribute('width');
+                healthAmount.setAttribute('width', currentWidth - 0.25);
+              }
+            }else if(e.detail.body.el === axBox){
+              if(healthAmount.getAttribute('width') > 0){
+                let currentWidth = healthAmount.getAttribute('width');
+                healthAmount.setAttribute('width', currentWidth - 0.3);
+              }
+            }
+          }
+        });
 
         sword.addEventListener('grab-start', function() {
 					sword.removeAttribute('animation__float');
