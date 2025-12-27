@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+    <script src="js/center-grab.js"></script>
+    <script src="js/handedness-setup.js"></script>
+    <script src="js/ritual-challenge.js"></script>
+    <script src="js/thumbstick-movement.js"></script>
+    <script src="js/grip-grab-combat.js"></script>
+  </head>
+  <body>
+    <a-scene physics="debug: true">
+      
+      <a-assets>
+        <!-- Modelos 3D -->
+        <a-asset-item
+          id="gallery-model"
+          src="models_marriage_room/vr_gallery.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="showcase2-model"
+          src="models_marriage_room/showcases_-_asset_pack.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="vitrine"
+          src="models_final_room/vitrine.glb"
+        ></a-asset-item>
+
+        <a-asset-item id="npc" src="models_final_room/volva.glb"></a-asset-item>
+
+        <a-asset-item id = "shield" src = "models_adulthood_room/viking_shield/scene.gltf"></a-asset-item>
+        <a-asset-item id = "horn" src = "models_final_room/horn.glb"></a-asset-item>
+        <a-asset-item id = "coin" src = "models_final_room/coin.glb"></a-asset-item>
+   
+        <a-asset-item
+          id="amuleto"
+          src="models_final_room/amuleto.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="espada"
+          src="models_final_room/espada.glb"
+        ></a-asset-item>
+        <a-asset-item id="boat" src="models_final_room/boat.glb"></a-asset-item>
+        <a-asset-item
+          id="horse"
+          src="models_final_room/horse.glb"
+        ></a-asset-item>
+
+        <!-- Imagens -->
+        <img id="link-image-Challenge" src="images_adulthood/adulthood.png" />
+        <img id="link-image-start" src="images_adulthood/index.png" />
+        <img id="audio-icon" src="models_marriage_room/images/audio-icon.png" />
+
+        <!-- Audio -->
+        <audio
+          id="npc-audio"
+          src="audio_final/audio1.mp3"
+          preload="auto"
+        ></audio>
+      </a-assets>
+
+      <!-- Objetos na cena -->
+      <!-- Espada -->
+      <a-entity
+        id="espada"
+        gltf-model="#espada"
+        scale="0.3 0.3 0.3"
+        position="2.031 1.389 -5.615"
+        rotation="0 90 90"
+      >
+      </a-entity>
+      <a-entity id="weapons_info" position="2.074 0.329 -4.811" rotation="0 0 0">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Warrior's Sword"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="espada"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Horn -->
+      <a-entity
+        id="horn"
+        gltf-model="#horn"
+        scale="0.3 0.3 0.3"
+        position="-1.786 1.583 4.883"
+        rotation="-9 20 0"
+      >
+      </a-entity>
+      <a-entity id="horn_info" position="-1.793 0.329 3.549" rotation="0 180 0">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Drinking Horn"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="horn"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Horse -->
+      <a-entity
+        id="entity_horse"
+        gltf-model="#horse"
+        scale="0.5 0.5 0.5"
+        position="-8.907 1.992 2.746"
+        rotation="0 140 0"
+      >
+      </a-entity>
+      <a-entity id="horse_info" position="-6.845 0.329 2.982" rotation="0 90 0">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Funerary Horse"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="horse"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Boat -->
+      <a-entity
+        id="entity_boat"
+        gltf-model="#boat"
+        scale="2 2 2"
+        position="6.278 0.508 4.209"
+        rotation="0 90 0"
+      ></a-entity>
+      <a-entity
+        id="boat_info"
+        position="6.296 0.329 2.891"
+        rotation="0 180 0"
+      >
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Funeral Ship"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="boat"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Amuleto -->
+      <a-entity
+        id="entity_amuleto"
+        gltf-model="#amuleto"
+        scale="0.006 0.006 0.006"
+        position="4.674 1.376 -5.541"
+        rotation="-60 0 0"
+      ></a-entity>
+      <a-entity id="amuleto_info" position="4.704 0.329 -4.811">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Protective Amulet"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="amuleto"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Escudo -->
+      <a-entity
+        id="entity_shield"
+        gltf-model="#shield"
+        scale="0.05 0.05 0.05"
+        position="-2.996 1.826 -5.434"
+      ></a-entity>
+      <a-entity id="shield_info" position="-3.012 0.329 -4.811">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Protective Shield"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="shield"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- Coins -->
+      <a-entity
+        id="coin"
+        gltf-model="#coin"
+        scale="1.5 1.5 1.5"
+        position="-4.307 1.360 4.894"
+        rotation="-20 0 0"
+      ></a-entity>
+      <a-entity id="coin_info" position="-4.369 0.329 3.549" rotation="0 180 0">
+        <a-plane width="1.5" height="0.4" color="#1a1a1a" opacity="0.85">
+          <a-text
+            value="Coins and Hack-Silver"
+            align="center"
+            width="1.4"
+            color="#FFD700"
+            position="0 0 0.01"
+          ></a-text>
+        </a-plane>
+        <a-circle
+          radius="0.1"
+          position="0.85 0 0.02"
+          class="clickable info-trigger"
+          data-info="coin"
+          src="#audio-icon"
+          material="transparent: true; opacity: 0.9; shader: flat; side: double"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+        >
+        </a-circle>
+      </a-entity>
+
+      <!-- NPC -->
+      <a-entity
+        id="npc_entity"
+        gltf-model="#npc"
+        scale="2 2 2"
+        position="-10 0.05 -3.263"
+        rotation="0 70 0"
+        class="clickable"
+      >
+      </a-entity>
+      <!-- Painel de subtítulos -->
+      <a-entity
+        id="npc-subtitle"
+        position="-10 2.85 -3.263"
+        rotation="0 70 0"
+        visible="false"
+        rotation="0 0 0"
+      >
+        <a-plane color="#000000" opacity="0.7" width="4" height="0.5"></a-plane>
+        <a-text
+          id="subtitle-text"
+          value=""
+          position="0 0 0.01"
+          align="center"
+          color="#FFFFFF"
+          width="3.5"
+          wrap-count="50"
+        >
+        </a-text>
+      </a-entity>
+      
+      
+      <!---- Showcases ---->
+
+      <!-- Escudo -->
+      <a-entity
+        gltf-model="#vitrine"
+        position="-2.982 0 -5.463"
+        scale="3 1.3 1"
+        rotation="0 0 0"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#vitrine"
+        position="-4.357 0 4.932"
+        scale="1.5 1.3 2"
+        rotation="0 180 0"
+      ></a-entity>
+
+      <!-- Amuleto Vitrine -->
+      <a-entity
+        gltf-model="#vitrine"
+        position="4.692 0 -5.532"
+        scale="1.3 1.3 1.3"
+        rotation="0 0 0"
+      ></a-entity>
+      
+      <!-- Espada Vitrine -->
+      <a-entity
+        gltf-model="#vitrine"
+        position="2.124 0 -5.532"
+        scale="2.9 1.3 1.3"
+        rotation="0 0 0"
+      ></a-entity>
+
+      <!-- Horn Vitrine -->
+      <a-entity
+        gltf-model="#vitrine"
+        position="-1.76 0 4.932"
+        scale="1.5 1.3 2"
+        rotation="0 180 0"
+      ></a-entity>
+
+      <a-box 
+        color="#fff" 
+        width="8" 
+        height="0.4"  
+        depth="2.5" 
+        position="6.432 0.194 4.288"></a-box>
+
+      <a-box 
+        color="#fff" 
+        width="4" 
+        height="0.4"  
+        depth="4" 
+        position="-9.032 0.194 3.027"></a-box>
+        
+
+      <!-- camera rig (player) -->
+      <a-entity
+        id="player"
+        position="9.8 0.95 0"
+        rotation="0 90 0"
+        thumbstick-movement="speed: 3.0"
+        movement-controls
+        wasd-controls="acceleration: 20"
+        vr-hands
+      >
+        <a-entity
+          id="camera"
+          camera
+          position="0 2 0"
+          look-controls="pointerLockEnabled: false"
+          cursor="rayOrigin: mouse; fuse: false"
+          raycaster="objects: .clickable, .grabbable"
+        >
+        </a-entity>
+        <a-entity id="right-hand"></a-entity>
+        <a-entity id="left-hand"></a-entity>
+      </a-entity>
+
+      <!-- Ambiente 3D: modelo GLB -->
+      <a-entity
+        id="vr_gallery"
+        gltf-model="#gallery-model"
+        position="0 0 0"
+        scale="1.5 1.5 1.5"
+      ></a-entity>
+      <a-box position="0 2 -4.7" width="24" height="4" depth="0.5" visible="false" static-body="shape: box"></a-box>
+      <a-box position="0 2 2.6" width="24" height="4" depth="0.5" visible="false" static-body="shape: box"></a-box>
+      <a-box position="-10 2 0" width="0.5" height="4" depth="18" visible="false" static-body="shape: box"></a-box>
+      <a-box position="12 2 0" width="0.5" height="4" depth="18" visible="false" static-body="shape: box"></a-box>
+
+      <!-- Link para voltar ao index.html -->
+      <a-entity position="10 1.6 -3" rotation="0 -90 0">
+        <a-link
+          href="index.html"
+          title="Voltar ao Início"
+          image="#link-image-start"
+          class="clickable"
+        ></a-link>
+      </a-entity>
+      <!-- Link para ir para o desafio -->
+      <a-entity
+        id="challenge-portal"
+        position="-9 1.3 -5"
+        rotation="0 0 0"
+        visible="false"
+      >
+        <a-link
+          href="finalChallenge.html"
+          title="Enter Challenge"
+          image="#link-image-Challenge"
+          class="clickable"
+        ></a-link>
+      </a-entity>
+      <script>
+        const npc = document.querySelector("#npc_entity");
+        const audio = document.querySelector("#npc-audio");
+        const subtitlePanel = document.querySelector("#npc-subtitle");
+        const subtitleText = document.querySelector("#subtitle-text");
+        const portal = document.querySelector("#challenge-portal");
+
+        const subtitles = [
+          { time: 0, text: "Welcome, traveler. I am the völva, guardian of ancient rites.",},
+          { time: 5, text: "The body has been washed and dressed, as tradition commands.",},
+          { time: 10, text: "Weapons, tools, and offerings lie ready to follow the dead into the next world.",},
+          { time: 17, text: "Through these rites, we honor their life and guide their spirit onward.",},
+          { time: 23, text: "The ancestors watch, and the gods bear witness." },
+          { time: 28, text: "Are you ready to begin the final rite?" },
+          { time: 32, text: "" }, // Clear subtitle
+        ];
+
+        let currentSubtitle = 0;
+        let audioPlayed = false;
+
+        // Clicar no NPC para iniciar diálogo
+        npc.addEventListener("click", function () {
+          if (!audioPlayed) {
+            audio.currentTime = 0;
+            currentSubtitle = 0;
+            audio.play();
+            audioPlayed = true;
+          }
+        });
+
+        // Mostrar painel quando áudio começa
+        audio.addEventListener("play", function () {
+          subtitlePanel.setAttribute("visible", "true");
+        });
+
+        // Atualizar legendas durante o áudio
+        audio.addEventListener("timeupdate", function () {
+          const currentTime = audio.currentTime;
+          if (
+            currentSubtitle < subtitles.length &&
+            currentTime >= subtitles[currentSubtitle].time
+          ) {
+            subtitleText.setAttribute("value", subtitles[currentSubtitle].text);
+            currentSubtitle++;
+          }
+        });
+
+        // Esconder legendas e mostrar portal quando terminar
+        audio.addEventListener("ended", function () {
+          setTimeout(() => {
+            subtitlePanel.setAttribute("visible", "false");
+            portal.setAttribute("visible", "true");
+          }, 2000);
+        });
+
+        const infoTriggers = document.querySelectorAll(".info-trigger");
+        let currentInfoAudio = null;
+
+        infoTriggers.forEach((trigger) => {
+          trigger.addEventListener("click", function () {
+            const infoType = this.getAttribute("data-info");
+            if (currentInfoAudio) {
+              currentInfoAudio.pause();
+            }
+
+            currentInfoAudio = new Audio(`audio_final/${infoType}.mp3`);
+            currentInfoAudio.play();
+          });
+        });
+      </script>
+    </a-scene>
+  </body>
+</html>

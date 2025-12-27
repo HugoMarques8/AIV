@@ -133,6 +133,11 @@
         <a-entity id="marriage-portal" position="-3 1.6 -5" visible="false">
           <a-link href="marriageRite.html" title="Begin Experience (Marriage)" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
         </a-entity>
+
+        <!-- Portal para finalRite.html -->
+        <a-entity id="final-portal" position="3 1.6 -5" visible="false">
+          <a-link href="finalRite.html" title="Begin Experience (Final)" color="#00D4FF" image="#portal-image" class="clickable"></a-link>
+        </a-entity>
         
         <script>
           document.addEventListener('DOMContentLoaded', function() {
@@ -143,6 +148,7 @@
             const introAudio = document.querySelector('#intro-audio');
             const adulthoodPortal = document.querySelector('#adulthood-portal');
             const marriagePortal = document.querySelector('#marriage-portal');
+            const finalPortal = document.querySelector('#final-portal');
             const introBg = document.querySelector('#intro-bg');
             let audioStarted = false;
             
@@ -202,6 +208,14 @@
                       });
                       marriagePortal.setAttribute('visible', 'true');
                       marriagePortal.setAttribute('animation', {
+                        property: 'scale',
+                        from: '0 0 0',
+                        to: '1 1 1',
+                        dur: 800,
+                        easing: 'easeOutElastic'
+                      });
+                      finalPortal.setAttribute('visible', 'true');
+                      finalPortal.setAttribute('animation', {
                         property: 'scale',
                         from: '0 0 0',
                         to: '1 1 1',
