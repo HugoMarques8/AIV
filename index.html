@@ -56,14 +56,135 @@
       <button onclick="setHandedness('left')">Esquerdino / Left-handed</button>
     </div>
     <script>
+      // Só iniciar boot depois da cena estar carregada
+      let shouldStartBoot = false;
+      function startExperience() {
+        shouldStartBoot = true;
+      }
+
       function setHandedness(hand) {
         localStorage.setItem('dominantHand', hand);
         document.getElementById('handedness-overlay').classList.add('hidden');
+        startExperience();
       }
-      // Esconder overlay somente se já foi escolhido anteriormente
+
+      // Se já foi escolhida anteriormente, esconder overlay e marcar para iniciar experiência
       if (localStorage.getItem('dominantHand')) {
         document.getElementById('handedness-overlay').classList.add('hidden');
+        startExperience();
       }
+
+      // Esperar pelo carregamento da cena para iniciar o boot
+      document.addEventListener('DOMContentLoaded', function() {
+        const scene = document.querySelector('a-scene');
+        if (scene.hasLoaded) {
+          if (shouldStartBoot) playBootSequence();
+        } else {
+          scene.addEventListener('loaded', function() {
+            if (shouldStartBoot) playBootSequence();
+          });
+        }
+      });
+
+      function showWhiteFlash(callback) {
+  const flash = document.getElementById('white-flash-boot');
+  if (!flash) { if (callback) callback(); return; }
+  flash.setAttribute('material', 'opacity', 0);
+  flash.setAttribute('visible', 'true');
+  // Fade in
+  let opacity = 0;
+  const fadeIn = setInterval(() => {
+    opacity += 0.1;
+    flash.setAttribute('material', 'opacity', opacity);
+    if (opacity >= 1) {
+      clearInterval(fadeIn);
+      setTimeout(() => {
+        // Fade out
+        const fadeOut = setInterval(() => {
+          opacity -= 0.1;
+          flash.setAttribute('material', 'opacity', opacity);
+          if (opacity <= 0) {
+            clearInterval(fadeOut);
+            flash.setAttribute('visible', 'false');
+            if (callback) callback();
+          }
+        }, 30);
+      }, 300); // tempo do flash branco
+    }
+  }, 30);
+}
+
+      // Sequência de boot: mostra modelo spacedrive, toca áudios, esconde modelo, continua fluxo normal
+      function playBootSequence(callback) {
+  const spacedrive = document.getElementById('spacedrive-boot');
+  const whiteGallery = document.getElementById('white-gallery-room');
+  const introPanel = document.getElementById('intro-panel');
+  const player = document.getElementById('player');
+  // Esconder sala e painel de introdução durante o boot
+  if (whiteGallery) whiteGallery.setAttribute('visible', 'false');
+  if (introPanel) introPanel.setAttribute('visible', 'false');
+  spacedrive.setAttribute('visible', 'true');
+  // Movimento lento do player para a frente
+  let moveInterval = null;
+  let moveTime = 0;
+  const targetZ = 0;
+  const totalSteps = 600; // ~5s a 60fps, ajusta conforme necessário
+  let step = 0;
+  function startMovingPlayer() {
+    moveInterval = setInterval(() => {
+      step++;
+    let currentPos = player.getAttribute('position');
+    if (currentPos.z > targetZ) {
+      currentPos.z = Math.max(currentPos.z - (12 / totalSteps), targetZ);
+      player.setAttribute('position', currentPos);
+    }
+    if (step >= totalSteps || currentPos.z <= targetZ) {
+      clearInterval(moveInterval);
+    }
+  }, 16);
+  }
+  function stopMovingPlayer() {
+    if (moveInterval) clearInterval(moveInterval);
+  }
+  startMovingPlayer();
+  let idx = 0;
+  function playNext() {
+    const audio = document.getElementById('boot-audio-' + idx);
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play();
+      audio.onended = () => {
+        idx++;
+        if (idx < 5) {
+          playNext();
+        } else {
+          spacedrive.setAttribute('visible', 'false');
+          stopMovingPlayer();
+          // Mostrar sala e painel de introdução após boot
+          showWhiteFlash(() => {
+          if (whiteGallery) whiteGallery.setAttribute('visible', 'true');
+          if (introPanel) introPanel.setAttribute('visible', 'true');
+          if (callback) callback();
+      });
+        }
+      };
+    } else {
+      idx++;
+      if (idx < 5) {
+        playNext();
+      } else {
+        spacedrive.setAttribute('visible', 'false');
+        stopMovingPlayer();
+        showWhiteFlash(() => {
+        if (whiteGallery) whiteGallery.setAttribute('visible', 'true');
+        if (introPanel) introPanel.setAttribute('visible', 'true');
+        if (callback) callback();
+      });
+      }
+    }
+  }
+  playNext();
+}
     </script>
       <a-scene>
         <!-- Assets -->
@@ -71,15 +192,39 @@
           <a-asset-item id="white-gallery" src="initial_room/white_round_exhibition_gallery.glb"></a-asset-item>
           <img id="portal-image" src="pngtree-gray-network-placeholder-png-image_3416659.jpg">
           <audio id="intro-audio" src="audio/intro-simulation.mp3" preload="auto"></audio>
+          <a-asset-item id="spacedrive-model" src="initial_room/wormhole_concept.glb"></a-asset-item>
+          <audio id="boot-audio-0" src="audio/boot_0.mp3" preload="auto"></audio>
+          <audio id="boot-audio-1" src="audio/boot_1.mp3" preload="auto"></audio>
+          <audio id="boot-audio-2" src="audio/boot_2.mp3" preload="auto"></audio>
+          <audio id="boot-audio-3" src="audio/boot_3.mp3" preload="auto"></audio>
+          <audio id="boot-audio-4" src="audio/boot_4.mp3" preload="auto"></audio>
         </a-assets>
-        
-        <!-- Sala branca (Animus) -->
+        <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 1.6 8" scale="1 1 2" visible="false"></a-entity>
+            <a-entity light="type: point; color: #00d4ff; intensity: 2; distance: 6" position="0 1 0"></a-entity>
+            <a-entity light="type: point; color: #fff; intensity: 1; distance: 4" position="0 0 0"></a-entity>
+        </a-entity>
+        <!-- Sala branca -->
         <a-entity id="white-gallery-room" gltf-model="#white-gallery" position="0 0 0" scale="2 2 2"></a-entity>
         
         <!-- Luz ambiente -->
         <a-entity light="type: ambient; color: #FFF; intensity: 0.8"></a-entity>
         <a-entity light="type: directional; color: #FFF; intensity: 0.5" position="5 10 5"></a-entity>
-        
+         <!-- camera rig (player) -->
+		  <a-entity id="player" position="0 1.6 12" thumbstick-movement="speed: 0.9" vr-hands wasd-controls="acceleration: 20">
+			  <a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
+				  cursor="rayOrigin: mouse; fuse: false"
+				  raycaster="objects: .clickable, .grabbable">
+			  </a-entity>
+        <a-entity id="right-hand"></a-entity>
+        <a-entity id="left-hand"></a-entity>
+		  </a-entity>
+
+      <a-entity id="white-flash-boot" geometry="primitive: plane; height: 10; width: 10"
+          material="color: #fff; opacity: 0; transparent: true"
+          position="0 0 -1"
+          visible="false">
+        </a-entity>
+
         <!-- Painel de introdução -->
         <a-entity id="intro-panel" position="0 2.5 -3" visible="false">
           <a-plane id="intro-bg" color="#000000" opacity="0.85" width="5" height="4" class="clickable"></a-plane>
@@ -114,15 +259,6 @@
           </a-text>
         </a-entity>
         
-        <!-- camera rig (player) -->
-		  <a-entity id="player" position="0 1.6 0" thumbstick-movement="speed: 0.9" vr-hands wasd-controls="acceleration: 20">
-			  <a-entity id="camera" camera position="0 0 0" look-controls="pointerLockEnabled: false"
-				  cursor="rayOrigin: mouse; fuse: false"
-				  raycaster="objects: .clickable, .grabbable">
-			  </a-entity>
-        <a-entity id="right-hand"></a-entity>
-        <a-entity id="left-hand"></a-entity>
-		  </a-entity>
 
       <!--- Para a versão final apenas fica o adulthood na sala inicial! -->>
         <!-- Portal para adulthoodRite.html -->
