@@ -232,6 +232,7 @@
       <audio id="boot-audio-4" src="audio/boot_4.mp3" preload="auto"></audio>
       <audio id="boot-end-audio" src="audio/boot_end.mp3" preload="auto"></audio>
       <audio id="portal-idle-sound" src="sound-effects/portal_idle-34022.mp3" preload="auto"></audio>
+      <audio id="simulation-reminder" src="audio/simulation-reminder.mp3" preload="auto"></audio>
     </a-assets>
     <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 1.6 8" scale="1 1 2"
       visible="false">
@@ -278,8 +279,8 @@
     <!--- Para a versão final apenas fica o adulthood na sala inicial! -->>
     <!-- Portal para adulthoodRite.html -->
     <a-entity id="adulthood-portal" position="0 1.6 -5" visible="false">
-      <a-link href="adulthoodRite.html" title="Begin Experience (Adulthood)" color="#00D4FF"
-        image="#portal-image"></a-link>
+      <a-link title="Begin Experience (Adulthood)" color="#00D4FF" image="#portal-image"></a-link>
+      <a-plane id="adulthood-portal-collider" width="1.5" height="2.5" position="0 0 0.05" material="opacity:0; transparent:true" class="clickable"></a-plane>
     </a-entity>
     <!--- Estes são apenas para motivos de debugging --->
     <!-- Portal para marriageRite.html -->
@@ -376,9 +377,34 @@
                     dur: 800,
                     easing: 'easeOutElastic'
                   });
+
+                  // tornar os links clicáveis:
+                  //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
+
+                  // Torna o portal principal clicável (mas não o link)
+                  const adulthoodPortalEntity = document.getElementById('adulthood-portal');
+                  const adulthoodPortalLink = adulthoodPortalEntity.querySelector('a-link');
+                  const adulthoodPortalCollider = document.getElementById('adulthood-portal-collider');
+                  const reminderAudio = document.getElementById('simulation-reminder');
+                  let reminderPlayed = false;
+                  if (adulthoodPortalCollider && adulthoodPortalLink && reminderAudio) {
+                    adulthoodPortalCollider.addEventListener('click', function portalHandler(evt) {
+                      if (!reminderPlayed) {
+                        evt.preventDefault && evt.preventDefault();
+                        evt.stopPropagation && evt.stopPropagation();
+                        reminderAudio.currentTime = 0;
+                        reminderAudio.play();
+                        reminderPlayed = true;
+                        // Após reminder, ativa o link e remove o plano
+                        reminderAudio.onended = () => {
+                          adulthoodPortalLink.setAttribute('href', 'adulthoodRite.html');
+                          adulthoodPortalLink.classList.add('clickable');
+                          adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
+                        };
+                      }
+                    });
+                  }
                 }, 1000);
-                // tornar os links clicáveis:
-                document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
               }, 1000);
             });
           }
