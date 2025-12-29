@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Viking Funeral Ritual</title>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+    <script src="js/handedness-setup.js"></script>
+    <script src="js/thumbstick-movement.js"></script>
+    <script src="js/grip-grab-combat.js"></script>
+    <script src="js/exchange-zone.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Assets -->
+      <a-assets>
+        <a-asset-item
+          id="forest-scene"
+          src="models_final_room/Challenge/scene.glb"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="boat"
+          src="models_final_room/Challenge/death_boat.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="tocha"
+          src="models_final_room/torch.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="escudo"
+          src="models_adulthood_room/viking_shield/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="amuleto"
+          src="models_final_room/amuleto.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="volva"
+          src="models_final_room/volva.glb"
+        ></a-asset-item>
+        <!-- Skybox 360° de Aurora Boreal -->
+        <img
+          id="aurora-sky"
+          src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg"
+        />
+
+        <!-- Audio explicativo -->
+        <audio
+          id="ceremony-explanation"
+          src="audio_final/audio2.mp3"
+          preload="auto"
+        ></audio>
+
+        <audio
+          id="second-speech"
+          src="audio_final/audio3.mp3"
+          preload="auto"
+        ></audio>
+
+        <audio
+          id="final-speech"
+          src="audio_final/audio4.mp3"
+          preload="auto"
+        ></audio>
+
+
+        <audio
+          id="ambient-sound"
+          src="audio_final/ambient-sounds-at-night-243045.mp3"
+          preload="auto"
+        ></audio>
+        <audio
+          id="fire-sound"
+          src="audio_final/copyright-free-fire-crackling-427409.mp3"
+          preload="auto"
+        ></audio>
+      </a-assets>
+
+      <!-- Camera rig (player) -->
+      <a-entity
+        id="player"
+        position="0 0.8 0"
+        thumbstick-movement="speed: 2.5"
+        movement-controls="fly: false; speed: 0.25"
+        wasd-controls
+        vr-hands
+      >
+        <a-entity
+          id="camera"
+          camera
+          position="0 3 0"
+          look-controls
+          cursor="rayOrigin: mouse; fuse: false"
+          raycaster="objects: .clickable, .grabbable"
+        >
+        </a-entity>
+        <a-entity id="right-hand"></a-entity>
+        <a-entity id="left-hand"></a-entity>
+      </a-entity>
+
+      <!-- Ambiente floresta -->
+      <a-entity
+        gltf-model="#forest-scene"
+        position="0 0 0"
+        scale="2 2 2"
+      ></a-entity>
+
+      <!-- Tocha com som de fogo -->
+      <a-entity
+        id="tocha"
+        gltf-model="#tocha"
+        position="0 0.172 -4.878"
+        scale="0.6 0.6 0.6"
+        class="grabbable interactive"
+        animation-mixer
+        sound="src: #fire-sound; autoplay: true; loop: true; volume: 0.7"
+      >
+       <a-entity
+          particle-system="preset: fire; color: #FF4400, #FF8800; particleCount: 150; velocityValue: 0 0.5 0"
+          position="0 0.5 0"
+          scale="0.3 0.3 0.3"
+        ></a-entity>
+      </a-entity>
+
+      <!-- Céu de inverno nórdico com Aurora Boreal -->
+      <a-sky src="#aurora-sky"></a-sky>
+
+      <!-- Luz ambiente fria (inverno) -->
+      <a-entity
+        light="type: ambient; color: #b3c9d9; intensity: 0.6"
+      ></a-entity>
+      <a-entity
+        light="type: directional; color: #dde5ed; intensity: 0.8"
+        position="5 10 5"
+      ></a-entity>
+
+      <!-- NPC Viking no ritual -->
+      <a-entity
+        id="volva"
+        gltf-model="#volva"
+        position="-0.076 0 -10.614"
+        scale="2.5 2.5 2.5"
+        class="clickable"
+      ></a-entity>
+
+      <!-- Painel de subtítulos -->
+      <a-entity
+        id="npc-subtitle"
+        position="-0.076 4 -10.614"
+        visible="false"
+      >
+        <a-plane color="#000000" opacity="0.7" width="6" height="0.8"></a-plane>
+        <a-text
+          id="subtitle-text"
+          value=""
+          position="0 0 0.01"
+          align="center"
+          color="#FFFFFF"
+          width="5.5"
+          wrap-count="50"
+        >
+        </a-text>
+      </a-entity>
+
+    <!-- Boat -->
+      <a-entity
+        id="boat"
+        gltf-model="#boat"
+        position="0.728 0.172 -6.558"
+        scale="4 4 4"
+        rotation="0 90 0"
+        class="interactive"
+      ></a-entity>
+
+      <a-entity
+          id="boat-zone"
+          position="0 1 -1"
+          scale="1.5 1 1.5"
+        >
+          <a-box
+            position="0 0 0"
+            width="3"
+            height="0.5"
+            depth="3"
+            material="color: #00FF00; opacity: 0.3; transparent: true"
+            visible="false"
+            id="boat-zone-visual"
+          ></a-box>
+        </a-entity>
+      </a-entity>
+
+      <!-- Escudo do jogador -->
+      <a-entity
+        id="escudo"
+        gltf-model="#escudo"
+        position="4.293 1.407 -3.122"
+        scale="0.04 0.04 0.04"
+        rotation="0 -90 0"
+        class="grabbable"
+        animation__float="property: position; to: 4.293 0.955 -3.122; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+      >
+      </a-entity>
+      <!-- Anel -->
+      <a-entity
+        id="amuleto"
+        gltf-model="#amuleto"
+        position="4.293 1.353 -1.122"
+        scale="0.01 0.01 0.01"
+        rotation="0 90 0"
+        class="grabbable"
+        animation__float="property: position; to: 4.293 1 -1.122; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+      >
+      </a-entity>
+
+      <!-- Zona de troca -->
+      <a-ring
+        position="2 0.25 -6"
+        rotation="-90 0 0"
+        radius-inner="1"
+        radius-outer="1.5"
+        color="#FFD700"
+        opacity="0.5"
+        material="side: double"
+      >
+        <a-animation
+          attribute="rotation"
+          from="-90 0 0"
+          to="-90 360 0"
+          dur="4000"
+          repeat="indefinite"
+          easing="linear"
+        >
+        </a-animation>
+        <a-text
+          value="Exchange Zone"
+          position="0 -0.5 0"
+          align="center"
+          color="#FFD700"
+          width="4"
+        >
+        </a-text>
+      </a-ring>
+
+      <!-- Cilindro invisível de detecção -->
+      <a-cylinder
+        id="exchange-zone"
+        position="2 0.5 -6"
+        radius="1.5"
+        height="20"
+        opacity="0"
+        material="transparent: true; opacity: 0"
+        exchange-zone
+      >
+      </a-cylinder>
+      
+      <!-- Portal Final -->
+      <a-entity
+        id="return-portal"
+        position="-4 3.2 -10"
+        rotation="0 30 0"
+        visible="false"
+      >
+        <a-text
+          value="Challenge Complete!"
+          position="0 0 0.2"
+          align="center"
+          color="#FFFFFF"
+          width="3"
+        >
+        </a-text>
+        <a-link
+          href="index.html"
+          title="You have completed the Final Challenge!"
+          position="0 0 0"
+          scale="2 3 1"
+          class="clickable"
+        >
+        </a-link>
+      </a-entity>
+
+      <!-- Som ambiente geral -->
+      <a-entity
+        sound="src: #ambient-sound; autoplay: true; loop: true; volume: 0.5"
+      ></a-entity>
+
+      <script>
+        // Sistema simples de ritual
+        let itemsExchanged = [];
+
+        // Verificar quando objetos são soltos na zona
+        document.addEventListener("DOMContentLoaded", function () {
+          const shield = document.querySelector("#escudo");
+          const amulet = document.querySelector("#amuleto");
+          const zone = document.querySelector("a-ring");
+          const returnPortal = document.querySelector("#return-portal");
+          const subtitleText = document.querySelector("#subtitle-text");
+          const subtitlePanel = document.querySelector("#npc-subtitle");
+
+          // Mostrar subtítulos com o áudio
+          const subtitles = [
+            {
+              time: 0,
+              text: "Here lies the one who has departed.\nThe body is washed and dressed in linen.",
+            },
+            {
+              time: 4,
+              text: "Objects placed with the body speak of their life. ",
+            },
+            {
+              time: 10,
+              text: "A shield for protection and an amulet for luck.",
+            },
+            {
+              time: 15,
+              text: "They remind the gods of the person’s status, and the tasks they carried out in life.",
+            },
+            {
+              time: 19,
+              text: "This ship will carry the spirit to its new home.",
+            },
+            { time: 34, text: "" }, // limpar texto no final
+          ];
+
+          const audio = document.querySelector("#ceremony-explanation");
+          const npc = document.querySelector("#volva");
+          let currentSubtitle = 0;
+          let audioPlayed = false;
+
+          // Tocar áudio automaticamente quando a cena carregar
+          setTimeout(() => {
+            audio
+              .play()
+              .then(() => {
+                audioPlayed = true;
+              })
+              .catch((error) => console.log("Autoplay prevented:", error));
+          }, 1000);
+
+          // Tocar áudio ao clicar na NPC (se ainda não tocou)
+          npc.addEventListener("click", function () {
+            if (!audioPlayed) {
+              audio.currentTime = 0;
+              currentSubtitle = 0;
+              audio.play();
+              audioPlayed = true;
+            }
+          });
+
+          audio.addEventListener("play", function () {
+            subtitlePanel.setAttribute("visible", "true");
+          });
+
+          audio.addEventListener("timeupdate", function () {
+            const currentTime = audio.currentTime;
+            if (
+              currentSubtitle < subtitles.length &&
+              currentTime >= subtitles[currentSubtitle].time
+            ) {
+              subtitleText.setAttribute(
+                "value",
+                subtitles[currentSubtitle].text
+              );
+              currentSubtitle++;
+            }
+          });
+
+          audio.addEventListener("ended", function () {
+            setTimeout(() => {
+              subtitlePanel.setAttribute("visible", "false");
+            }, 2000);
+          });
+
+          // Parar animação quando pegar no escudo
+          shield.addEventListener("grab-start", function () {
+            shield.removeAttribute("animation__float");
+          });
+
+          // Parar animação quando pegar no amuleto
+          amulet.addEventListener("grab-start", function () {
+            amulet.removeAttribute("animation__float");
+          });
+
+          function checkExchange(item, itemName) {
+            item.addEventListener("grab-end", function () {
+              const itemPos = item.object3D.position;
+              const zonePos = new THREE.Vector3(0, 0, -1.5);
+              const distance = itemPos.distanceTo(zonePos);
+
+              if (distance < 2 && !itemsExchanged.includes(itemName)) {
+                itemsExchanged.push(itemName);
+                console.log(
+                  `${itemName} trocado! Total: ${itemsExchanged.length}/2`
+                );
+
+                // Remover objeto
+                item.setAttribute("animation", {
+                  property: "scale",
+                  to: "0 0 0",
+                  dur: 500,
+                });
+
+                setTimeout(() => item.remove(), 500);
+
+                // Verificar se ritual está completo
+                if (itemsExchanged.length === 2) {
+                  returnPortal.setAttribute("visible", "true");
+                }
+              }
+            });
+          }
+
+          checkExchange(shield, "shield");
+          checkExchange(amulet, "amulet");
+        });
+      </script>
+    </a-scene>
+  </body>
+</html>
