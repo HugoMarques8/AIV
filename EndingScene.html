@@ -11,8 +11,6 @@
     <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
     <script src="js/handedness-setup.js"></script>
-    <script src="js/thumbstick-movement.js"></script>
-    <script src="js/grip-grab.js"></script>
     <style>
         body {
             margin: 0;
@@ -38,8 +36,8 @@
     <a-scene>
         <a-assets>
             <a-asset-item id="white-gallery" src="initial_room/white_round_exhibition_gallery.glb"></a-asset-item>
-            <!-- Cenário do marriageChallenge -->
-            <a-asset-item id="forest-scene" src="models_marriage_room/challenge scene/winter_forest.glb"></a-asset-item>
+            <!-- Casa do finalChallenge na floresta -->
+            <a-asset-item id="final-house" src="models_final_room/Challenge/scene.glb"></a-asset-item>
             <!-- Skybox 360° de Aurora Boreal -->
             <img id="aurora-sky" src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg">
             <!-- Exemplos de NPCs, substitui pelos modelos que quiseres -->
@@ -57,8 +55,8 @@
             <audio id="simulation-intro" src="audio_ending/intro-ending.mp3" preload="auto"></audio>
         </a-assets>
 
-        <!-- Sala final (cenário do marriageChallenge) -->
-        <a-entity gltf-model="#forest-scene" position="0 -1 2" scale="2 2 2"></a-entity>
+        <!-- Sala final (igual ao ultimo challenge) -->
+        <a-entity gltf-model="#final-house" position="0 -1 2" scale="2 2 2"></a-entity>
         <!-- Céu de inverno nórdico com Aurora Boreal -->
         <a-sky src="#aurora-sky" radius="500"></a-sky>
 
@@ -107,10 +105,8 @@
         </a-entity>
 
         <!-- Camera rig (player) -->
-         <a-entity id="player" position="0 1.16 4" thumbstick-movement="speed: 2.5"
+         <a-entity id="player" position="0 1.16 4"
 			movement-controls="constrainToNavMesh: false" wasd-controls="acceleration: 20" vr-hands kinematic-body>
-            <!-- Geometria invisível para colisão -->
-            <a-sphere radius="0.5" position="0 0.5 0" visible="false"></a-sphere>
             <a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
                 cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .clickable, .grabbable">
             </a-entity>
