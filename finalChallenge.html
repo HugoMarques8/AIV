@@ -191,6 +191,23 @@
         </a-entity>
       </a-entity>
 
+      <a-entity
+          id="boat-fire"
+          position="0 2 0"
+          visible="false"
+        >
+          <a-entity
+            particle-system="preset: fire; color: #FF2200, #FF6600, #FFAA00; particleCount: 500; velocityValue: 0 2 0; accelerationValue: 0 0.5 0"
+            scale="2 2 2"
+          ></a-entity>
+          <a-entity
+            particle-system="preset: fire; color: #FF4400, #FF8800, #FFFF00; particleCount: 300; velocityValue: 0 1.5 0; accelerationValue: 0 0.3 0"
+            position="0 1 0"
+            scale="1.5 1.5 1.5"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+
       <!-- Escudo do jogador -->
       <a-entity
         id="escudo"
