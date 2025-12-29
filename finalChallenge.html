@@ -286,135 +286,121 @@
       ></a-entity>
 
       <script>
-        // Sistema simples de ritual
-        let itemsExchanged = [];
+      document.addEventListener("DOMContentLoaded", () => {
 
-        // Verificar quando objetos são soltos na zona
-        document.addEventListener("DOMContentLoaded", function () {
-          const shield = document.querySelector("#escudo");
-          const amulet = document.querySelector("#amuleto");
-          const zone = document.querySelector("a-ring");
-          const returnPortal = document.querySelector("#return-portal");
-          const subtitleText = document.querySelector("#subtitle-text");
-          const subtitlePanel = document.querySelector("#npc-subtitle");
+        const volva = document.querySelector("#volva");
+        const subtitlePanel = document.querySelector("#npc-subtitle");
+        const subtitleText = document.querySelector("#subtitle-text");
 
-          // Mostrar subtítulos com o áudio
-          const subtitles = [
-            {
-              time: 0,
-              text: "Here lies the one who has departed.\nThe body is washed and dressed in linen.",
-            },
-            {
-              time: 4,
-              text: "Objects placed with the body speak of their life. ",
-            },
-            {
-              time: 10,
-              text: "A shield for protection and an amulet for luck.",
-            },
-            {
-              time: 15,
-              text: "They remind the gods of the person’s status, and the tasks they carried out in life.",
-            },
-            {
-              time: 19,
-              text: "This ship will carry the spirit to its new home.",
-            },
-            { time: 34, text: "" }, // limpar texto no final
-          ];
+        const audio1 = document.querySelector("#ceremony-explanation");
+        const audio2 = document.querySelector("#second-speech");
+        const audio3 = document.querySelector("#final-speech");
 
-          const audio = document.querySelector("#ceremony-explanation");
-          const npc = document.querySelector("#volva");
-          let currentSubtitle = 0;
-          let audioPlayed = false;
+        const shield = document.querySelector("#escudo");
+        const amulet = document.querySelector("#amuleto");
+        const boat = document.querySelector("#boat");
+        const boatFire = document.querySelector("#boat-fire");
+        const torch = document.querySelector("#tocha");
+        const portal = document.querySelector("#return-portal");
 
-          // Tocar áudio automaticamente quando a cena carregar
-          setTimeout(() => {
-            audio
-              .play()
-              .then(() => {
-                audioPlayed = true;
-              })
-              .catch((error) => console.log("Autoplay prevented:", error));
-          }, 1000);
+        let itemsPlaced = 0;
+        let ritualStage = 0;
 
-          // Tocar áudio ao clicar na NPC (se ainda não tocou)
-          npc.addEventListener("click", function () {
-            if (!audioPlayed) {
-              audio.currentTime = 0;
-              currentSubtitle = 0;
-              audio.play();
-              audioPlayed = true;
+        function playSpeech(audio, subtitles) {
+          let index = 0;
+          subtitlePanel.setAttribute("visible", true);
+          subtitleText.setAttribute("value", "");
+
+          audio.currentTime = 0;
+          audio.play();
+
+          audio.ontimeupdate = () => {
+            if (index < subtitles.length && audio.currentTime >= subtitles[index].time) {
+              subtitleText.setAttribute("value", subtitles[index].text);
+              index++;
+            }
+          };
+
+          audio.onended = () => {
+            subtitlePanel.setAttribute("visible", false);
+          };
+        }
+
+        /* =========================
+              DISCURSO INICIAL
+        ========================== */
+        setTimeout(() => {
+          playSpeech(audio1, [
+            { time: 0, text: "Here lies the one who has departed." },
+            { time: 3, text: "The body is washed and dressed in linen." },
+            { time: 6, text: "Objects placed with the body speak of their life." },
+            { time: 10, text: "A shield for protection and an amulet for luck." },
+            { time: 15, text: "They remind the gods of the person’s status, and the tasks they carried out in life." },
+            { time: 20, text: "This ship will carry the spirit to its new home." }
+          ]);
+        }, 1000);
+
+
+        function placeOnBoat(item) {
+          item.addEventListener("grab-end", () => {
+            const dist = item.object3D.position.distanceTo(boat.object3D.position);
+            if (dist < 2 && !item.dataset.placed) {
+              item.dataset.placed = true;
+              itemsPlaced++;
+
+              item.setAttribute("position", boat.object3D.position);
+              item.setAttribute("scale", "0.001 0.001 0.001");
+
+              if (itemsPlaced === 2) startSecondSpeech();
             }
           });
+        }
 
-          audio.addEventListener("play", function () {
-            subtitlePanel.setAttribute("visible", "true");
-          });
+        placeOnBoat(shield);
+        placeOnBoat(amulet);
 
-          audio.addEventListener("timeupdate", function () {
-            const currentTime = audio.currentTime;
-            if (
-              currentSubtitle < subtitles.length &&
-              currentTime >= subtitles[currentSubtitle].time
-            ) {
-              subtitleText.setAttribute(
-                "value",
-                subtitles[currentSubtitle].text
-              );
-              currentSubtitle++;
-            }
-          });
+        /* =========================
+              SEGUNDO DISCURSO
+        ========================== */
+        function startSecondSpeech() {
+          playSpeech(audio2, [
+            { time: 0, text: "This ship will carry the spirit to its new home." },
+            { time: 5, text: "Ships were symbols of passage, freedom, and honour." },
+            { time: 11, text: "Only those of great standing were given this rite." },
+            { time: 18, text: "Among the Norse, cremation was purification." },
+            { time: 24, text: "The flames carry the essence toward the gods." }
+          ]);
 
-          audio.addEventListener("ended", function () {
-            setTimeout(() => {
-              subtitlePanel.setAttribute("visible", "false");
-            }, 2000);
-          });
+          torch.setAttribute("visible", "true");
+        }
 
-          // Parar animação quando pegar no escudo
-          shield.addEventListener("grab-start", function () {
-            shield.removeAttribute("animation__float");
-          });
-
-          // Parar animação quando pegar no amuleto
-          amulet.addEventListener("grab-start", function () {
-            amulet.removeAttribute("animation__float");
-          });
-
-          function checkExchange(item, itemName) {
-            item.addEventListener("grab-end", function () {
-              const itemPos = item.object3D.position;
-              const zonePos = new THREE.Vector3(0, 0, -1.5);
-              const distance = itemPos.distanceTo(zonePos);
-
-              if (distance < 2 && !itemsExchanged.includes(itemName)) {
-                itemsExchanged.push(itemName);
-                console.log(
-                  `${itemName} trocado! Total: ${itemsExchanged.length}/2`
-                );
-
-                // Remover objeto
-                item.setAttribute("animation", {
-                  property: "scale",
-                  to: "0 0 0",
-                  dur: 500,
-                });
-
-                setTimeout(() => item.remove(), 500);
-
-                // Verificar se ritual está completo
-                if (itemsExchanged.length === 2) {
-                  returnPortal.setAttribute("visible", "true");
-                }
-              }
-            });
+        /* =========================
+              ACENDER O BARCO
+        ========================== */
+        torch.addEventListener("grab-end", () => {
+          const dist = torch.object3D.position.distanceTo(boat.object3D.position);
+          if (dist < 2 && ritualStage === 0) {
+            ritualStage = 1;
+            igniteBoat();
           }
-
-          checkExchange(shield, "shield");
-          checkExchange(amulet, "amulet");
         });
-      </script>
+
+        function igniteBoat() {
+          boatFire.setAttribute("visible", "true");
+
+          playSpeech(audio3, [
+            { time: 0, text: "Now the ship burns fiercely." },
+            { time: 4, text: "The spirit is free, carried by fire and memory." },
+            { time: 9, text: "We honour their path so it will not fade." }
+          ]);
+
+          setTimeout(() => {
+            portal.setAttribute("visible", "true");
+          }, 12000);
+        }
+
+      });
+</script>
     </a-scene>
   </body>
 </html>
