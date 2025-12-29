@@ -378,9 +378,6 @@
                     easing: 'easeOutElastic'
                   });
 
-                  // tornar os links clicáveis:
-                  //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
-
                   // Torna o portal principal clicável (mas não o link)
                   const adulthoodPortalEntity = document.getElementById('adulthood-portal');
                   const adulthoodPortalLink = adulthoodPortalEntity.querySelector('a-link');
@@ -400,6 +397,8 @@
                           adulthoodPortalLink.setAttribute('href', 'adulthoodRite.html');
                           adulthoodPortalLink.classList.add('clickable');
                           adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
+                          // tornar os links clicáveis (até os de teste):
+                          //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
                         };
                       }
                     });
