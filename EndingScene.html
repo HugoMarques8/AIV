@@ -38,6 +38,10 @@
     <a-scene>
         <a-assets>
             <a-asset-item id="white-gallery" src="initial_room/white_round_exhibition_gallery.glb"></a-asset-item>
+            <!-- Cenário do marriageChallenge -->
+            <a-asset-item id="forest-scene" src="models_marriage_room/challenge scene/winter_forest.glb"></a-asset-item>
+            <!-- Skybox 360° de Aurora Boreal -->
+            <img id="aurora-sky" src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg">
             <!-- Exemplos de NPCs, substitui pelos modelos que quiseres -->
             <a-asset-item id="adulthood" src="models_adulthood_room/viking_torvidar/scene.gltf"></a-asset-item>
             <a-asset-item id="marriage" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
@@ -53,8 +57,10 @@
             <audio id="simulation-intro" src="audio_ending/intro-ending.mp3" preload="auto"></audio>
         </a-assets>
 
-        <!-- Sala final (igual à inicial) -->
-        <a-entity gltf-model="#white-gallery" position="0 5 0" scale="1 1 1"></a-entity>
+        <!-- Sala final (cenário do marriageChallenge) -->
+        <a-entity gltf-model="#forest-scene" position="0 -1 2" scale="2 2 2"></a-entity>
+        <!-- Céu de inverno nórdico com Aurora Boreal -->
+        <a-sky src="#aurora-sky" radius="500"></a-sky>
 
         <!-- NPCs de cada sala -->
 
@@ -95,7 +101,7 @@
 
         <!-- Texto final de agradecimento -->
         <a-entity id="thank-you-text" position="0 1.5 -14" visible="false">
-            <a-plane color="#FFFFFF" width="20" height="20" position="0 0 -1"></a-plane>
+            <a-plane color="#FFFFFF" opacity="0.7" width="6" height="2" position="0 0 -1"></a-plane>
             <a-text value="Thank you for playing!" align="center" color="#000000" width="10" font-size="0.5" position="0 0 0"></a-text>
             <a-light type="ambient" color="#FFFFFF" intensity="1"></a-light>
         </a-entity>
@@ -116,24 +122,28 @@
             let currentAudio = null; // Áudio atual tocando (NPC)
 
             document.addEventListener('DOMContentLoaded', function () {
-                // Desabilitar cliques até o áudio inicial terminar
-                const clickableEntities = document.querySelectorAll('.clickable');
-                clickableEntities.forEach(entity => {
-                    entity.classList.remove('clickable');
-                });
-
-                // Tocar áudio de introdução ao entrar na sala
-                const introAudio = document.querySelector('#simulation-intro');
-                if (introAudio) {
-                    introAudio.addEventListener('ended', function onEnded() {
-                        // Reabilitar cliques após áudio
-                        clickableEntities.forEach(entity => {
-                            entity.classList.add('clickable');
-                        });
-                        introAudio.removeEventListener('ended', onEnded);
+                // Aguardar carregamento completo da cena
+                const scene = document.querySelector('a-scene');
+                scene.addEventListener('loaded', function () {
+                    // Desabilitar cliques até o áudio inicial terminar
+                    const clickableEntities = document.querySelectorAll('.clickable');
+                    clickableEntities.forEach(entity => {
+                        entity.classList.remove('clickable');
                     });
-                    introAudio.play();
-                }
+
+                    // Tocar áudio de introdução ao entrar na sala
+                    const introAudio = document.querySelector('#simulation-intro');
+                    if (introAudio) {
+                        introAudio.addEventListener('ended', function onEnded() {
+                            // Reabilitar cliques após áudio
+                            clickableEntities.forEach(entity => {
+                                entity.classList.add('clickable');
+                            });
+                            introAudio.removeEventListener('ended', onEnded);
+                        });
+                        introAudio.play();
+                    }
+                });
 
                 // Flash branco ao atravessar o portal
                 const portalCollider = document.querySelector('#portal-collider');
