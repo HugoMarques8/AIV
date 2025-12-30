@@ -310,8 +310,6 @@
         const clickPrompt = document.querySelector('#click-prompt');
         const introAudio = document.querySelector('#intro-audio');
         const adulthoodPortal = document.querySelector('#adulthood-portal');
-        const marriagePortal = document.querySelector('#marriage-portal');
-        const finalPortal = document.querySelector('#final-portal');
         const introBg = document.querySelector('#intro-bg');
         let audioStarted = false;
 
@@ -373,22 +371,6 @@
 
                   // Animação de surgimento do portal
                   adulthoodPortal.setAttribute('animation', {
-                    property: 'scale',
-                    from: '0 0 0',
-                    to: '1 1 1',
-                    dur: 800,
-                    easing: 'easeOutElastic'
-                  });
-                  marriagePortal.setAttribute('visible', 'true');
-                  marriagePortal.setAttribute('animation', {
-                    property: 'scale',
-                    from: '0 0 0',
-                    to: '1 1 1',
-                    dur: 800,
-                    easing: 'easeOutElastic'
-                  });
-                  finalPortal.setAttribute('visible', 'true');
-                  finalPortal.setAttribute('animation', {
                     property: 'scale',
                     from: '0 0 0',
                     to: '1 1 1',
