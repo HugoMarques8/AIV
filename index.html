@@ -218,7 +218,7 @@
       playNext();
     }
   </script>
-  <a-scene>
+  <a-scene vr-mode-ui="enabled: true">
     <!-- Assets -->
     <a-assets>
       <a-asset-item id="white-gallery" src="initial_room/white_round_exhibition_gallery.glb"></a-asset-item>
@@ -255,8 +255,8 @@
       <a-entity id="left-hand"></a-entity>
     </a-entity>
 
-    <a-entity id="white-flash-boot" geometry="primitive: plane; height: 10; width: 10"
-      material="color: #fff; opacity: 0; transparent: true" position="0 0 -1" visible="false">
+    <a-entity id="white-flash-boot" geometry="primitive: sphere; radius: 50"
+      material="color: #fff; opacity: 0; transparent: true; side: back" position="0 1.6 0" visible="false">
     </a-entity>
 
     <!-- Painel de introdução -->
@@ -296,6 +296,33 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
+        // Check VR support
+        if ('xr' in navigator) {
+          navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+            if (!supported) {
+              console.log('VR not supported');
+              alert('VR não é suportado neste dispositivo/navegador. Certifique-se de que está a usar um navegador compatível com WebXR e que tem um dispositivo VR conectado.');
+            }
+          });
+        } else {
+          console.log('WebXR not available');
+          alert('WebXR não está disponível. Atualize o seu navegador para uma versão que suporte WebXR.');
+        }
+
+        const scene = document.querySelector('a-scene');
+        scene.addEventListener('enter-vr', () => {
+          // Adjust camera position for VR height
+          const camera = document.getElementById('camera');
+          camera.setAttribute('position', '0 -1.6 0');
+          // Resume audio context
+          if (window.AudioContext || window.webkitAudioContext) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioContext.state === 'suspended') {
+              audioContext.resume();
+            }
+          }
+        });
+
         const introPanel = document.querySelector('#intro-panel');
         const loadingText = document.querySelector('#loading-text');
         const introText = document.querySelector('#intro-text');
@@ -335,7 +362,18 @@
             introText.setAttribute('visible', 'true');
 
             // Tocar áudio
-            introAudio.play().catch(error => console.log('Audio play error:', error));
+            if (window.AudioContext || window.webkitAudioContext) {
+              const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+              if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                  introAudio.play().catch(error => console.log('Audio play error:', error));
+                });
+              } else {
+                introAudio.play().catch(error => console.log('Audio play error:', error));
+              }
+            } else {
+              introAudio.play().catch(error => console.log('Audio play error:', error));
+            }
 
             // Quando o áudio terminar, esconder painel e mostrar portal
             introAudio.addEventListener('ended', function () {
@@ -398,7 +436,7 @@
                           adulthoodPortalLink.classList.add('clickable');
                           adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
                           // tornar os links clicáveis (até os de teste):
-                          //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
+                          document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
                         };
                       }
                     });
