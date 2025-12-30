@@ -116,28 +116,169 @@
 
         <script>
             let currentAudio = null; // Áudio atual tocando (NPC)
+            let audioStarted = false;
+            let vrAudioButton = null;
+            let desktopAudioButton = null;
+
+            // Ensure AudioContext is resumed; useful for Oculus Browser autoplay policies
+            async function ensureAudioContextResumed() {
+                try {
+                    if (window.AudioContext || window.webkitAudioContext) {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        if (audioContext.state === 'suspended') await audioContext.resume();
+                    }
+                } catch (e) {
+                    console.warn('Could not resume AudioContext', e);
+                }
+            }
+
+            function createDesktopAudioButton() {
+                if (desktopAudioButton) return desktopAudioButton;
+                const btn = document.createElement('button');
+                btn.id = 'desktop-audio-button';
+                btn.innerText = 'Play audio to continue';
+                Object.assign(btn.style, {
+                    position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
+                    padding: '14px 20px', 'font-size': '18px', 'z-index': 10000, 'background': '#ff4081', 'color': '#fff', 'border': 'none', 'border-radius': '6px'
+                });
+                btn.addEventListener('click', async () => {
+                    await ensureAudioContextResumed();
+                    const introAudio = document.querySelector('#simulation-intro');
+                    if (introAudio) {
+                        try {
+                            await introAudio.play();
+                            audioStarted = true;
+                            enableClickables();
+                            hideDesktopAudioButton();
+                            console.log('Intro audio started via desktop button');
+                        } catch (err) {
+                            console.error('Intro audio still blocked after desktop button', err);
+                        }
+                    }
+                });
+                desktopAudioButton = btn;
+                return btn;
+            }
+
+            function showDesktopAudioButton() {
+                const b = createDesktopAudioButton();
+                if (!document.body.contains(b)) document.body.appendChild(b);
+            }
+
+            function hideDesktopAudioButton() {
+                if (desktopAudioButton && document.body.contains(desktopAudioButton)) document.body.removeChild(desktopAudioButton);
+            }
+
+            function createVRAudioButton() {
+                if (vrAudioButton) return vrAudioButton;
+                const button = document.createElement('a-entity');
+                button.setAttribute('id', 'vr-audio-button');
+                button.setAttribute('geometry', 'primitive: plane; height: 0.35; width: 1');
+                button.setAttribute('material', 'color: #ff4081; opacity: 0.95');
+                button.setAttribute('position', '0 -0.5 -1');
+                button.setAttribute('visible', 'false');
+                button.setAttribute('class', 'clickable');
+
+                const text = document.createElement('a-text');
+                text.setAttribute('value', 'Play audio');
+                text.setAttribute('align', 'center');
+                text.setAttribute('color', '#fff');
+                text.setAttribute('position', '0 0 0.01');
+                text.setAttribute('width', '0.9');
+                button.appendChild(text);
+
+                button.addEventListener('click', async () => {
+                    console.log('VR audio button clicked');
+                    await ensureAudioContextResumed();
+                    const introAudioEl = document.getElementById('simulation-intro');
+                    if (introAudioEl) {
+                        try {
+                            await introAudioEl.play();
+                            audioStarted = true;
+                            enableClickables();
+                            hideVRAudioButton();
+                            console.log('Intro audio started via VR button');
+                        } catch (err) {
+                            console.error('Intro audio still failed in VR', err);
+                        }
+                    }
+                });
+
+                vrAudioButton = button;
+                return button;
+            }
+
+            function showVRAudioButton() {
+                const camera = document.getElementById('camera');
+                const button = createVRAudioButton();
+                if (!button.parentNode && camera) camera.appendChild(button);
+                button.setAttribute('visible', 'true');
+            }
+
+            function hideVRAudioButton() { if (vrAudioButton) vrAudioButton.setAttribute('visible', 'false'); }
+
+            function enableClickables() {
+                const clickableEntities = document.querySelectorAll('.clickable');
+                clickableEntities.forEach(entity => entity.classList.add('clickable'));
+            }
+
+            function disableClickables() {
+                const clickableEntities = document.querySelectorAll('.clickable');
+                clickableEntities.forEach(entity => entity.classList.remove('clickable'));
+            }
 
             document.addEventListener('DOMContentLoaded', function () {
                 // Aguardar carregamento completo da cena
                 const scene = document.querySelector('a-scene');
                 scene.addEventListener('loaded', function () {
                     // Desabilitar cliques até o áudio inicial terminar
-                    const clickableEntities = document.querySelectorAll('.clickable');
-                    clickableEntities.forEach(entity => {
-                        entity.classList.remove('clickable');
-                    });
+                    disableClickables();
 
-                    // Tocar áudio de introdução ao entrar na sala
+                    // Tentar tocar áudio de introdução — se falhar, mostrar fallback
                     const introAudio = document.querySelector('#simulation-intro');
                     if (introAudio) {
-                        introAudio.addEventListener('ended', function onEnded() {
-                            // Reabilitar cliques após áudio
-                            clickableEntities.forEach(entity => {
-                                entity.classList.add('clickable');
-                            });
+                        const onEnded = () => {
+                            enableClickables();
                             introAudio.removeEventListener('ended', onEnded);
-                        });
-                        introAudio.play();
+                        };
+                        introAudio.addEventListener('ended', onEnded);
+
+                        (async () => {
+                            try {
+                                await ensureAudioContextResumed();
+                                await introAudio.play();
+                                audioStarted = true;
+                                console.log('Intro audio started on load');
+                                enableClickables();
+                            } catch (err) {
+                                console.warn('Intro audio blocked on load:', err);
+                                // Mostrar fallback: se estamos em VR, mostrar botão VR; caso contrário, mostrar botão desktop
+                                if (document.querySelector('a-scene').is('vr-mode')) {
+                                    showVRAudioButton();
+                                } else {
+                                    showDesktopAudioButton();
+                                }
+
+                                // Também aceitar o controlador como gesto: quando o utilizador pressiona selectstart, tentamos iniciar
+                                async function onSelectStartOnce() {
+                                    try {
+                                        await ensureAudioContextResumed();
+                                        await introAudio.play();
+                                        audioStarted = true;
+                                        console.log('Intro audio started via selectstart');
+                                        enableClickables();
+                                        hideVRAudioButton();
+                                        hideDesktopAudioButton();
+                                    } catch (e) {
+                                        console.warn('Still blocked after selectstart', e);
+                                        showVRAudioButton();
+                                        showDesktopAudioButton();
+                                    }
+                                    scene.removeEventListener('selectstart', onSelectStartOnce);
+                                }
+                                scene.addEventListener('selectstart', onSelectStartOnce, { once: true });
+                            }
+                        })();
                     }
                 });
 
@@ -211,6 +352,52 @@
                 }
 
                 // Configuração dos NPCs, painéis e legendas
+
+                // Garantir que o AudioContext é retomado ao entrar em VR e mostrar fallback se necessário
+                scene.addEventListener('enter-vr', async () => {
+                    console.log('Entered VR - trying to resume audio and start intro if needed');
+                    try {
+                        await ensureAudioContextResumed();
+                    } catch (e) { console.warn('Resume audio failed on enter-vr', e); }
+
+                    const introAudio = document.querySelector('#simulation-intro');
+                    if (introAudio && !audioStarted) {
+                        try {
+                            await introAudio.play();
+                            audioStarted = true;
+                            enableClickables();
+                            hideVRAudioButton();
+                            hideDesktopAudioButton();
+                            console.log('Intro audio started on enter-vr');
+                        } catch (err) {
+                            console.warn('Intro audio still blocked on enter-vr', err);
+                            showVRAudioButton();
+                        }
+                    }
+
+                    // Controller gesture fallback (once)
+                    const onSelect = async function () {
+                        if (!audioStarted) {
+                            try {
+                                await ensureAudioContextResumed();
+                                const introAudioEl = document.querySelector('#simulation-intro');
+                                if (introAudioEl) {
+                                    await introAudioEl.play();
+                                    audioStarted = true;
+                                    enableClickables();
+                                    hideVRAudioButton();
+                                    hideDesktopAudioButton();
+                                    console.log('Intro audio started via controller in VR');
+                                }
+                            } catch (e) {
+                                console.warn('Controller gesture did not start audio', e);
+                                showVRAudioButton();
+                            }
+                        }
+                        scene.removeEventListener('selectstart', onSelect);
+                    };
+                    scene.addEventListener('selectstart', onSelect, { once: true });
+                });
                 const npcs = [
                     {
                         npcId: 'npc-adulthood',
