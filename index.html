@@ -547,22 +547,102 @@
                   const adulthoodPortalCollider = document.getElementById('adulthood-portal-collider');
                   const reminderAudio = document.getElementById('simulation-reminder');
                   let reminderPlayed = false;
+                  let portalIsPointed = false;
+
+                  function activatePortalLink() {
+                    adulthoodPortalLink.setAttribute('href', 'adulthoodRite.html');
+                    adulthoodPortalLink.classList.add('clickable');
+                    if (adulthoodPortalCollider && adulthoodPortalCollider.parentNode) adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
+                  }
+
+                  async function tryPlayReminder() {
+                    if (reminderPlayed) return;
+                    reminderPlayed = true;
+                    if (adulthoodPortalCollider) adulthoodPortalCollider.classList.remove('clickable');
+                    try {
+                      if (window.AudioContext || window.webkitAudioContext) {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        if (audioContext.state === 'suspended') await audioContext.resume();
+                      }
+                    } catch (e) { console.warn('AudioContext resume failed', e); }
+
+                    try {
+                      reminderAudio.currentTime = 0;
+                      await reminderAudio.play();
+                      reminderAudio.onended = () => {
+                        activatePortalLink();
+                      };
+                    } catch (err) {
+                      console.warn('Reminder audio blocked on play:', err);
+                      // fallback: allow controller select or a temporary desktop button to start audio
+                      const id = 'reminder-desktop-play';
+                      if (!document.getElementById(id)) {
+                        const btn = document.createElement('button');
+                        btn.id = id;
+                        btn.innerText = 'Play reminder audio';
+                        Object.assign(btn.style, { position: 'fixed', left: '50%', top: '60%', transform: 'translate(-50%, -50%)', padding: '10px 14px', 'z-index': 10000, background: '#ff4081', color: '#fff', border: 'none', 'border-radius': '6px' });
+                        btn.addEventListener('click', async () => {
+                          try {
+                            if (window.AudioContext || window.webkitAudioContext) {
+                              const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                              if (audioContext.state === 'suspended') await audioContext.resume();
+                            }
+                          } catch (e) { console.warn('resume failed', e); }
+                          try {
+                            await reminderAudio.play();
+                            document.body.removeChild(btn);
+                          } catch (e) { console.error('Fallback play failed', e); }
+                        });
+                        document.body.appendChild(btn);
+                      }
+
+                      const onSelect = async function () {
+                        try {
+                          if (window.AudioContext || window.webkitAudioContext) {
+                            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            if (audioContext.state === 'suspended') await audioContext.resume();
+                          }
+                        } catch (e) { console.warn('resume failed on select', e); }
+                        try {
+                          await reminderAudio.play();
+                          // if it starts now, ensure onended activates link
+                          reminderAudio.onended = () => activatePortalLink();
+                        } catch (e) { console.warn('Still blocked after select', e); }
+                        scene.removeEventListener('selectstart', onSelect);
+                      };
+                      scene.addEventListener('selectstart', onSelect, { once: true });
+                    }
+                  }
+
                   if (adulthoodPortalCollider && adulthoodPortalLink && reminderAudio) {
+                    // Desktop mouse click (works on PC)
                     adulthoodPortalCollider.addEventListener('click', function portalHandler(evt) {
-                      if (!reminderPlayed) {
-                        evt.preventDefault && evt.preventDefault();
-                        evt.stopPropagation && evt.stopPropagation();
-                        reminderAudio.currentTime = 0;
-                        reminderAudio.play();
-                        reminderPlayed = true;
-                        // Após reminder, ativa o link e remove o plano
-                        reminderAudio.onended = () => {
-                          adulthoodPortalLink.setAttribute('href', 'adulthoodRite.html');
-                          adulthoodPortalLink.classList.add('clickable');
-                          adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
-                          // tornar os links clicáveis (até os de teste):
-                          //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
-                        };
+                      console.log('Portal clicked (mouse/2D click)', evt);
+                      tryPlayReminder();
+                    });
+
+                    // Also listen on the a-link itself (some VR cursors may hit the link element)
+                    adulthoodPortalLink.addEventListener('click', function (evt) {
+                      console.log('a-link clicked directly', evt);
+                      tryPlayReminder();
+                    });
+
+                    // Raycaster intersection to detect when controller is pointing at the portal
+                    adulthoodPortalCollider.addEventListener('raycaster-intersected', function () {
+                      portalIsPointed = true;
+                      // small visual feedback (temporary highlight)
+                      adulthoodPortalCollider.setAttribute('material', 'opacity', 0.1);
+                    });
+                    adulthoodPortalCollider.addEventListener('raycaster-intersected-cleared', function () {
+                      portalIsPointed = false;
+                      adulthoodPortalCollider.setAttribute('material', 'opacity', 0);
+                    });
+
+                    // Controller selectstart: trigger reminder only when pointing
+                    scene.addEventListener('selectstart', function (evt) {
+                      if (portalIsPointed && !reminderPlayed) {
+                        console.log('selectstart while pointing portal - triggering reminder');
+                        tryPlayReminder();
                       }
                     });
                   }
