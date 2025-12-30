@@ -146,6 +146,45 @@
 
             function hideDesktopAudioButton() { const el = document.getElementById('intro-desktop-play'); if (el) el.parentNode.removeChild(el); }
 
+            // Minimal VR HUD for starting intro audio (used when autoplay is blocked in headset)
+            let vrIntroButton = null;
+            function createVRAudioHUD() {
+                if (vrIntroButton) return vrIntroButton;
+                const btn = document.createElement('a-entity');
+                btn.setAttribute('id', 'intro-vr-play');
+                btn.setAttribute('geometry', 'primitive: plane; height: 0.35; width: 1');
+                btn.setAttribute('material', 'color: #ff4081; opacity: 0.95');
+                btn.setAttribute('position', '0 -0.6 -1');
+                btn.setAttribute('class', 'clickable');
+                const text = document.createElement('a-text');
+                text.setAttribute('value', 'Play audio');
+                text.setAttribute('align', 'center');
+                text.setAttribute('color', '#fff');
+                text.setAttribute('position', '0 0 0.01');
+                text.setAttribute('width', '0.9');
+                btn.appendChild(text);
+                btn.addEventListener('click', async () => {
+                    try {
+                        if (window.AudioContext || window.webkitAudioContext) {
+                            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            if (audioContext.state === 'suspended') await audioContext.resume();
+                        }
+                    } catch (e) { console.warn('resume failed', e); }
+                    const introAudio = document.querySelector('#simulation-intro');
+                    try {
+                        await introAudio.play();
+                        audioStarted = true;
+                        inputLocked = false;
+                        hideDesktopAudioButton();
+                        hideVRAudioHUD();
+                    } catch (err) { console.warn('VR HUD play failed', err); }
+                });
+                vrIntroButton = btn;
+                return btn;
+            }
+            function showVRAudioHUD() { const cam = document.getElementById('camera'); const b = createVRAudioHUD(); if (cam && !b.parentNode) cam.appendChild(b); b.setAttribute('visible', 'true'); }
+            function hideVRAudioHUD() { if (vrIntroButton) vrIntroButton.setAttribute('visible','false'); }
+
             document.addEventListener('DOMContentLoaded', function () {
                 // Aguardar carregamento completo da cena
                 const scene = document.querySelector('a-scene');
@@ -204,6 +243,50 @@
                     }
 
                     if (introAudio) tryStartIntro();
+
+                    // Also attempt to start intro when entering VR (resume AudioContext and play). If blocked, show VR HUD and accept controller gesture.
+                    scene.addEventListener('enter-vr', async () => {
+                        console.log('EndingScene: enter-vr -> attempting to start intro audio');
+                        if (!introAudio || audioStarted) return;
+                        try {
+                            if (window.AudioContext || window.webkitAudioContext) {
+                                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                                if (audioContext.state === 'suspended') await audioContext.resume();
+                            }
+                        } catch (e) { console.warn('Failed to resume AudioContext on enter-vr', e); }
+
+                        try {
+                            await introAudio.play();
+                            audioStarted = true;
+                            inputLocked = false;
+                            hideDesktopAudioButton();
+                            hideVRAudioHUD();
+                            console.log('Intro audio started on enter-vr');
+                        } catch (err) {
+                            console.warn('Intro audio blocked in VR; showing VR HUD play button', err);
+                            showVRAudioHUD();
+
+                            // Accept controller gesture as fallback inside VR
+                            const onSelect = async function () {
+                                try {
+                                    if (window.AudioContext || window.webkitAudioContext) {
+                                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                                        if (audioContext.state === 'suspended') await audioContext.resume();
+                                    }
+                                } catch (e) { console.warn('resume failed on select', e); }
+                                try {
+                                    await introAudio.play();
+                                    audioStarted = true;
+                                    inputLocked = false;
+                                    hideVRAudioHUD();
+                                    hideDesktopAudioButton();
+                                    console.log('Intro audio started via controller select in VR');
+                                } catch (err2) { console.warn('Still blocked after selectstart', err2); }
+                                scene.removeEventListener('selectstart', onSelect);
+                            };
+                            scene.addEventListener('selectstart', onSelect, { once: true });
+                        }
+                    });
                 });
 
                 // Flash branco ao atravessar o portal
