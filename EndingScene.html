@@ -352,52 +352,6 @@
                 }
 
                 // Configuração dos NPCs, painéis e legendas
-
-                // Garantir que o AudioContext é retomado ao entrar em VR e mostrar fallback se necessário
-                scene.addEventListener('enter-vr', async () => {
-                    console.log('Entered VR - trying to resume audio and start intro if needed');
-                    try {
-                        await ensureAudioContextResumed();
-                    } catch (e) { console.warn('Resume audio failed on enter-vr', e); }
-
-                    const introAudio = document.querySelector('#simulation-intro');
-                    if (introAudio && !audioStarted) {
-                        try {
-                            await introAudio.play();
-                            audioStarted = true;
-                            enableClickables();
-                            hideVRAudioButton();
-                            hideDesktopAudioButton();
-                            console.log('Intro audio started on enter-vr');
-                        } catch (err) {
-                            console.warn('Intro audio still blocked on enter-vr', err);
-                            showVRAudioButton();
-                        }
-                    }
-
-                    // Controller gesture fallback (once)
-                    const onSelect = async function () {
-                        if (!audioStarted) {
-                            try {
-                                await ensureAudioContextResumed();
-                                const introAudioEl = document.querySelector('#simulation-intro');
-                                if (introAudioEl) {
-                                    await introAudioEl.play();
-                                    audioStarted = true;
-                                    enableClickables();
-                                    hideVRAudioButton();
-                                    hideDesktopAudioButton();
-                                    console.log('Intro audio started via controller in VR');
-                                }
-                            } catch (e) {
-                                console.warn('Controller gesture did not start audio', e);
-                                showVRAudioButton();
-                            }
-                        }
-                        scene.removeEventListener('selectstart', onSelect);
-                    };
-                    scene.addEventListener('selectstart', onSelect, { once: true });
-                });
                 const npcs = [
                     {
                         npcId: 'npc-adulthood',
