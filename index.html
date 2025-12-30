@@ -82,7 +82,8 @@
     document.addEventListener('DOMContentLoaded', function () {
       const scene = document.querySelector('a-scene');
 
-      // Resume audio context when entering VR so autoplay/gesture policies allow subsequent audio playback
+      // Resume AudioContext and only start the full boot when the user actually ENTERS VR
+      let bootStarted = false;
       scene.addEventListener('enter-vr', async () => {
         try {
           if (window.AudioContext || window.webkitAudioContext) {
@@ -93,15 +94,19 @@
         } catch (e) {
           console.warn('Failed to resume AudioContext on enter-vr', e);
         }
-      });
 
-      if (scene.hasLoaded) {
-        if (shouldStartBoot) playBootSequence();
-      } else {
-        scene.addEventListener('loaded', function () {
-          if (shouldStartBoot) playBootSequence();
-        });
-      }
+        // Only start boot sequence after entering VR and if the user requested the experience
+        if (shouldStartBoot && !bootStarted) {
+          bootStarted = true;
+          if (scene.hasLoaded) {
+            playBootSequence();
+          } else {
+            scene.addEventListener('loaded', function () {
+              playBootSequence();
+            }, { once: true });
+          }
+        }
+      });
     });
 
     function showWhiteFlash(callback) {
@@ -343,12 +348,26 @@
         introBg.addEventListener('click', function (evt) {
           if (!audioStarted) {
             evt.stopPropagation();
+            audioStarted = true;
             loadingText.setAttribute('visible', 'false');
             clickPrompt.setAttribute('visible', 'false');
             introText.setAttribute('visible', 'true');
 
-            // Attach ended handler first (so it will trigger if audio starts later)
-            const onIntroEnded = () => {
+            // Tocar áudio (retomar AudioContext primeiro caso esteja suspenso — útil em VR)
+            (async () => {
+              try {
+                if (window.AudioContext || window.webkitAudioContext) {
+                  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                  if (audioContext.state === 'suspended') await audioContext.resume();
+                }
+              } catch (e) {
+                console.warn('Failed to resume AudioContext before playing intro', e);
+              }
+              introAudio.play().catch(error => console.log('Audio play error:', error));
+            })();
+
+            // Quando o áudio terminar, esconder painel e mostrar portal
+            introAudio.addEventListener('ended', function () {
               setTimeout(() => {
                 introPanel.setAttribute('animation__fadeout', {
                   property: 'scale',
@@ -415,58 +434,7 @@
                   }
                 }, 1000);
               }, 1000);
-
-              introAudio.removeEventListener('ended', onIntroEnded);
-            };
-
-            introAudio.addEventListener('ended', onIntroEnded);
-
-            // Tentar retomar o AudioContext e tocar o áudio; se falhar, mostrar fallback e NÃO marcar audioStarted
-            (async () => {
-              try {
-                if (window.AudioContext || window.webkitAudioContext) {
-                  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                  if (audioContext.state === 'suspended') await audioContext.resume();
-                }
-              } catch (e) {
-                console.warn('Failed to resume AudioContext before playing intro', e);
-              }
-
-              try {
-                await introAudio.play();
-                audioStarted = true;
-                console.log('Intro audio started successfully');
-              } catch (error) {
-                console.warn('Audio play error:', error);
-                // show fallback: in VR show VR button, otherwise show desktop fallback
-                if (document.querySelector('a-scene').is && document.querySelector('a-scene').is('vr-mode')) {
-                  showVRAudioButton();
-                } else {
-                  // desktop fallback
-                  const fallbackId = 'intro-desktop-play';
-                  if (!document.getElementById(fallbackId)) {
-                    const btn = document.createElement('button');
-                    btn.id = fallbackId;
-                    btn.innerText = 'Play intro audio';
-                    Object.assign(btn.style, { position: 'fixed', left: '50%', top: '60%', transform: 'translate(-50%, -50%)', padding: '10px 14px', 'z-index': 10000, background: '#ff4081', color: '#fff', border: 'none', 'border-radius': '6px' });
-                    btn.addEventListener('click', async () => {
-                      try {
-                        if (window.AudioContext || window.webkitAudioContext) {
-                          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                          if (audioContext.state === 'suspended') await audioContext.resume();
-                        }
-                      } catch (e) { console.warn('resume failed', e); }
-                      try {
-                        await introAudio.play();
-                        audioStarted = true;
-                        btn.parentNode.removeChild(btn);
-                      } catch (err) { console.error('Fallback play failed', err); }
-                    });
-                    document.body.appendChild(btn);
-                  }
-                }
-              }
-            })();
+            });
           }
         });
       });
