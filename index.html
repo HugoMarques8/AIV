@@ -344,15 +344,17 @@
     </a-entity>
     <!--- Estes são apenas para motivos de debugging --->
     <!-- Portal para marriageRite.html -->
+     <!---
     <a-entity id="marriage-portal" position="-3 1.6 -5" visible="false">
       <a-link href="marriageRite.html" title="Begin Experience (Marriage)" color="#00D4FF"
         image="#portal-image"></a-link>
-    </a-entity>
-
+    </a-entity> --->
+  
     <!-- Portal para finalRite.html -->
+    <!---
     <a-entity id="final-portal" position="3 1.6 -5" visible="false">
       <a-link href="finalRite.html" title="Begin Experience (Final)" color="#00D4FF" image="#portal-image"></a-link>
-    </a-entity>
+    </a-entity> --->
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -558,7 +560,7 @@
                           adulthoodPortalLink.classList.add('clickable');
                           adulthoodPortalCollider.parentNode.removeChild(adulthoodPortalCollider);
                           // tornar os links clicáveis (até os de teste):
-                          document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
+                          //document.querySelectorAll('a-link').forEach(link => link.classList.add('clickable'));
                         };
                       }
                     });
