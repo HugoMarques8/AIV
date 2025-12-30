@@ -63,6 +63,9 @@
     // Só iniciar boot depois da cena estar carregada
     let shouldStartBoot = false;
     let sceneReady = false;
+    let prevPlayerPos = null;
+    let storedFlashParent = null;
+    let vrAudioButton = null;
     function startExperience() {
       shouldStartBoot = true;
     }
@@ -117,6 +120,62 @@
           }, 300); // tempo do flash branco
         }
       }, 30);
+    }
+
+    // VR audio button helper (most mobile/VR browsers block audio; show a VR button to explicitly start)
+    function createVRAudioButton() {
+      if (vrAudioButton) return vrAudioButton;
+      const button = document.createElement('a-entity');
+      button.setAttribute('id', 'vr-audio-button');
+      button.setAttribute('geometry', 'primitive: plane; height: 0.4; width: 1');
+      button.setAttribute('material', 'color: #ff4081; opacity: 0.95');
+      button.setAttribute('position', '0 -0.6 -1');
+      button.setAttribute('visible', 'false');
+      button.setAttribute('class', 'clickable');
+
+      const text = document.createElement('a-text');
+      text.setAttribute('value', 'Play audio');
+      text.setAttribute('align', 'center');
+      text.setAttribute('color', '#fff');
+      text.setAttribute('position', '0 0 0.01');
+      text.setAttribute('width', '0.9');
+      button.appendChild(text);
+
+      button.addEventListener('click', async () => {
+        console.log('VR audio button clicked');
+        try {
+          if (window.AudioContext || window.webkitAudioContext) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioContext.state === 'suspended') await audioContext.resume();
+          }
+        } catch (e) {
+          console.warn('Error resuming audio context', e);
+        }
+        const introAudioEl = document.getElementById('intro-audio');
+        if (introAudioEl) {
+          introAudioEl.play().then(() => {
+            audioStarted = true;
+            hideVRAudioButton();
+            console.log('Intro audio started via VR button');
+          }).catch(err => {
+            console.error('Intro audio still failed', err);
+          });
+        }
+      });
+
+      vrAudioButton = button;
+      return button;
+    }
+
+    function showVRAudioButton() {
+      const camera = document.getElementById('camera');
+      const button = createVRAudioButton();
+      if (!button.parentNode) camera.appendChild(button);
+      button.setAttribute('visible', 'true');
+    }
+
+    function hideVRAudioButton() {
+      if (vrAudioButton) vrAudioButton.setAttribute('visible', 'false');
     }
 
     // Sequência de boot: mostra modelo spacedrive, toca áudios, esconde modelo, continua fluxo normal
@@ -310,22 +369,70 @@
           alert('WebXR não está disponível. Atualize o seu navegador para uma versão que suporte WebXR.');
         }
 
+        console.log('Para ver logs do Oculus Browser: ligue o Quest 2 ao PC, abra chrome://inspect no Chrome e inspecione a aba do "Oculus Browser".');
         const scene = document.querySelector('a-scene');
-        scene.addEventListener('enter-vr', () => {
-          // Adjust camera position for VR height
+        scene.addEventListener('enter-vr', async () => {
+          console.log('Entered VR');
+          const player = document.getElementById('player');
+          if (player) {
+            const prevPos = player.getAttribute('position');
+            prevPlayerPos = { x: prevPos.x, y: prevPos.y, z: prevPos.z };
+            player.setAttribute('position', `${prevPos.x} 0 ${prevPos.z}`);
+          }
+
+          // Attach flash to camera so it reliably covers view in VR
           const camera = document.getElementById('camera');
-          camera.setAttribute('position', '0 -1.6 0');
+          const flash = document.getElementById('white-flash-boot');
+          if (flash && camera && flash.parentNode !== camera) {
+            storedFlashParent = flash.parentNode;
+            camera.appendChild(flash);
+            flash.setAttribute('position', '0 0 0');
+          }
+
           // Resume audio context
-          if (window.AudioContext || window.webkitAudioContext) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioContext.state === 'suspended') {
-              audioContext.resume();
+          try {
+            if (window.AudioContext || window.webkitAudioContext) {
+              const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+              if (audioContext.state === 'suspended') await audioContext.resume();
+            }
+            console.log('AudioContext resumed on enter-vr');
+          } catch (e) {
+            console.warn('Failed to resume audio context on enter-vr', e);
+          }
+
+          // Try to start intro audio if not already started; if blocked, show VR play button
+          const introAudioEl = document.getElementById('intro-audio');
+          if (introAudioEl && !audioStarted) {
+            try {
+              await introAudioEl.play();
+              audioStarted = true;
+              console.log('Intro audio started on enter-vr');
+            } catch (err) {
+              console.warn('Intro audio blocked in VR; showing VR Play button', err);
+              showVRAudioButton();
             }
           }
+
           // Start boot if ready
           if (sceneReady && shouldStartBoot) {
             playBootSequence();
           }
+        });
+
+        scene.addEventListener('exit-vr', () => {
+          console.log('Exited VR');
+          const player = document.getElementById('player');
+          if (prevPlayerPos && player) {
+            player.setAttribute('position', `${prevPlayerPos.x} ${prevPlayerPos.y} ${prevPlayerPos.z}`);
+            prevPlayerPos = null;
+          }
+          const flash = document.getElementById('white-flash-boot');
+          if (flash && storedFlashParent && storedFlashParent !== flash.parentNode) {
+            storedFlashParent.appendChild(flash);
+            flash.setAttribute('position', '0 1.6 0');
+            storedFlashParent = null;
+          }
+          hideVRAudioButton();
         });
 
         const introPanel = document.querySelector('#intro-panel');
