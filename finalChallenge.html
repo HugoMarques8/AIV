@@ -241,8 +241,16 @@
 		</a-ring>
 
 		<!-- Cilindro de detecção -->
-		<a-cylinder id="exchange-zone" position="2 0.5 -6.555" rotation="0 0 90" radius="2" height="20" opacity="0"
-			material="transparent: true; opacity: 0" exchange-zone>
+		<a-cylinder 
+      id="exchange-zone" 
+      position="2 0.5 -6.555" 
+      rotation="0 0 90" 
+      radius="2" 
+      height="20" 
+      opacity="0"
+			material="transparent: true; opacity: 0" 
+      aabb-collider="objects: .grabbable"
+      exchange-zone>
 		</a-cylinder>
       
       <!-- Portal Final -->
@@ -341,7 +349,8 @@
               item.setAttribute("position", boat.object3D.position);
               item.setAttribute("scale", "0.001 0.001 0.001");
 
-              if (itemsPlaced === 2) startSecondSpeech();
+              if (itemsPlaced === 2) 
+              startSecondSpeech();
             }
           });
         }
