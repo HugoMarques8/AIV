@@ -241,18 +241,18 @@
 			</a-text>
 		</a-ring>
 
-		<!-- Cilindro de detecção -->
-		<a-cylinder 
+		<!-- Detecção -->
+		<a-box 
       id="exchange-zone" 
-      position="2 0.5 -6.555" 
-      rotation="0 0 90" 
-      radius="2" 
-      height="20" 
+      position="0.763 1.052 -6.738" 
+      width="20" 
+      height="5" 
+      depth="5"
       opacity="0"
 			material="transparent: true; opacity: 0" 
       aabb-collider="objects: .grabbable"
       exchange-zone>
-		</a-cylinder>
+		</a-box>
       
       <!-- Portal Final -->
       <a-entity
@@ -339,27 +339,39 @@
           ]);
         }, 1000);
 
+        function isInsideZone(item, zone, radius) {
+          const itemPos = new THREE.Vector3();
+          const zonePos = new THREE.Vector3();
 
-        function placeOnBoat(item) {
+          item.object3D.getWorldPosition(itemPos);
+          zone.object3D.getWorldPosition(zonePos);
+
+          return itemPos.distanceTo(zonePos) <= radius;
+        }
+
+        const exchangeZone = document.querySelector("#exchange-zone");
+
+        function placeInExchangeZone(item) {
           item.addEventListener("grab-end", () => {
-            const dist = item.object3D.position.distanceTo(boat.object3D.position);
-            if (dist < 2 && !item.dataset.placed) {
-              item.dataset.placed = true;
+            if (item.dataset.placed) return;
+
+            if (isInsideZone(item, exchangeZone, 2)) {
+              item.dataset.placed = "true";
               itemsPlaced++;
 
-              item.setAttribute("position", boat.object3D.position);
+              item.setAttribute("position", exchangeZone.object3D.position);
               item.setAttribute("scale", "0.001 0.001 0.001");
 
-              if (itemsPlaced === 2) 
-              startSecondSpeech();
-              tocha.setAttribute("visible", "true");
-        
+              if (itemsPlaced === 2) {
+                startSecondSpeech();
+                torch.setAttribute("visible", "true");
+              }
             }
           });
         }
 
-        placeOnBoat(shield);
-        placeOnBoat(amulet);
+        placeInExchangeZone(shield);
+        placeInExchangeZone(amulet);
 
         /* =========================
               SEGUNDO DISCURSO
@@ -373,8 +385,6 @@
             { time: 24, text: "The flames carry the essence toward the gods." }
 
           ]);
-
-          torch.setAttribute("visible", "true");
         }
 
         /* =========================
