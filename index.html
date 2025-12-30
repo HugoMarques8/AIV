@@ -294,7 +294,7 @@
       <audio id="portal-idle-sound" src="sound-effects/portal_idle-34022.mp3" preload="auto"></audio>
       <audio id="simulation-reminder" src="audio/simulation-reminder.mp3" preload="auto"></audio>
     </a-assets>
-    <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 3 8" scale="1 1 2"
+    <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 1.6 8" scale="1 1 2"
       visible="false">
     </a-entity>
     <a-entity light="type: point; color: #00d4ff; intensity: 2; distance: 6" position="0 1 0"></a-entity>
@@ -387,30 +387,6 @@
             storedFlashParent = flash.parentNode;
             camera.appendChild(flash);
             flash.setAttribute('position', '0 0 0');
-          }
-
-          // Resume audio context
-          try {
-            if (window.AudioContext || window.webkitAudioContext) {
-              const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-              if (audioContext.state === 'suspended') await audioContext.resume();
-            }
-            console.log('AudioContext resumed on enter-vr');
-          } catch (e) {
-            console.warn('Failed to resume audio context on enter-vr', e);
-          }
-
-          // Try to start intro audio if not already started; if blocked, show VR play button
-          const introAudioEl = document.getElementById('intro-audio');
-          if (introAudioEl && !audioStarted) {
-            try {
-              await introAudioEl.play();
-              audioStarted = true;
-              console.log('Intro audio started on enter-vr');
-            } catch (err) {
-              console.warn('Intro audio blocked in VR; showing VR Play button', err);
-              showVRAudioButton();
-            }
           }
 
           // If the audio is still blocked, allow controller press (selectstart) to act as a gesture and start audio
