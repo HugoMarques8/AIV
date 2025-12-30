@@ -413,7 +413,41 @@
             }
           }
 
-          // Start boot if ready
+          // If the audio is still blocked, allow controller press (selectstart) to act as a gesture and start audio
+          async function handleSelectStart(evt) {
+            console.log('VR selectstart received', evt);
+            if (!audioStarted) {
+              try {
+                if (window.AudioContext || window.webkitAudioContext) {
+                  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                  if (audioContext.state === 'suspended') await audioContext.resume();
+                }
+              } catch (e) {
+                console.warn('Error resuming AudioContext on selectstart', e);
+              }
+
+              try {
+                if (introAudioEl) {
+                  await introAudioEl.play();
+                  audioStarted = true;
+                  hideVRAudioButton();
+                  console.log('Intro audio started via controller select');
+                }
+              } catch (err) {
+                console.warn('Intro audio still blocked after selectstart', err);
+                showVRAudioButton();
+              }
+
+              if (audioStarted && sceneReady && shouldStartBoot) {
+                playBootSequence();
+              }
+            }
+            scene.removeEventListener('selectstart', handleSelectStart);
+          }
+
+          scene.addEventListener('selectstart', handleSelectStart, { once: true });
+
+          // Start boot if ready (audio may already be started above)
           if (sceneReady && shouldStartBoot) {
             playBootSequence();
           }
