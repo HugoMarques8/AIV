@@ -68,12 +68,12 @@
 
         <audio
           id="ambient-sound"
-          src="audio_final/ambient-sounds-at-night-243045.mp3"
+          src="audio/ambient-sounds-at-night-243045.mp3"
           preload="auto"
         ></audio>
         <audio
           id="fire-sound"
-          src="audio_final/copyright-free-fire-crackling-427409.mp3"
+          src="audio/copyright-free-fire-crackling-427409.mp3"
           preload="auto"
         ></audio>
       </a-assets>
@@ -212,65 +212,38 @@
       <a-entity
         id="escudo"
         gltf-model="#escudo"
-        position="4.293 1.407 -3.122"
+        position="4.293 1.407 -2.219"
         scale="0.04 0.04 0.04"
         rotation="0 -90 0"
         class="grabbable"
-        animation__float="property: position; to: 4.293 0.955 -3.122; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 4.293 0.955 -2.219; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
       <!-- Anel -->
       <a-entity
         id="amuleto"
         gltf-model="#amuleto"
-        position="4.293 1.353 -1.122"
+        position="4.293 1.353 0.358"
         scale="0.01 0.01 0.01"
         rotation="0 90 0"
         class="grabbable"
-        animation__float="property: position; to: 4.293 1 -1.122; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 4.293 1 0.358; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
 
-      <!-- Zona de troca -->
-      <a-ring
-        position="2 0.25 -6"
-        rotation="-90 0 0"
-        radius-inner="1"
-        radius-outer="1.5"
-        color="#FFD700"
-        opacity="0.5"
-        material="side: double"
-      >
-        <a-animation
-          attribute="rotation"
-          from="-90 0 0"
-          to="-90 360 0"
-          dur="4000"
-          repeat="indefinite"
-          easing="linear"
-        >
-        </a-animation>
-        <a-text
-          value="Exchange Zone"
-          position="0 -0.5 0"
-          align="center"
-          color="#FFD700"
-          width="4"
-        >
-        </a-text>
-      </a-ring>
+		<!-- Zona de troca -->
+		<a-ring position="1.451 0.250 -6.747" rotation="-90 0 0" scale="7 1.5 1" radius-inner="1" radius-outer="1.5" color="#FFD700"
+			opacity="0.5" material="side: double">
+			<a-animation attribute="rotation" from="-90 0 0" to="-90 360 0" dur="4000" repeat="indefinite"
+				easing="linear">
+			</a-animation>
+			</a-text>
+		</a-ring>
 
-      <!-- Cilindro invisível de detecção -->
-      <a-cylinder
-        id="exchange-zone"
-        position="2 0.5 -6"
-        radius="1.5"
-        height="20"
-        opacity="0"
-        material="transparent: true; opacity: 0"
-        exchange-zone
-      >
-      </a-cylinder>
+		<!-- Cilindro de detecção -->
+		<a-cylinder id="exchange-zone" position="2 0.5 -6.555" rotation="0 0 90" radius="2" height="20" opacity="0"
+			material="transparent: true; opacity: 0" exchange-zone>
+		</a-cylinder>
       
       <!-- Portal Final -->
       <a-entity
@@ -288,7 +261,7 @@
         >
         </a-text>
         <a-link
-          href="index.html"
+          href="EndingScene.html"
           title="You have completed the Final Challenge!"
           position="0 0 0"
           scale="2 3 1"
@@ -353,7 +326,7 @@
             { time: 6, text: "Objects placed with the body speak of their life." },
             { time: 10, text: "A shield for protection and an amulet for luck." },
             { time: 15, text: "They remind the gods of the person’s status, and the tasks they carried out in life." },
-            { time: 20, text: "This ship will carry the spirit to its new home." }
+            { time: 22, text: "Now, place these items on the boat." }
           ]);
         }, 1000);
 
@@ -384,8 +357,9 @@
             { time: 0, text: "This ship will carry the spirit to its new home." },
             { time: 5, text: "Ships were symbols of passage, freedom, and honour." },
             { time: 11, text: "Only those of great standing were given this rite." },
-            { time: 18, text: "Among the Norse, cremation was purification." },
+            { time: 18, text: "Among the Norse, cremation was a path to purification." },
             { time: 24, text: "The flames carry the essence toward the gods." }
+
           ]);
 
           torch.setAttribute("visible", "true");
@@ -407,8 +381,8 @@
 
           playSpeech(audio3, [
             { time: 0, text: "Now the ship burns fiercely." },
-            { time: 4, text: "The spirit is free, carried by fire and memory." },
-            { time: 9, text: "We honour their path so it will not fade." }
+            { time: 4, text: "The spirit is free, carried by fire, wind and memory." },
+            { time: 9, text: "We who remain honour their path and guard their story so it will not fade." }
           ]);
 
           setTimeout(() => {
