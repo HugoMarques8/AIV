@@ -62,6 +62,7 @@
   <script>
     // Só iniciar boot depois da cena estar carregada
     let shouldStartBoot = false;
+    let sceneReady = false;
     function startExperience() {
       shouldStartBoot = true;
     }
@@ -78,14 +79,14 @@
       startExperience();
     }
 
-    // Esperar pelo carregamento da cena para iniciar o boot
+    // Esperar pelo carregamento da cena para marcar pronto
     document.addEventListener('DOMContentLoaded', function () {
       const scene = document.querySelector('a-scene');
       if (scene.hasLoaded) {
-        if (shouldStartBoot) playBootSequence();
+        sceneReady = true;
       } else {
         scene.addEventListener('loaded', function () {
-          if (shouldStartBoot) playBootSequence();
+          sceneReady = true;
         });
       }
     });
@@ -234,7 +235,7 @@
       <audio id="portal-idle-sound" src="sound-effects/portal_idle-34022.mp3" preload="auto"></audio>
       <audio id="simulation-reminder" src="audio/simulation-reminder.mp3" preload="auto"></audio>
     </a-assets>
-    <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 1.6 8" scale="1 1 2"
+    <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 3 8" scale="1 1 2"
       visible="false">
     </a-entity>
     <a-entity light="type: point; color: #00d4ff; intensity: 2; distance: 6" position="0 1 0"></a-entity>
@@ -320,6 +321,10 @@
             if (audioContext.state === 'suspended') {
               audioContext.resume();
             }
+          }
+          // Start boot if ready
+          if (sceneReady && shouldStartBoot) {
+            playBootSequence();
           }
         });
 
