@@ -11,7 +11,7 @@
 	<script src="js/grip-grab-combat.js"></script>
 </head>
 <body>
-	<a-scene>
+	<a-scene renderer="antialias: false; powerPreference: low-power">
 		<a-assets>
 			<!-- Modelos 3D -->
 			<a-asset-item id="gallery-model" src="models_marriage_room/vr_gallery.glb"></a-asset-item>
@@ -144,7 +144,7 @@
 		
 		<!-- camera rig (player) -->
 		<a-entity id="player" position="0 0.95 0" thumbstick-movement="speed: 3.0" movement-controls wasd-controls="acceleration: 20" vr-hands>
-			<a-entity id="camera" camera position="0 3 0" look-controls="pointerLockEnabled: false"
+			<a-entity id="camera" camera position="0 1.6 0" look-controls="pointerLockEnabled: false"
 				cursor="rayOrigin: mouse; fuse: false"
 				raycaster="objects: .clickable, .grabbable">
 			</a-entity>
@@ -164,6 +164,52 @@
 			<a-link href="adulthoodChallenge.html" title="Enter Challenge" image="#link-image-Challenge" class="clickable"></a-link>
 		</a-entity>
 		<script>
+			// Global error capture for debugging VR crashes
+			window.addEventListener('error', function(e) {
+				console.error('Global error:', e.message, e.filename, e.lineno, e.colno, e.error);
+				showVRDebugMessage('Error: ' + (e.message || 'unknown'));
+			});
+			window.addEventListener('unhandledrejection', function(e) {
+				console.error('Unhandled rejection:', e.reason);
+				showVRDebugMessage('Unhandled rejection: ' + (e.reason && e.reason.message ? e.reason.message : e.reason));
+			});
+			function showVRDebugMessage(msg) {
+				try {
+					let el = document.getElementById('vr-debug-panel');
+					if (!el) {
+						el = document.createElement('a-entity');
+						el.setAttribute('id', 'vr-debug-panel');
+						el.setAttribute('position', '0 1.6 -1');
+						el.innerHTML = '<a-plane width="1.8" height="0.4" color="#000" opacity="0.85"></a-plane>';
+						const text = document.createElement('a-text');
+						text.setAttribute('value', msg);
+						text.setAttribute('color', '#ff3333');
+						text.setAttribute('align', 'center');
+						text.setAttribute('width', '1.7');
+						text.setAttribute('position', '0 0 0.01');
+						el.appendChild(text);
+						document.querySelector('a-scene').appendChild(el);
+						setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 8000);
+					} else {
+						const text = el.querySelector('a-text');
+						if (text) text.setAttribute('value', msg);
+					}
+				} catch (err) {
+					console.warn('Could not display VR debug message', err);
+				}
+				// Also show an alert (useful when inspecting remotely via chrome://inspect)
+				try { alert(msg); } catch (e) {}
+			}
+
+			// Log when glTF models finish loading (useful to detect large assets)
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('[gltf-model]').forEach(el => {
+					el.addEventListener('model-loaded', () => {
+						console.log('Model loaded:', el.id || el.getAttribute('gltf-model'));
+					});
+				});
+			});
+
 			const npc = document.querySelector('#npc_entity');
 			const audio = document.querySelector('#npc-audio');
 			const subtitlePanel = document.querySelector('#npc-subtitle');
@@ -215,17 +261,16 @@
 			});
 
 			const infoTriggers = document.querySelectorAll('.info-trigger');
-			let currentInfoAudio = null;
+			let currentInfoAudio = new Audio();
+			currentInfoAudio.preload = 'auto';
 
-			infoTriggers.forEach(trigger=>{
-				trigger.addEventListener('click', function(){
+			infoTriggers.forEach(trigger => {
+				trigger.addEventListener('click', function () {
 					const infoType = this.getAttribute('data-info');
-					if (currentInfoAudio){
-						currentInfoAudio.pause();						
-					}
-
-					currentInfoAudio = new Audio(`audio_adulthood/${infoType}.mp3`);
-					currentInfoAudio.play();
+					try { if (!currentInfoAudio.paused) currentInfoAudio.pause(); } catch (e) {}
+					currentInfoAudio.src = `audio_adulthood/${infoType}.mp3`;
+					currentInfoAudio.currentTime = 0;
+					currentInfoAudio.play().catch(err => console.warn('Info audio play failed', err));
 				});
 			});
 		</script>
