@@ -9,7 +9,6 @@
     <script src="js/handedness-setup.js"></script>
     <script src="js/thumbstick-movement.js"></script>
     <script src="js/grip-grab-combat.js"></script>
-    <script src="js/exchange-zone.js"></script>
   </head>
   <body>
     <a-scene>
@@ -21,23 +20,23 @@
         ></a-asset-item>
 
         <a-asset-item
-          id="boat"
+          id="boat-asset"
           src="models_final_room/Challenge/death_boat.glb"
         ></a-asset-item>
         <a-asset-item
-          id="tocha"
+          id="tocha-asset"
           src="models_final_room/torch.glb"
         ></a-asset-item>
         <a-asset-item
-          id="escudo"
+          id="escudo-asset"
           src="models_adulthood_room/viking_shield/scene.gltf"
         ></a-asset-item>
         <a-asset-item
-          id="amuleto"
+          id="amuleto-asset"
           src="models_final_room/amuleto.glb"
         ></a-asset-item>
         <a-asset-item
-          id="volva"
+          id="volva-asset"
           src="models_final_room/volva.glb"
         ></a-asset-item>
         <!-- Skybox 360° de Aurora Boreal -->
@@ -110,7 +109,7 @@
       <!-- Tocha com som de fogo -->
       <a-entity
         id="tocha"
-        gltf-model="#tocha"
+        gltf-model="#tocha-asset"
         visible="false"
         position="-1.847 1.272 -2.644"
         scale="0.6 0.6 0.6"
@@ -140,7 +139,7 @@
       <!-- NPC Viking no ritual -->
       <a-entity
         id="volva"
-        gltf-model="#volva"
+        gltf-model="#volva-asset"
         position="-0.076 0 -10.614"
         scale="2.5 2.5 2.5"
         class="clickable"
@@ -168,7 +167,7 @@
     <!-- Boat -->
       <a-entity
         id="boat"
-        gltf-model="#boat"
+        gltf-model="#boat-asset"
         position="0.728 0.172 -6.558"
         scale="4 4 4"
         rotation="0 -90 0"
@@ -212,7 +211,7 @@
       <!-- Escudo do jogador -->
       <a-entity
         id="escudo"
-        gltf-model="#escudo"
+        gltf-model="#escudo-asset"
         position="4.293 1.407 -2.219"
         scale="0.04 0.04 0.04"
         rotation="0 -90 0"
@@ -223,7 +222,7 @@
       <!-- Anel -->
       <a-entity
         id="amuleto"
-        gltf-model="#amuleto"
+        gltf-model="#amuleto-asset"
         position="4.293 1.353 0.358"
         scale="0.01 0.01 0.01"
         rotation="0 90 0"
