@@ -160,11 +160,23 @@ AFRAME.registerComponent('grip-grab', {
     this.grabbed.setAttribute('scale', this.originalScale);
     
     console.log('Released object:', this.grabbed.id, 'at', releasePos);
-    
+
+    // Emitir evento customizado para sinalizar que o objeto foi solto
+    // Isso permite que listeners externos (ex.: exchange-zone) detectem a ação
+    try {
+      if (this.grabbed.emit) {
+        this.grabbed.emit('onSqueezeEnd');
+      } else {
+        this.grabbed.dispatchEvent(new Event('onSqueezeEnd'));
+      }
+    } catch (e) {
+      console.warn('Could not emit onSqueezeEnd on', this.grabbed, e);
+    }
+
     setTimeout(() => {
       this.updateDebugText('Ready for next grab');
     }, 2000);
-    
+
     this.grabbed = null;
   },
   
