@@ -251,7 +251,6 @@
       depth="5"
       opacity="0"
 			material="transparent: true; opacity: 0" 
-      aabb-collider="objects: .grabbable"
       exchange-zone>
 		</a-box>
       
@@ -356,7 +355,7 @@
           item.addEventListener("grab-end", () => {
             if (item.dataset.placed) return;
 
-            if (isInsideZone(item, exchangeZone, 2)) {
+            if (isInsideZone(item, exchangeZone, 6)) {
               item.dataset.placed = "true";
               itemsPlaced++;
 
