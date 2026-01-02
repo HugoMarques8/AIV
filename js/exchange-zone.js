@@ -139,8 +139,6 @@ AFRAME.registerComponent('exchange-zone', {
           npc.setAttribute('gltf-model', '#npc-thankful');
           // Garantir que o animation-mixer é ativado para reproduzir a animação do glb
           npc.setAttribute('animation-mixer', '');
-          // Pequena animação adicional de celebração (opcional)
-          npc.setAttribute('animation__celebrate', 'property: position; to: 2 0.5 -6.5; dur: 600; dir: alternate; loop: 3');
         } catch (e) {
           console.warn('Could not switch NPC model or play animation:', e);
         }
