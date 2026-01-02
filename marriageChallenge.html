@@ -23,6 +23,7 @@
 			<a-asset-item id="viking-ring"
 				src="models_marriage_room/challenge scene/ring_of_the_north.glb"></a-asset-item>
 			<a-asset-item id="female-viking-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
+			<a-asset-item id="npc-thankful" src="models_marriage_room/animations_npc/thankfull.glb"></a-asset-item>
 			<!-- Skybox 360° de Aurora Boreal -->
 			<img id="aurora-sky" src="models_marriage_room/images/NightSkyHDRI007_4K_TONEMAPPED.jpg">
 			<img id="preview-museum" src="models_marriage_room/images/final_preview.png">
@@ -176,46 +177,8 @@
 				ring.addEventListener('grab-start', function () {
 					ring.removeAttribute('animation__float');
 				});
-
-				function checkExchange(item, itemName) {
-					item.addEventListener('grab-end', function () {
-						const itemPos = item.object3D.position;
-						const zonePos = new THREE.Vector3(0, 0, -1.5);
-						const distance = itemPos.distanceTo(zonePos);
-
-						if (distance < 2 && !itemsExchanged.includes(itemName)) {
-							itemsExchanged.push(itemName);
-							console.log(`${itemName} trocado! Total: ${itemsExchanged.length}/2`);
-
-							// Remover objeto
-							item.setAttribute('animation', {
-								property: 'scale',
-								to: '0 0 0',
-								dur: 500
-							});
-
-							setTimeout(() => item.remove(), 500);
-
-							// Verificar se ritual está completo
-							if (itemsExchanged.length === 2) {
-								returnPortal.setAttribute('visible', 'true');
-
-								// Animação de celebração da NPC
-								const npc = document.querySelector('#ritual-npc a-entity');
-								npc.setAttribute('animation__celebrate', {
-									property: 'position',
-									to: '0 0.5 0',
-									dur: 500,
-									direction: 'alternate',
-									loop: 3
-								});
-							}
-						}
-					});
-				}
-
-				checkExchange(sword, 'sword');
-				checkExchange(ring, 'ring');
+				// Detectar quando objetos são soltos na zona de troca é feito
+				//  pelo componente exchange-zone
 			});
 		</script>
 	</a-scene>
