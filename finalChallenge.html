@@ -6,13 +6,14 @@
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="js/handedness-setup.js"></script>
     <script src="js/thumbstick-movement.js"></script>
     <script src="js/grip-grab-combat.js"></script>
 
   </head>
   <body>
-    <a-scene>
+    <a-scene physics="debug: true;">
       <!-- Assets -->
       <a-assets>
         <a-asset-item
@@ -190,7 +191,6 @@
             visible="false"
             id="boat-zone-visual"
           ></a-box>
-        </a-entity>
       </a-entity>
 
       <a-entity
@@ -207,8 +207,8 @@
             position="0 1 0"
             scale="1.5 1.5 1.5"
           ></a-entity>
-        </a-entity>
       </a-entity>
+  
 
       <!-- Escudo do jogador -->
       <a-entity
@@ -352,7 +352,7 @@
         const exchangeZone = document.querySelector("#exchange-zone");
 
         function placeInExchangeZone(item) {
-          item.addEventListener("grab-end", () => {
+          item.addEventListener("onSqueezeEnd", () => {
             if (item.dataset.placed) return;
 
             if (isInsideZone(item, exchangeZone, 6)) {
@@ -391,7 +391,7 @@
         /* =========================
               ACENDER O BARCO
         ========================== */
-        torch.addEventListener("grab-end", () => {
+        torch.addEventListener("onSqueezeEnd", () => {
           const dist = torch.object3D.position.distanceTo(boat.object3D.position);
           if (dist < 2 && ritualStage === 0) {
             ritualStage = 1;
