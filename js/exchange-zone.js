@@ -129,6 +129,21 @@ AFRAME.registerComponent('exchange-zone', {
         portal.setAttribute('visible', 'true');
       }
     }, 2000);
+
+    // Trigger NPC thankful animation/model when ritual completes
+    setTimeout(() => {
+      const npc = document.getElementById('npc-astrid');
+      if (npc) {
+        // Trocar modelo para o asset com animação "thankful"
+        try {
+          npc.setAttribute('gltf-model', '#npc-thankful');
+          // Garantir que o animation-mixer é ativado para reproduzir a animação do glb
+          npc.setAttribute('animation-mixer', '');
+        } catch (e) {
+          console.warn('Could not switch NPC model or play animation:', e);
+        }
+      }
+    }, 2200);
   },
 
   remove: function () {
