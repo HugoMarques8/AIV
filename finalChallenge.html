@@ -9,6 +9,7 @@
     <script src="js/handedness-setup.js"></script>
     <script src="js/thumbstick-movement.js"></script>
     <script src="js/grip-grab-combat.js"></script>
+
   </head>
   <body>
     <a-scene>
@@ -70,6 +71,7 @@
           src="audio/ambient-sounds-at-night-243045.mp3"
           preload="auto"
         ></audio>
+        
         <audio
           id="fire-sound"
           src="audio/copyright-free-fire-crackling-427409.mp3"
@@ -114,7 +116,7 @@
         position="-1.847 1.272 -2.644"
         scale="0.6 0.6 0.6"
         class="grabbable interactive"
-        sound="src: #fire-sound; autoplay: true; loop: true; volume: 0.7"
+        sound="src: #fire-sound; loop: true; volume: 0.7"
         animation__float="property: position; to:-1.847 1.044 -2.644; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
        <a-entity
@@ -364,6 +366,7 @@
               if (itemsPlaced === 2) {
                 startSecondSpeech();
                 torch.setAttribute("visible", "true");
+                torch.components.sound.playSound();
               }
             }
           });
