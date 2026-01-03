@@ -386,6 +386,7 @@
               ritualStage = 2;
 
               torch.setAttribute("visible", "false");
+              
 
               audio2.pause();
               audio2.currentTime = 0;
@@ -425,7 +426,11 @@
         // });
 
         function igniteBoat() {
+
+          const torchSound = torch.components.sound;
           boatFire.setAttribute("visible", "true");
+          torchSound.setVolume(1.0);
+          
 
           playSpeech(audio3, [
             { time: 0, text: "Now the ship burns fiercely." },
