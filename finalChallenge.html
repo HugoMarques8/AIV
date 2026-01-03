@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-particle-system-component@1.1.4/dist/aframe-particle-system-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="js/handedness-setup.js"></script>
     <script src="js/thumbstick-movement.js"></script>
@@ -25,6 +26,12 @@
           id="boat-asset"
           src="models_final_room/Challenge/death_boat.glb"
         ></a-asset-item>
+
+        <a-asset-item
+          id="animated-fire-asset"
+          src="models_final_room/Challenge/animated_fire.glb"
+        ></a-asset-item>
+
         <a-asset-item
           id="tocha-asset"
           src="models_final_room/torch.glb"
@@ -175,7 +182,15 @@
         scale="4 4 4"
         rotation="0 -90 0"
         class="interactive"
-      ></a-entity>
+      >
+       <a-entity
+          id="animated-fire"
+          gltf-model="#animated-fire-asset"
+          position="0 0.105 0"
+          scale="2 2 5"
+          visible="false">         </a-entity>
+    
+    </a-entity>
 
       <a-entity
           id="boat-zone"
@@ -193,21 +208,7 @@
           ></a-box>
       </a-entity>
 
-      <a-entity
-          id="boat-fire"
-          position="0 2 0"
-          visible="false"
-        >
-          <a-entity
-            particle-system="preset: fire; color: #FF2200, #FF6600, #FFAA00; particleCount: 500; velocityValue: 0 2 0; accelerationValue: 0 0.5 0"
-            scale="2 2 2"
-          ></a-entity>
-          <a-entity
-            particle-system="preset: fire; color: #FF4400, #FF8800, #FFFF00; particleCount: 300; velocityValue: 0 1.5 0; accelerationValue: 0 0.3 0"
-            position="0 1 0"
-            scale="1.5 1.5 1.5"
-          ></a-entity>
-      </a-entity>
+     
   
 
       <!-- Escudo do jogador -->
@@ -298,7 +299,7 @@
         const shield = document.querySelector("#escudo");
         const amulet = document.querySelector("#amuleto");
         const boat = document.querySelector("#boat");
-        const boatFire = document.querySelector("#boat-fire");
+        const boatFire = document.querySelector("#animated-fire");
         const torch = document.querySelector("#tocha");
         const portal = document.querySelector("#return-portal");
 
@@ -351,6 +352,8 @@
 
         const exchangeZone = document.querySelector("#exchange-zone");
 
+        placeInExchangeZone(torch);
+        
         function placeInExchangeZone(item) {
           item.addEventListener("onSqueezeEnd", () => {
             if (item.dataset.placed) return;
@@ -368,6 +371,13 @@
                 startSecondSpeech();
                 torch.setAttribute("visible", "true");
                 torch.components.sound.playSound();
+              }
+
+              if (item === torch) {
+                audio2.pause();
+                audio2.currentTime = 0;
+
+                igniteBoat();
               }
             }
           });
@@ -393,13 +403,13 @@
         /* =========================
               ACENDER O BARCO
         ========================== */
-        torch.addEventListener("onSqueezeEnd", () => {
-          const dist = torch.object3D.position.distanceTo(boat.object3D.position);
-          if (dist < 2 && ritualStage === 0) {
-            ritualStage = 1;
-            igniteBoat();
-          }
-        });
+        // torch.addEventListener("onSqueezeEnd", () => {
+        //   const dist = torch.object3D.position.distanceTo(boat.object3D.position);
+        //   if (dist < 2 && ritualStage === 0) {
+        //     ritualStage = 1;
+        //     igniteBoat();
+        //   }
+        // });
 
         function igniteBoat() {
           boatFire.setAttribute("visible", "true");
@@ -410,7 +420,8 @@
             { time: 9, text: "We who remain honour their path and guard their story so it will not fade." }
           ]);
 
-          setTimeout(() => {
+          audio3.onended(() => {
+            subtitlePanel.setAttribute("visible", false);
             portal.setAttribute("visible", "true");
           }, 12000);
         }
