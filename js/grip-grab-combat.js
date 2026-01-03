@@ -164,10 +164,11 @@ AFRAME.registerComponent('grip-grab', {
     // Emitir evento customizado para sinalizar que o objeto foi solto
     // Isso permite que listeners externos (ex.: exchange-zone) detectem a ação
     try {
+      // Emitir com bubble para alcançar listeners no elemento pai (p.ex. entidade que possui o id)
       if (this.grabbed.emit) {
-        this.grabbed.emit('onSqueezeEnd');
+        this.grabbed.emit('onSqueezeEnd', null, true);
       } else {
-        this.grabbed.dispatchEvent(new Event('onSqueezeEnd'));
+        this.grabbed.dispatchEvent(new CustomEvent('onSqueezeEnd', { bubbles: true }));
       }
     } catch (e) {
       console.warn('Could not emit onSqueezeEnd on', this.grabbed, e);
