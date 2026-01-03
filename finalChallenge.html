@@ -352,39 +352,52 @@
 
         const exchangeZone = document.querySelector("#exchange-zone");
 
-        placeInExchangeZone(torch);
+        
         
         function placeInExchangeZone(item) {
           item.addEventListener("onSqueezeEnd", () => {
             if (item.dataset.placed) return;
+            if (!isInsideZone(item, exchangeZone)) return;
 
-            if (isInsideZone(item, exchangeZone)) {
-              item.dataset.placed = "true";
+            item.dataset.placed = "true";
+
+            // ESCUDO + AMULETO
+            if (item === shield || item === amulet) {
               itemsPlaced++;
 
               item.setAttribute("position", exchangeZone.object3D.position);
               item.setAttribute("scale", "0.001 0.001 0.001");
 
-              if (itemsPlaced === 2) {
+              if (itemsPlaced === 2 && ritualStage === 0) {
+                ritualStage = 1;
+
                 audio1.pause();
                 audio1.currentTime = 0;
+
                 startSecondSpeech();
+
                 torch.setAttribute("visible", "true");
                 torch.components.sound.playSound();
               }
+            }
 
-              if (item === torch) {
-                audio2.pause();
-                audio2.currentTime = 0;
+            // TOCHA
+            if (item === torch && ritualStage === 1) {
+              ritualStage = 2;
 
-                igniteBoat();
-              }
+              torch.setAttribute("visible", "false");
+
+              audio2.pause();
+              audio2.currentTime = 0;
+
+              igniteBoat();
             }
           });
         }
 
         placeInExchangeZone(shield);
         placeInExchangeZone(amulet);
+        placeInExchangeZone(torch);
 
         /* =========================
               SEGUNDO DISCURSO
@@ -421,7 +434,7 @@
           ]);
 
           audio3.onended(() => {
-            subtitlePanel.setAttribute("visible", false);
+            subtitlePanel.setAttribute("visible", "false");
             portal.setAttribute("visible", "true");
           }, 12000);
         }
