@@ -143,7 +143,7 @@
       <a-entity
         id="volva"
         gltf-model="#volva-asset"
-        position="-0.076 0 -10.614"
+        position="-0.076 0 -13.5"
         scale="2.5 2.5 2.5"
         class="clickable"
       ></a-entity>
@@ -151,7 +151,7 @@
       <!-- Painel de subtítulos -->
       <a-entity
         id="npc-subtitle"
-        position="-0.076 4 -10.614"
+        position="-0.076 4 -13.5"
         visible="false"
       >
         <a-plane color="#000000" opacity="0.7" width="6" height="0.8"></a-plane>
@@ -171,7 +171,7 @@
       <a-entity
         id="boat"
         gltf-model="#boat-asset"
-        position="0.728 0.172 -6.558"
+        position="0.728 0.172 -8.6"
         scale="4 4 4"
         rotation="0 -90 0"
         class="interactive"
@@ -214,27 +214,27 @@
       <a-entity
         id="escudo"
         gltf-model="#escudo-asset"
-        position="4.293 1.407 -2.219"
+        position="5.148 1.407 -2.219"
         scale="0.04 0.04 0.04"
         rotation="0 -90 0"
         class="grabbable"
-        animation__float="property: position; to: 4.293 0.955 -2.219; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 5.148 0.955 -2.219; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
       <!-- Anel -->
       <a-entity
         id="amuleto"
         gltf-model="#amuleto-asset"
-        position="4.293 1.353 0.358"
+        position="5.148 1.353 0.358"
         scale="0.01 0.01 0.01"
         rotation="0 90 0"
         class="grabbable"
-        animation__float="property: position; to: 4.293 1 0.358; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 5.148 1 0.358; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
 
 		<!-- Zona de troca -->
-		<a-ring position="1.451 0.250 -6.747" rotation="-90 0 0" scale="7 1.5 1" radius-inner="1" radius-outer="1.5" color="#FFD700"
+		<a-ring position="1.451 0.250 -8.883" rotation="-90 0 0" scale="7 1.5 1" radius-inner="1" radius-outer="1.5" color="#FFD700"
 			opacity="0.5" material="side: double">
 			<a-animation attribute="rotation" from="-90 0 0" to="-90 360 0" dur="4000" repeat="indefinite"
 				easing="linear">
@@ -245,7 +245,7 @@
 		<!-- Detecção -->
 		<a-box 
       id="exchange-zone" 
-      position="0.763 1.052 -6.738" 
+      position="0.763 1.052 -8.691" 
       width="20" 
       height="5" 
       depth="5"
@@ -363,6 +363,8 @@
               item.setAttribute("scale", "0.001 0.001 0.001");
 
               if (itemsPlaced === 2) {
+                audio1.pause();
+                audio1.currentTime = 0;
                 startSecondSpeech();
                 torch.setAttribute("visible", "true");
                 torch.components.sound.playSound();
@@ -414,7 +416,7 @@
         }
 
       });
-</script>
+      </script>
     </a-scene>
   </body>
 </html>
