@@ -133,15 +133,30 @@ AFRAME.registerComponent('exchange-zone', {
     // Trigger NPC thankful animation/model when ritual completes
     setTimeout(() => {
       const npc = document.getElementById('npc-astrid');
-      if (npc) {
-        // Trocar modelo para o asset com animação "thankful"
-        try {
-          npc.setAttribute('gltf-model', '#npc-thankful');
-          // Garantir que o animation-mixer é ativado para reproduzir a animação do glb
-          npc.setAttribute('animation-mixer', '');
-        } catch (e) {
-          console.warn('Could not switch NPC model or play animation:', e);
-        }
+      if (!npc) return;
+
+      try {
+        // Apenas trocamos o modelo;
+        npc.setAttribute('gltf-model', '#npc-thankful');
+
+        // Quando o novo modelo carregar, reinicializar o `animation-mixer` se já existir,
+        // para forçar o binding às novas animações do GLB.
+        const onModelLoaded = () => {
+          try {
+            if (npc.hasAttribute('animation-mixer')) {
+              npc.removeAttribute('animation-mixer');
+              // Re-adicionar na próxima iteração de loop para re-init corretamente
+              setTimeout(() => npc.setAttribute('animation-mixer', ''), 0);
+            }
+          } catch (e) {
+            console.warn('Could not reinit animation-mixer:', e);
+          }
+          npc.removeEventListener('model-loaded', onModelLoaded);
+        };
+
+        npc.addEventListener('model-loaded', onModelLoaded);
+      } catch (e) {
+        console.warn('Could not switch NPC model or play animation:', e);
       }
     }, 2200);
   },
