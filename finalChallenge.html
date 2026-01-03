@@ -215,22 +215,22 @@
       <a-entity
         id="escudo"
         gltf-model="#escudo-asset"
-        position="5.148 1.407 -2.219"
+        position="5.148 2.1 -2.219"
         scale="0.04 0.04 0.04"
         rotation="0 -90 0"
         class="grabbable"
-        animation__float="property: position; to: 5.148 0.955 -2.219; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 5.148 1.9 -2.219; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
       <!-- Anel -->
       <a-entity
         id="amuleto"
         gltf-model="#amuleto-asset"
-        position="5.148 1.353 0.358"
+        position="5.148 2.1 0.358"
         scale="0.01 0.01 0.01"
         rotation="0 90 0"
         class="grabbable"
-        animation__float="property: position; to: 5.148 1 0.358; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        animation__float="property: position; to: 5.148 1.9 0.358; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
       >
       </a-entity>
 
@@ -311,6 +311,11 @@
           subtitlePanel.setAttribute("visible", true);
           subtitleText.setAttribute("value", "");
 
+          
+          audio1.pause();
+          audio2.pause();
+          audio3.pause();
+
           audio.currentTime = 0;
           audio.play();
 
@@ -361,7 +366,6 @@
 
             item.dataset.placed = "true";
 
-            // ESCUDO + AMULETO
             if (item === shield || item === amulet) {
               itemsPlaced++;
 
@@ -427,9 +431,7 @@
 
         function igniteBoat() {
 
-          const torchSound = torch.components.sound;
           boatFire.setAttribute("visible", "true");
-          torchSound.setVolume(1.0);
           
 
           playSpeech(audio3, [
@@ -438,10 +440,10 @@
             { time: 9, text: "We who remain honour their path and guard their story so it will not fade." }
           ]);
 
-          audio3.onended(() => {
-            subtitlePanel.setAttribute("visible", "false");
+          audio3.onended = () => {
+            subtitlePanel.setAttribute("visible", false);
             portal.setAttribute("visible", "true");
-          }, 12000);
+          },12000;
         }
 
       });
