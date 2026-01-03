@@ -130,6 +130,7 @@ AFRAME.registerComponent('exchange-zone', {
       }
     }, 2000);
 
+    /** 
     // Trigger NPC thankful animation/model when ritual completes
     setTimeout(() => {
       const npc = document.getElementById('npc-astrid');
@@ -159,6 +160,7 @@ AFRAME.registerComponent('exchange-zone', {
         console.warn('Could not switch NPC model or play animation:', e);
       }
     }, 2200);
+    */
   },
 
   remove: function () {
