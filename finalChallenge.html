@@ -226,7 +226,7 @@
       <a-entity
         id="amuleto"
         gltf-model="#amuleto-asset"
-        position="5.148 2.1 0.358"
+        position="5.148 2.17 0.358"
         scale="0.01 0.01 0.01"
         rotation="0 90 0"
         class="grabbable"
@@ -395,7 +395,14 @@
               audio2.pause();
               audio2.currentTime = 0;
 
-              igniteBoat();
+              startFinalSpeech()
+
+              boatFire.setAttribute("visible", "true");
+              
+              audio3.onended = () => {
+                subtitlePanel.setAttribute("visible", false);
+                portal.setAttribute("visible", "true");
+              },1000;
             }
           });
         }
@@ -404,9 +411,7 @@
         placeInExchangeZone(amulet);
         placeInExchangeZone(torch);
 
-        /* =========================
-              SEGUNDO DISCURSO
-        ========================== */
+
         function startSecondSpeech() {
           playSpeech(audio2, [
             { time: 0, text: "This ship will carry the spirit to its new home." },
@@ -418,32 +423,12 @@
           ]);
         }
 
-        /* =========================
-              ACENDER O BARCO
-        ========================== */
-        // torch.addEventListener("onSqueezeEnd", () => {
-        //   const dist = torch.object3D.position.distanceTo(boat.object3D.position);
-        //   if (dist < 2 && ritualStage === 0) {
-        //     ritualStage = 1;
-        //     igniteBoat();
-        //   }
-        // });
-
-        function igniteBoat() {
-
-          boatFire.setAttribute("visible", "true");
-          
-
+        function startFinalSpeech() {
           playSpeech(audio3, [
             { time: 0, text: "Now the ship burns fiercely." },
             { time: 4, text: "The spirit is free, carried by fire, wind and memory." },
             { time: 9, text: "We who remain honour their path and guard their story so it will not fade." }
           ]);
-
-          audio3.onended = () => {
-            subtitlePanel.setAttribute("visible", false);
-            portal.setAttribute("visible", "true");
-          },12000;
         }
 
       });
