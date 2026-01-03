@@ -339,14 +339,14 @@
           ]);
         }, 1000);
 
-        function isInsideZone(item, zone, radius) {
+        function isInsideZone(item, zone) {
+          zone.object3D.updateMatrixWorld(true);
+
           const itemPos = new THREE.Vector3();
-          const zonePos = new THREE.Vector3();
-
           item.object3D.getWorldPosition(itemPos);
-          zone.object3D.getWorldPosition(zonePos);
 
-          return itemPos.distanceTo(zonePos) <= radius;
+          const box = new THREE.Box3().setFromObject(zone.object3D);
+          return box.containsPoint(itemPos);
         }
 
         const exchangeZone = document.querySelector("#exchange-zone");
@@ -355,7 +355,7 @@
           item.addEventListener("onSqueezeEnd", () => {
             if (item.dataset.placed) return;
 
-            if (isInsideZone(item, exchangeZone, 6)) {
+            if (isInsideZone(item, exchangeZone)) {
               item.dataset.placed = "true";
               itemsPlaced++;
 
