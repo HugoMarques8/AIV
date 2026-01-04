@@ -1,4 +1,4 @@
-/* global AFRAME, THREE */
+/* Componente para a logica de zona de troca no Marriage Challenge*/
 
 AFRAME.registerComponent('exchange-zone', {
   init: function () {
@@ -28,7 +28,7 @@ AFRAME.registerComponent('exchange-zone', {
     this.el.object3D.getWorldPosition(zonePos);
     const zoneRadius = 1.5; // Raio do cilindro
 
-    // Verificar espada
+    // Verificar posição da espada
     const sword = document.getElementById('player-sword');
     if (sword && !this.swordPlaced) {
       const swordPos = new THREE.Vector3();
@@ -43,7 +43,7 @@ AFRAME.registerComponent('exchange-zone', {
       }
     }
 
-    // Verificar anel
+    // Verificar posição do anel
     const ring = document.getElementById('ritual-ring');
     if (ring && !this.ringPlaced) {
       const ringPos = new THREE.Vector3();
@@ -75,7 +75,7 @@ AFRAME.registerComponent('exchange-zone', {
     sword.setAttribute('visible', 'false');
     console.log('Sword placed in exchange zone!');
 
-    // Efeito visual
+    // Efeito visual quando a espada é colocada
     const flash = document.createElement('a-sphere');
     flash.setAttribute('position', '2 0.5 -6');
     flash.setAttribute('radius', '1');
@@ -96,7 +96,7 @@ AFRAME.registerComponent('exchange-zone', {
     ring.setAttribute('visible', 'false');
     console.log('Ring placed in exchange zone!');
 
-    // Efeito visual
+    // Efeito visual quando o anel é colocado
     const flash = document.createElement('a-sphere');
     flash.setAttribute('position', '2 0.5 -6');
     flash.setAttribute('radius', '1');
@@ -130,7 +130,7 @@ AFRAME.registerComponent('exchange-zone', {
       }
     }, 2000);
 
-    /** 
+    /** Tentativa de animar NPC de forma diferente no final - desativado por falta de tempo para testar
     // Trigger NPC thankful animation/model when ritual completes
     setTimeout(() => {
       const npc = document.getElementById('npc-astrid');

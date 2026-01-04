@@ -68,7 +68,8 @@
 			</a-entity>
 			<a-entity id="right-hand"></a-entity>
 			<a-entity id="left-hand"></a-entity>
-		</a-entity> 
+		</a-entity>
+		
 		<!-- Ambiente 3D: modelo GLB -->
 		<a-entity id="vr_gallery" gltf-model="#gallery-model" position="0 0 0" scale="1.5 1.5 1.5"></a-entity>
 		<!-- Paredes invisíveis de colisão -->
@@ -89,7 +90,7 @@
 		<a-box position="3 1.8 -5" width="1.3" height="3.6" depth="2.6" visible="false"
 			static-body="shape: box"></a-box>
 
-		<!-- Roupas dentro das vitrines -->
+		<!-- Roupa feminina dentro da vitrine -->
 		<a-entity gltf-model="#viking-outfit-model" position="-5.4 0.35 -5" scale="1.2 1.2 1.2"
 			rotation="0 0 0"></a-entity>
 		<!-- Info: Bride's Outfit -->
@@ -103,7 +104,7 @@
 				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
 			</a-circle>
 		</a-entity>
-
+		<!-- Roupa masculina dentro da vitrine -->
 		<a-entity gltf-model="#viking-man-outfit-model" position="5.4 0.35 -5" scale="1.3 1.3 1.3"
 			rotation="0 0 0"></a-entity>
 		<!-- Info: Groom's Outfit -->
@@ -117,10 +118,12 @@
 				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
 			</a-circle>
 		</a-entity>
+
 		<!-- modelo de cadeira no showcase1-->
 		<a-entity gltf-model="#chair-model" position="-9 0 4" scale="1.6 1.6 1.6" rotation="0 180 0"></a-entity>
 		<a-box position="-9 0.8 4" width="0.8" height="1.6" depth="0.8" visible="false"
 			static-body="shape: box"></a-box>
+
 		<!-- modelo de mesa-->
 		<a-entity gltf-model="#table" position="-1.4 0 4" scale="0.013 0.013 0.013" rotation="0 0 0"></a-entity>
 		<a-box position="-1.4 0.8 4" width="3" height="1.6" depth="1.6" visible="false"
@@ -136,12 +139,14 @@
 				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
 			</a-circle>
 		</a-entity>
+
 		<!-- Cutlery em cima da mesa -->
 		<a-entity gltf-model="#viking-bowl" position="-2.8 1.615 4.1" scale="0.2 0.2 0.2" rotation="0 90 0"></a-entity>
 		<a-entity gltf-model="#viking-cup" position="-4 1.45 4.6" scale="4 4 4" rotation="0 45 0"></a-entity>
 		<a-entity gltf-model="#viking-mug" position="-3.4 1.5 4.6" scale="0.2 0.2 0.2" rotation="0 60 0"></a-entity>
 		<a-entity gltf-model="#viking-cutlery" position="-2 1.35 4.1" scale="0.2 0.2 0.2" rotation="0 0 0"></a-entity>
 		<a-entity gltf-model="#viking-horn" position="-1.6 1.6 4.6" scale="0.4 0.4 0.4" rotation="0 0 0"></a-entity>
+		
 		<!-- Bathtub -->
 		<a-entity gltf-model="#bathtub-model" position="3 0.8 4" scale="0.7 0.7 0.7"></a-entity>
 		<a-box position="3 0.8 4" width="1.6" height="1" depth="1" visible="false" static-body="shape: box"></a-box>
@@ -169,7 +174,7 @@
 			</a-text>
 		</a-entity>
 
-		<!-- Portal (aparece apos falar com a npc) -->
+		<!-- Portal para o desafio (aparece apos falar com a npc) -->
 		<a-entity id="challenge-portal" position="10 2 4" visible="false">
 			<a-link href="marriageChallenge.html" title="Enter Challenge" image="#challenge-preview" class="clickable"
 				position="0 0 0"></a-link>
@@ -179,6 +184,7 @@
 		<a-entity gltf-model="#viking-stove" position="-6 0.6 4" scale="1 1 1" rotation="0 90 0"></a-entity>
 		<!-- Viking pillar -->
 		<a-entity gltf-model="#pillar-model" position="-1.3 1.6 -5" rotation="0 0 0"></a-entity>
+
 		<!-- Sword on the expositor -->
 		<a-entity gltf-model="#rune_sword" position="3 1.2 -5" rotation="0 90 90" scale="1 1 1"></a-entity>
 		<!-- Info: Viking Rune Sword -->
@@ -221,6 +227,7 @@
 				animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine">
 			</a-circle>
 		</a-entity>
+
 		<!-- Bau -->
 		<a-entity gltf-model="#chest-model" position="-9 0 -5" rotation="0 90 0" scale="1 1 1"></a-entity>
 		<a-box position="-9 0.6 -5" width="1.6" height="1.2" depth="1" visible="false" static-body="shape: box"></a-box>
@@ -243,7 +250,7 @@
 		<a-entity gltf-model="#key-model" position="-12.25 2.6 -2.75" rotation="90 90 0" scale="0.2 0.2 0.2"></a-entity>
 
 		
-		<!-- Link para voltar ao index.html -->
+		<!-- Link para voltar ao index.html usado para testes iniciais -->
 		 <!---
 		<a-entity position="10 1.6 -3" rotation="0 -90 0">
 			<a-link href="index.html" title="Voltar ao Início" image="#link-image" class="clickable"></a-link>
@@ -319,6 +326,7 @@
 					'arranged-marriage': { text: 'Viking marriages were typically arranged by families for political alliances, economic benefits, or social status. The bride\'s father negotiated with the groom\'s family, establishing a bride price and dowry. While romantic love was not the primary consideration, mutual consent was legally required. Women had the right to refuse a match, and divorce was permitted under Norse law. This chest would have contained the bride\'s dowry - valuable items, jewelry, and household goods she brought to the marriage.' }
 				};
 
+				//controla o que cada icon de audio informativo faz
 				const infoTriggers = document.querySelectorAll('.info-trigger');
 				let currentInfoAudio = null;
 

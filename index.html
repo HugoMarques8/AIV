@@ -66,6 +66,7 @@
       shouldStartBoot = true;
     }
 
+    // Guardar escolha de mão dominante e esconder overlay
     function setHandedness(hand) {
       localStorage.setItem('dominantHand', hand);
       document.getElementById('handedness-overlay').classList.add('hidden');
@@ -82,7 +83,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       const scene = document.querySelector('a-scene');
 
-      // Resume AudioContext and only start the full boot when the user actually ENTERS VR
+      // resume AudioContext ao entrar em VR
       let bootStarted = false;
       scene.addEventListener('enter-vr', async () => {
         try {
@@ -95,7 +96,7 @@
           console.warn('Failed to resume AudioContext on enter-vr', e);
         }
 
-        // Only start boot sequence after entering VR and if the user requested the experience
+        // Apenas iniciar sequência de boot após entrar em VR e se o utilizador solicitou a experiência
         if (shouldStartBoot && !bootStarted) {
           bootStarted = true;
           if (scene.hasLoaded) {
@@ -156,7 +157,7 @@
       let moveInterval = null;
       let moveTime = 0;
       const targetZ = 0;
-      const totalSteps = 600; // ~5s a 60fps, ajusta conforme necessário
+      const totalSteps = 600; // ajustar conforme necessário
       let step = 0;
       function startMovingPlayer() {
         moveInterval = setInterval(() => {
@@ -253,9 +254,13 @@
       <audio id="portal-idle-sound" src="sound-effects/portal_idle-34022.mp3" preload="auto"></audio>
       <audio id="simulation-reminder" src="audio/simulation-reminder.mp3" preload="auto"></audio>
     </a-assets>
+
+    <!-- Modelo do boot do portal temporal -->
     <a-entity id="spacedrive-boot" gltf-model="#spacedrive-model" animation-mixer position="0 1.6 8" scale="1 1 2"
       visible="false">
     </a-entity>
+
+    <!-- Luzes do portal temporal -->
     <a-entity light="type: point; color: #00d4ff; intensity: 2; distance: 6" position="0 1 0"></a-entity>
     <a-entity light="type: point; color: #fff; intensity: 1; distance: 4" position="0 0 0"></a-entity>
     <!-- Sala branca -->
@@ -340,7 +345,7 @@
             clickPrompt.setAttribute('visible', 'false');
             introText.setAttribute('visible', 'true');
 
-            // Tocar áudio (retomar AudioContext primeiro caso esteja suspenso — útil em VR)
+            // Tocar áudio (retomar AudioContext primeiro caso esteja suspenso)
             (async () => {
               try {
                 if (window.AudioContext || window.webkitAudioContext) {

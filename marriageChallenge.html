@@ -20,8 +20,7 @@
 			<a-asset-item id="forest-scene" src="models_marriage_room/challenge scene/winter_forest.glb"></a-asset-item>
 			<a-asset-item id="campfire" src="models_marriage_room/challenge scene/campfire.glb"></a-asset-item>
 			<a-asset-item id="viking-sword" src="models_marriage_room/viking_rune_sword.glb"></a-asset-item>
-			<a-asset-item id="viking-ring"
-				src="models_marriage_room/challenge scene/ring_of_the_north.glb"></a-asset-item>
+			<a-asset-item id="viking-ring" src="models_marriage_room/challenge scene/ring_of_the_north.glb"></a-asset-item>
 			<a-asset-item id="female-viking-idle" src="models_marriage_room/animations_npc/idle.glb"></a-asset-item>
 			<a-asset-item id="npc-thankful" src="models_marriage_room/animations_npc/thankfull.glb"></a-asset-item>
 			<!-- Skybox 360° de Aurora Boreal -->
@@ -72,7 +71,8 @@
 		<a-entity id="player-sword" gltf-model="#viking-sword" position="-3 2.5 -2" scale="1 1 1" rotation="0 120 90"
 			class="grabbable"
 			animation__float="property: position; to: -3 1.3 -2; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
-		</a-entity> <!-- Anel -->
+		</a-entity> 
+		<!-- Anel do jogador -->
 		<a-entity id="ritual-ring" gltf-model="#viking-ring" position="3 2.5 0" scale="0.01 0.01 0.01" rotation="0 0 0"
 			class="grabbable"
 			animation__float="property: position; to: 3 1.3 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
@@ -154,6 +154,7 @@
 					subtitlePanel.setAttribute('visible', 'true');
 				});
 
+				//mesma logica do marriageRoom.html para os subtitulos
 				audio.addEventListener('timeupdate', function () {
 					const currentTime = audio.currentTime;
 					if (currentSubtitle < subtitles.length && currentTime >= subtitles[currentSubtitle].time) {
@@ -168,15 +169,6 @@
 					}, 2000);
 				});
 
-				// Parar animação quando pegar na espada
-				sword.addEventListener('grab-start', function () {
-					sword.removeAttribute('animation__float');
-				});
-
-				// Parar animação quando pegar no anel
-				ring.addEventListener('grab-start', function () {
-					ring.removeAttribute('animation__float');
-				});
 				// Detectar quando objetos são soltos na zona de troca é feito
 				//  pelo componente exchange-zone
 			});

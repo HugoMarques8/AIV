@@ -61,7 +61,6 @@
         <a-sky src="#aurora-sky" radius="500"></a-sky>
 
         <!-- NPCs de cada sala -->
-
         <a-entity id="npc-adulthood" gltf-model="#adulthood" position="-2 1.25 -2" scale="1.3 1.3 1.3"
             class="clickable"></a-entity>
         <a-entity id="subtitle-adulthood" position="-2 3.1 -2" visible="false">
@@ -105,7 +104,7 @@
         </a-entity>
 
         <!-- Camera rig (player) -->
-         <a-entity id="player" position="0 1.16 4"
+         <a-entity id="player" position="0 1 4"
 			movement-controls="constrainToNavMesh: false" wasd-controls="acceleration: 20" vr-hands kinematic-body>
             <a-entity id="camera" camera position="0 1 0" look-controls="pointerLockEnabled: false"
                 cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .clickable, .grabbable">
@@ -117,7 +116,7 @@
         <script>
             let currentAudio = null; // Áudio atual tocando (NPC)
             let audioStarted = false;
-            let inputLocked = true; // block interactions until intro audio is played or user confirms
+            let inputLocked = true; // bloqueio de ações ate o utilizador iniciar o audio de introdução
 
             function showDesktopAudioButton() {
                 const id = 'intro-desktop-play';
@@ -146,7 +145,7 @@
 
             function hideDesktopAudioButton() { const el = document.getElementById('intro-desktop-play'); if (el) el.parentNode.removeChild(el); }
 
-            // Minimal VR HUD for starting intro audio (used when autoplay is blocked in headset)
+            // VR HUD play button - para caso do áudio ser bloqueado em VR
             let vrIntroButton = null;
             function createVRAudioHUD() {
                 if (vrIntroButton) return vrIntroButton;
@@ -244,7 +243,7 @@
 
                     if (introAudio) tryStartIntro();
 
-                    // Also attempt to start intro when entering VR (resume AudioContext and play). If blocked, show VR HUD and accept controller gesture.
+                    // Tenta começar audio inicial quando em VR (resume AudioContext e toca). Se bloqueado, mostra HUD de VR e aceita gesto do controle.
                     scene.addEventListener('enter-vr', async () => {
                         console.log('EndingScene: enter-vr -> attempting to start intro audio');
                         if (!introAudio || audioStarted) return;
@@ -359,7 +358,7 @@
                     });
                 }
 
-                // Configuração dos NPCs, painéis e legendas
+                // Configuração dos NPCs, painéis e legendas para cada NPC
                 const npcs = [
                     {
                         npcId: 'npc-adulthood',
