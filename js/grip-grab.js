@@ -1,4 +1,7 @@
 // Componente para permitir grab com o botão squeeze (lateral) dos controladores Oculus
+/** ESTA FOI A PRIMEIRA VERSÃO, PARA NÃO A PEDERMOS CASO ALGO CORRESSE MAL CRIAMOS O 
+ * COMPONENTE GRIP-GRAB-COMBAT A PARTIR DESTE FICHEIRO. NESTE MOMENTO ESTE NÃO ESTÁ A SER USADO.
+ */
 AFRAME.registerComponent('grip-grab', {
   init: function() {
     this.grabbed = null;
